@@ -1,0 +1,7 @@
+{
+  "name": "Stone Sight Ai \"See Your Home Stone By Stone\"",
+  "description": "Stone Sight Ai See Your Home Stone By Stone Visualize new stone surfaces before you buy. A premium countertop visualization tool for homeowners, interior designers, and contractors.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
