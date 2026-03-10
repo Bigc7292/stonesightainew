@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   Upload, 
   ChevronRight, 
@@ -25,37 +25,9 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
-import { createClient } from '@supabase/supabase-js';
 import { BeforeAfterSlider } from './components/BeforeAfterSlider';
 import { Stone, StoneCategory, StoneTone } from './types';
 import { STONE_DATABASE } from './stones';
-
-// --- Supabase Client ---
-const supabaseUrl = process.env.SUPABASE_URL || '';
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || '';
-let supabase: any = null;
-
-try {
-  if (supabaseUrl && supabaseAnonKey && !supabaseUrl.includes('your-project')) {
-    supabase = createClient(supabaseUrl, supabaseAnonKey);
-  }
-} catch (e) {
-  console.error('Failed to initialize Supabase client:', e);
-}
-
-// --- Constants & Types ---
-
-const FALLBACK_STONES: Stone[] = STONE_DATABASE;
-
-const getFileUrl = (path: string) => {
-  const baseUrl = process.env.APP_URL || window.location.origin;
-  return `${baseUrl.replace(/\/$/, '')}/api/v1/files/${path}`;
-};
-
-const HOWDENS_LOGO = getFileUrl("drive:/14cNIBwjLwsocrOVyIlnndSGUadQYdzHQ");
-const ROOSTER_LOGO = getFileUrl("drive:/1HWvPQaHF-eHzVNNZ2_LpAJJL4qNpPU6i");
-
-// Types are now imported from ./types.ts
 
 // --- Components ---
 
@@ -131,10 +103,7 @@ export default function App() {
   const [isGeneratingVideos, setIsGeneratingVideos] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   
-  // Supabase Data States
   const [stones, setStones] = useState<Stone[]>(STONE_DATABASE);
-  const [isLoadingStones, setIsLoadingStones] = useState(false);
-  const [stoneError, setStoneError] = useState<string | null>(null);
   
   // Filter States
   const [searchQuery, setSearchQuery] = useState('');
@@ -142,108 +111,6 @@ export default function App() {
   const [activeTone, setActiveTone] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const fetchStones = async () => {
-      if (!supabase) {
-        console.log('Supabase not configured, using local database.');
-        return;
-      }
-
-      try {
-        setIsLoadingStones(true);
-        setStoneError(null);
-
-        const { data, error } = await supabase
-          .from('products')
-          .select('*')
-          .limit(1000);
-
-        if (error) {
-          console.error('Supabase error:', error);
-          setStoneError(`Database connection failed: ${error.message}. Showing curated catalogue.`);
-          return;
-        }
-
-        if (data && data.length > 0) {
-          console.log(`Fetched ${data.length} stones from Supabase.`);
-          const mappedStones: Stone[] = data.reduce((acc: Stone[], item: any) => {
-            const findValue = (obj: any, possibleKeys: string[]) => {
-              if (!obj) return null;
-              const keys = Object.keys(obj);
-              for (const pKey of possibleKeys) {
-                if (obj[pKey] !== undefined && obj[pKey] !== null && obj[pKey] !== '') return obj[pKey];
-                const foundKey = keys.find(k => k.toLowerCase() === pKey.toLowerCase());
-                if (foundKey && obj[foundKey] !== undefined && obj[foundKey] !== null && obj[foundKey] !== '') return obj[foundKey];
-              }
-              return null;
-            };
-
-            const findImage = (obj: any) => {
-              const imageKeys = ['swatch_url', 'image_url', 'url', 'image', 'img', 'photo', 'thumbnail', 'swatch', 'picture', 'image_path', 'swatch_path', 'src', 'file', 'Image', 'URL', 'Swatch', 'image_link', 'swatchUrl', 'image_src', 'img_src', 'product_image', 'main_image', 'gallery', 'images', 'files', 'asset', 'media', 'cover'];
-              let val = findValue(obj, imageKeys);
-              if (Array.isArray(val) && val.length > 0) {
-                const first = val[0];
-                val = typeof first === 'object' ? (first.url || first.path || first.src || first.link || first.file_path) : first;
-              } else if (val && typeof val === 'object') {
-                val = val.url || val.path || val.src || val.link || val.file_path;
-              }
-              if (typeof val === 'string' && val.length > 0) return val;
-              for (const key in obj) {
-                const value = obj[key];
-                if (typeof value === 'string' && (value.match(/\.(jpg|jpeg|png|webp|gif|svg|avif)(\?.*)?$/i) || value.startsWith('http'))) {
-                  return value;
-                }
-              }
-              return null;
-            };
-
-            let rawImageUrl = findImage(item);
-            const nameKeys = ['name', 'title', 'label', 'stone_name', 'Name', 'product_name', 'product_title', 'heading', 'display_name', 'model'];
-            let name = findValue(item, nameKeys) || item.id || `Stone ${acc.length + 1}`;
-            const descriptionParts = [item.description, item.summary, item.details, item.Description, item.meta_data, item.metadata, item.veins, item.veining, item.style, item.color, item.finish, item.notes, item.about, item.info, item.short_description, item.long_description, item.specs].filter(Boolean);
-            const description = descriptionParts.length > 0 ? descriptionParts.join('. ') : 'Premium stone selection from our catalogue.';
-
-            let finalImageUrl = rawImageUrl;
-            if (finalImageUrl && typeof finalImageUrl === 'string') {
-              if (!finalImageUrl.startsWith('http') && !finalImageUrl.startsWith('data:')) {
-                const cleanPath = finalImageUrl.replace(/^\/+/, '');
-                const baseUrl = supabaseUrl.replace(/\/+$/, '');
-                const bucket = cleanPath.includes('/') ? '' : 'products/';
-                finalImageUrl = `${baseUrl}/storage/v1/object/public/${bucket}${cleanPath}`;
-              }
-            } else {
-              finalImageUrl = `https://picsum.photos/seed/${encodeURIComponent(name.toString())}/800/800`;
-            }
-
-            acc.push({
-              id: item.id || Math.random().toString(36).substr(2, 9),
-              name: name.toString(),
-              category: (findValue(item, ['category', 'type', 'material', 'Category', 'stone_type', 'group']) || 'Quartz') as StoneCategory,
-              tone: (findValue(item, ['tone', 'color_tone', 'Tone', 'shade', 'color_group']) || 'Light') as StoneTone,
-              description: description,
-              swatchUrl: finalImageUrl
-            });
-            return acc;
-          }, []);
-          
-          // Merge Supabase stones with our curated database, avoiding name duplicates
-          setStones(prev => {
-            const existingNames = new Set(prev.map(s => s.name.toLowerCase()));
-            const uniqueNewStones = mappedStones.filter(s => !existingNames.has(s.name.toLowerCase()));
-            return [...prev, ...uniqueNewStones];
-          });
-        }
-      } catch (err: any) {
-        console.error('Error fetching stones:', err);
-        setStoneError(err.message || 'An unexpected error occurred while loading the catalogue.');
-      } finally {
-        setIsLoadingStones(false);
-      }
-    };
-
-    fetchStones();
-  }, []);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -280,7 +147,7 @@ export default function App() {
       // 1. Generate Edited Image
       setProcessingStatus('Surgically applying ' + selectedStone.name + '...');
       
-      let imageResponse;
+      let imageResponse: { candidates: { content: { parts: any; }; }[]; };
       try {
         imageResponse = await ai.models.generateContent({
           model: 'gemini-2.5-flash-image',
@@ -293,21 +160,7 @@ export default function App() {
                 },
               },
               {
-                text: `You are an expert image editor and visualiser. Generate a single, highly realistic, photograph-quality image based on the following descriptions. This task requires generating exactly one image.
-
-Using the provided kitchen_photo as the base image, surgically replace all existing countertops and any other visible stone surfaces in the image with the material described in stone_selection.
-
-The output image must be a perfectly photorealistic representation, matching the lighting, shadows, reflections, perspective, and overall aesthetic of the original photograph as if it were taken at the same moment.
-
-Every other element of the kitchen_photo MUST remain 100% identical and unchanged. This includes, but is not limited to: all cabinets, appliances, windows, flooring, lighting conditions, shadows, reflections, perspective, and any objects present on countertops, floors, or elsewhere in the room (such as boxes, tape, or tools). Absolutely no elements may be added, removed, moved, or redesigned.
-
-The appearance of the new stone countertops must perfectly match the detailed catalogue description provided in stone_selection, without any creative interpretation, random variation, or substitution. Focus on replicating the material type, base color, exact vein color and pattern, finish (polished, honed, leathered, etc.), and any other visual characteristics described in the stone selection with absolute precision.
-
-IMPORTANT: Generate exactly one image.
-
-stone_selection:
-Name: ${selectedStone.name}
-Material Details: ${selectedStone.promptDescription || selectedStone.description}`,
+                text: `You are an expert image editor and visualiser. Generate a single, highly realistic, photograph-quality image based on the following descriptions. This task requires generating exactly one image.\n\nUsing the provided kitchen_photo as the base image, surgically replace all existing countertops and any other visible stone surfaces in the image with the material described in stone_selection.\n\nThe output image must be a perfectly photorealistic representation, matching the lighting, shadows, reflections, perspective, and overall aesthetic of the original photograph as if it were taken at the same moment.\n\nEvery other element of the kitchen_photo MUST remain 100% identical and unchanged. This includes, but is not limited to: all cabinets, appliances, windows, flooring, lighting conditions, shadows, reflections, perspective, and any objects present on countertops, floors, or elsewhere in the room (such as boxes, tape, or tools). Absolutely no elements may be added, removed, moved, or redesigned.\n\nThe appearance of the new stone countertops must perfectly match the detailed catalogue description provided in stone_selection, without any creative interpretation, random variation, or substitution. Focus on replicating the material type, base color, exact vein color and pattern, finish (polished, honed, leathered, etc.), and any other visual characteristics described in the stone selection with absolute precision.\n\nIMPORTANT: Generate exactly one image.\n\nstone_selection:\nName: ${selectedStone.name}\nMaterial Details: ${(selectedStone as any).promptDescription || selectedStone.description}`,
               },
             ],
           },
@@ -320,7 +173,7 @@ Material Details: ${selectedStone.promptDescription || selectedStone.description
           ai = new GoogleGenAI({ apiKey: currentApiKey });
           imageResponse = await ai.models.generateContent({
             model: 'gemini-2.5-flash-image',
-            contents: { parts: [{ inlineData: { data: uploadedImage.split(',')[1], mimeType: 'image/png' } }, { text: `Surgically replace countertops with ${selectedStone.name}. Material description: ${selectedStone.promptDescription || selectedStone.description}. Ensure the veining, color, and finish match this description exactly.` }] }
+            contents: { parts: [{ inlineData: { data: uploadedImage.split(',')[1], mimeType: 'image/png' } }, { text: `Surgically replace countertops with ${selectedStone.name}. Material description: ${(selectedStone as any).promptDescription || selectedStone.description}. Ensure the veining, color, and finish match this description exactly.` }] }
           });
         } else {
           throw imgErr;
@@ -418,14 +271,14 @@ Material Details: ${selectedStone.promptDescription || selectedStone.description
 
         const [clockwiseUrl, counterUrl] = await Promise.all([
           clockwisePromise.then(url => {
-            setResultVideos(prev => ({ ...(prev || {}), clockwise: url }));
+            setResultVideos((prev: any) => ({ ...(prev || {}), clockwise: url }));
             return url;
           }).catch(e => {
             console.error('Clockwise video failed:', e);
             return null;
           }),
           counterPromise.then(url => {
-            setResultVideos(prev => ({ ...(prev || {}), counter: url }));
+            setResultVideos((prev: any) => ({ ...(prev || {}), counter: url }));
             return url;
           }).catch(e => {
             console.error('Counter-clockwise video failed:', e);
@@ -446,7 +299,7 @@ Material Details: ${selectedStone.promptDescription || selectedStone.description
     }
   };
 
-  const filteredStones = stones.filter(stone => {
+  const filteredStones = stones.filter((stone: { name: string; description: string; category: any; tone: any; }) => {
     const matchesSearch = stone.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                          stone.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = !activeCategory || stone.category === activeCategory;
@@ -518,7 +371,6 @@ Material Details: ${selectedStone.promptDescription || selectedStone.description
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="space-y-4">
                     <div className="aspect-[4/3] rounded-xl overflow-hidden bg-dark-700 relative border border-white/5">
-                      <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80" alt="Good lighting" className="w-full h-full object-cover opacity-80" referrerPolicy="no-referrer" />
                       <div className="absolute top-3 right-3 bg-dark-900/80 backdrop-blur-sm text-gold-400 p-1.5 rounded-full border border-white/10">
                         <CheckCircle2 className="w-4 h-4" />
                       </div>
@@ -531,7 +383,6 @@ Material Details: ${selectedStone.promptDescription || selectedStone.description
                   
                   <div className="space-y-4">
                     <div className="aspect-[4/3] rounded-xl overflow-hidden bg-dark-700 relative border border-white/5">
-                      <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" alt="Clear view" className="w-full h-full object-cover opacity-80" referrerPolicy="no-referrer" />
                       <div className="absolute top-3 right-3 bg-dark-900/80 backdrop-blur-sm text-gold-400 p-1.5 rounded-full border border-white/10">
                         <CheckCircle2 className="w-4 h-4" />
                       </div>
@@ -544,7 +395,6 @@ Material Details: ${selectedStone.promptDescription || selectedStone.description
                   
                   <div className="space-y-4">
                     <div className="aspect-[4/3] rounded-xl overflow-hidden bg-dark-700 relative border border-white/5">
-                      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Straight angle" className="w-full h-full object-cover opacity-80" referrerPolicy="no-referrer" />
                       <div className="absolute top-3 right-3 bg-dark-900/80 backdrop-blur-sm text-gold-400 p-1.5 rounded-full border border-white/10">
                         <CheckCircle2 className="w-4 h-4" />
                       </div>
@@ -709,7 +559,7 @@ Material Details: ${selectedStone.promptDescription || selectedStone.description
                       <input 
                         type="text" 
                         value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onChange={(e: { target: { value: any; }; }) => setSearchQuery(e.target.value)}
                         placeholder="Search collection..." 
                         className="pl-11 pr-6 py-2.5 bg-dark-800/50 rounded-xl border border-white/10 focus:outline-none focus:border-gold-500/50 focus:ring-1 focus:ring-gold-500/50 transition-all w-full md:w-64 text-sm text-gray-200 placeholder:text-gray-600"
                       />
@@ -717,78 +567,60 @@ Material Details: ${selectedStone.promptDescription || selectedStone.description
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    {isLoadingStones ? (
-                      <div className="col-span-full py-20 flex flex-col items-center justify-center text-gray-500">
-                        <Loader2 className="w-8 h-8 animate-spin mb-4 text-gold-500" />
-                        <p className="font-medium text-sm">Curating collection...</p>
-                      </div>
-                    ) : (
-                      <>
-                        {stoneError && (
-                          <div className="col-span-full mb-6 text-center text-gold-400 bg-gold-500/10 rounded-xl border border-gold-500/20 p-4 flex items-center justify-center gap-3">
-                            <div className="w-2 h-2 bg-gold-500 rounded-full animate-pulse" />
-                            <p className="text-xs font-medium">
-                              {stoneError.includes('API key') 
-                                ? 'Database connection failed: Invalid API Key. Showing demo catalogue.' 
-                                : `Notice: ${stoneError}. Showing demo catalogue.`}
-                            </p>
-                          </div>
-                        )}
-                        
-                        {filteredStones.length === 0 ? (
-                          <div className="col-span-full py-20 text-center text-gray-500">
-                            <p className="font-medium text-sm">No stones found matching your criteria.</p>
-                          </div>
-                        ) : (
-                          filteredStones.map((stone) => (
-                            <motion.div
-                              key={stone.id}
-                              whileHover={{ y: -4 }}
-                              onMouseEnter={() => {
-                                setHoveredStone(stone);
-                                setIsPreviewLoading(true);
-                              }}
-                              onMouseLeave={() => {
-                                setHoveredStone(null);
-                                setIsPreviewLoading(false);
-                              }}
-                              onClick={() => setSelectedStone(stone)}
-                              className={`group cursor-pointer bg-dark-800/50 rounded-[20px] overflow-hidden border transition-all duration-300 hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:border-gold-500/50 ${
-                                selectedStone?.id === stone.id ? 'border-gold-500 shadow-gold-glow' : 'border-white/5'
-                              }`}
-                            >
-                              <div className="aspect-[4/5] relative">
-                                <img 
-                                  src={stone.swatchUrl} 
-                                  alt={stone.name} 
-                                  className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" 
-                                  referrerPolicy="no-referrer"
-                                />
-                                <div className="absolute top-3 left-3">
-                                  <span className="px-2.5 py-1 bg-dark-900/80 backdrop-blur-md rounded-md text-[9px] font-medium uppercase tracking-widest text-gray-300 border border-white/10">
-                                    {stone.category}
-                                  </span>
-                                </div>
-                                {selectedStone?.id === stone.id && (
-                                  <div className="absolute inset-0 bg-gold-500/10 flex items-center justify-center backdrop-blur-[1px]">
-                                    <div className="w-10 h-10 rounded-full bg-gold-500 text-dark-900 flex items-center justify-center shadow-lg">
-                                      <Check className="w-5 h-5" />
-                                    </div>
-                                  </div>
-                                )}
-                                
-                                {/* Elegant Label at bottom of image */}
-                                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-dark-900/90 to-transparent">
-                                  <h4 className={`font-medium text-sm truncate transition-colors ${selectedStone?.id === stone.id ? 'text-gold-400' : 'text-gray-200'}`}>
-                                    {stone.name}
-                                  </h4>
-                                </div>
+                    <>
+                      {filteredStones.length === 0 ? (
+                        <div className="col-span-full py-20 text-center text-gray-500">
+                          <p className="font-medium text-sm">No stones found matching your criteria.</p>
+                        </div>
+                      ) : (
+                        filteredStones.map((stone: { id: any; swatchUrl: any; name: any; category: any; }) => (
+                          <motion.div
+                            key={stone.id}
+                            whileHover={{ y: -4 }}
+                            onMouseEnter={() => {
+                              setHoveredStone(stone);
+                              setIsPreviewLoading(true);
+                            }}
+                            onMouseLeave={() => {
+                              setHoveredStone(null);
+                              setIsPreviewLoading(false);
+                            }}
+                            onClick={() => setSelectedStone(stone)}
+                            className={`group cursor-pointer bg-dark-800/50 rounded-[20px] overflow-hidden border transition-all duration-300 hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:border-gold-500/50 ${
+                              selectedStone?.id === stone.id ? 'border-gold-500 shadow-gold-glow' : 'border-white/5'
+                            }`}
+                          >
+                            <div className="aspect-[4/5] relative">
+                              <img 
+                                src={stone.swatchUrl} 
+                                alt={stone.name} 
+                                className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" 
+                                referrerPolicy="no-referrer"
+                              />
+                              <div className="absolute top-3 left-3">
+                                <span className="px-2.5 py-1 bg-dark-900/80 backdrop-blur-md rounded-md text-[9px] font-medium uppercase tracking-widest text-gray-300 border border-white/10">
+                                  {stone.category}
+                                </span>
                               </div>
-                            </motion.div>
-                          ))
-                        )}
-                      </>
-                    )}
+                              {selectedStone?.id === stone.id && (
+                                <div className="absolute inset-0 bg-gold-500/10 flex items-center justify-center backdrop-blur-[1px]">
+                                  <div className="w-10 h-10 rounded-full bg-gold-500 text-dark-900 flex items-center justify-center shadow-lg">
+                                    <Check className="w-5 h-5" />
+                                  </div>
+                                </div>
+                              )}
+                              
+                              {/* Elegant Label at bottom of image */}
+                              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-dark-900/90 to-transparent">
+                                <h4 className={`font-medium text-sm truncate transition-colors ${selectedStone?.id === stone.id ? 'text-gold-400' : 'text-gray-200'}`}>
+                                  {stone.name}
+                                </h4>
+                              </div>
+                            </div>
+                          </motion.div>
+                        ))
+                      )}
+                    </>
                   </div>
                 </div>
               </div>

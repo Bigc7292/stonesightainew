@@ -1,0 +1,25 @@
+COMPANY:
+  Vicostone Canada
+  https://vicostone.ca/en
+  1909 Rue Onésime Gagnon Montréal QC, H8T3M5
+
+PRODUCT:
+  BQ8840 ECLIPSE™ (US) Polished
+
+TEXTURE:
+  Physical dimensions:
+    001:
+      Width: 130.000″
+      Height: 65.000″
+    Displacement map scale:
+      Minimum: 0.000″
+      Maximum: 0.200″
+
+RENDER SOFTWARE:
+  Modeling software:
+    Blender
+  Renderer:
+    Cycles
+
+DOWNLOAD:
+    Date: 2026-01-21

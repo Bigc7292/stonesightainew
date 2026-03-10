@@ -1,0 +1,1256 @@
+[
+  {
+    "id": "sandik.jpg",
+    "name": "Sandik",
+    "category": "Dekton",
+    "colors": [
+      "Off-White",
+      "Light Grey",
+      "Cream"
+    ],
+    "features": [
+      "Subtle Veining",
+      "Uniform Texture",
+      "Minimalist Pattern"
+    ],
+    "description": "Sandik is an exceptionally clean and modern Dekton surface featuring an off-white base with very subtle light grey and cream undertones. Its minimalist pattern and uniform texture, accented by delicate veining, make it an ideal choice for bright and contemporary architectural spaces.",
+    "tone": "Light",
+    "created_at": "2026-03-09 10:45:49"
+  },
+  {
+    "id": "trevi.jpg",
+    "name": "Trevi",
+    "category": "Dekton",
+    "colors": [
+      "Light Grey",
+      "Cream",
+      "Taupe Veining"
+    ],
+    "features": [
+      "Linear Striations",
+      "Travertine Look",
+      "Subtle Texture"
+    ],
+    "description": "Trevi features a soft, light grey and cream background accented by delicate, horizontal taupe veining. This Dekton surface perfectly captures the classic, linear elegance of natural travertine while offering modern durability.",
+    "tone": "Light",
+    "created_at": "2026-03-09 10:45:49"
+  },
+  {
+    "id": "nebu.jpg",
+    "name": "Nebu",
+    "category": "Dekton",
+    "colors": [
+      "Light Beige",
+      "Cream",
+      "Sand"
+    ],
+    "features": [
+      "Horizontal Linear Veining",
+      "Travertine Effect",
+      "Subtle Textural Details"
+    ],
+    "description": "Nebu is a sophisticated Dekton surface that masterfully replicates the look of natural travertine with its warm blend of light beige, cream, and sand hues. The design is defined by gentle horizontal linear veining and subtle textural details that evoke sedimentary rock formations.",
+    "tone": "Warm",
+    "created_at": "2026-03-09 10:45:32"
+  },
+  {
+    "id": "polar.jpg",
+    "name": "Polar",
+    "category": "Dekton",
+    "colors": [
+      "Off-White",
+      "Light Grey",
+      "Beige Specks"
+    ],
+    "features": [
+      "Fine-Grained",
+      "Speckled",
+      "Subtle Fissures"
+    ],
+    "description": "Polar is an elegant, off-white Dekton surface featuring a fine-grained texture punctuated by subtle beige and light grey specks. Its minimalist aesthetic is enhanced by delicate, organic fissures, offering a versatile and modern finish for any interior space.",
+    "tone": "Light",
+    "created_at": "2026-03-09 10:44:08"
+  },
+  {
+    "id": "nara.jpg",
+    "name": "Nara",
+    "category": "Dekton",
+    "colors": [
+      "Creamy White",
+      "Pale Beige",
+      "Light Gray"
+    ],
+    "features": [
+      "Wave-like Veining",
+      "Subtle Stratification",
+      "Fine Texture"
+    ],
+    "description": "Nara is a serene surface characterized by its creamy white and pale beige background, elegantly interrupted by gentle wave-like veining and subtle stratification. The fine texture and light gray undertones create a sophisticated, horizontal flow reminiscent of natural quartzite.",
+    "tone": "Light",
+    "created_at": "2026-03-09 10:43:43"
+  },
+  {
+    "id": "dekton-trilium.png",
+    "name": "Dekton Trilium",
+    "category": "Dekton",
+    "colors": [
+      "Deep Charcoal",
+      "Crisp White",
+      "Light Ash Grey"
+    ],
+    "features": [
+      "Prominent White Veining",
+      "Subtle Mottling",
+      "Marble Effect"
+    ],
+    "description": "Dekton Trilium showcases a deep charcoal background accented by subtle mottling and light ash grey undertones for a rich, sophisticated look. Prominent crisp white veining strikes across the surface, delivering a powerful marble effect that elevates contemporary architectural spaces.",
+    "tone": "Dark",
+    "created_at": "2026-03-09 10:43:30"
+  },
+  {
+    "id": "Color.jpg",
+    "name": "Color",
+    "category": "Granite",
+    "colors": [
+      "Warm Beige",
+      "Light Brown",
+      "Charcoal Grey Flecks",
+      "Cream White"
+    ],
+    "features": [
+      "Fine Grained",
+      "Densely Speckled",
+      "Uniform Pattern",
+      "Granular Texture"
+    ],
+    "description": "This granite surface features a tightly packed, granular texture with a warm blend of beige, light brown, and creamy white minerals. Dark charcoal flecks are evenly distributed throughout, creating a highly uniform and durable appearance suitable for versatile design applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Color_1.jpg",
+    "name": "Color 1",
+    "category": "Granite",
+    "colors": [
+      "Warm Beige",
+      "Taupe",
+      "Charcoal Speckles",
+      "Light Gray"
+    ],
+    "features": [
+      "Fine Grained",
+      "Uniformly Speckled",
+      "Consistent Pattern"
+    ],
+    "description": "Color 1 Granite features a consistently speckled pattern characterized by a beautiful mix of warm beige, taupe, and light gray tones accented by fine charcoal flecks. Its uniform, fine-grained texture makes it a versatile and highly durable choice for both traditional and contemporary design applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Color_2.jpg",
+    "name": "Color 2",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "White",
+      "Charcoal Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Uniform Speckling",
+      "Granular Texture"
+    ],
+    "description": "Color 2 is a classic light grey granite defined by its tightly packed, evenly distributed speckles of grey, white, and charcoal minerals. The fine-grained and highly uniform texture provides a highly consistent appearance that is exceptionally versatile for a wide range of interior and exterior design projects.",
+    "tone": "Light"
+  },
+  {
+    "id": "Color_3.jpg",
+    "name": "Color 3",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Crisp White",
+      "Dark Grey Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Texture"
+    ],
+    "description": "Color 3 is a classic grey granite characterized by a highly uniform, finely speckled pattern of white, light grey, and dark mineral deposits. Its consistent granular texture and lack of distinct veining make it a versatile and durable choice for a wide variety of architectural and design applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Color_4.jpg",
+    "name": "Color 4",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Warm Beige",
+      "Taupe Speckles",
+      "Muted Blue-Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Granular Texture",
+      "Consistent"
+    ],
+    "description": "Color 4 is a highly consistent granite featuring a dense, granular texture with a finely speckled pattern. It presents a harmonious blend of light grey, warm beige, and taupe with subtle muted blue-grey undertones, making it ideal for uniformly textured surfaces.",
+    "tone": "Light"
+  },
+  {
+    "id": "Color_5.jpg",
+    "name": "Color 5",
+    "category": "Granite",
+    "colors": [
+      "Lavender Grey",
+      "Beige",
+      "Charcoal Specks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Uniform Texture"
+    ],
+    "description": "Color 5 is a highly consistent granite defined by its extremely fine-grained, uniformly speckled texture with no prominent veining. The complex aggregate gently blends lavender-grey, beige, and subtle charcoal flecks to create a versatile and tranquil surface.",
+    "tone": "Light"
+  },
+  {
+    "id": "Color_6.jpg",
+    "name": "Color 6",
+    "category": "Granite",
+    "colors": [
+      "Blue-Grey",
+      "Taupe",
+      "Charcoal Specks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Homogeneous Texture"
+    ],
+    "description": "Color 6 is a fine-grained granite featuring a tightly packed, speckled pattern of blue-grey, taupe, and subtle light beige tones. Its homogeneous texture and cool, intricate granular structure make it a versatile choice for contemporary architectural surfaces.",
+    "tone": "Light"
+  },
+  {
+    "id": "Color_7.jpg",
+    "name": "Color 7",
+    "category": "Granite",
+    "colors": [
+      "Terracotta",
+      "Rust Brown",
+      "Dark Brown Speckles",
+      "Tan Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Densely Speckled",
+      "Uniform Granular Texture"
+    ],
+    "description": "Color 7 is a warm and earthy granite characterized by a dense, fine-grained blend of terracotta and rust-brown hues. The stone's surface is uniformly peppered with small dark brown and tan speckles, creating a consistent and visually rich granular texture.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Granite001A.png",
+    "name": "Granite 001A",
+    "category": "Granite",
+    "colors": [
+      "Warm Beige",
+      "Tan Speckles",
+      "Charcoal Grey",
+      "Creamy White"
+    ],
+    "features": [
+      "Speckled Pattern",
+      "Medium Grained",
+      "Uniform Texture",
+      "Densely Packed"
+    ],
+    "description": "Granite 001A features a classic, densely packed speckled pattern with a harmonious blend of warm beige, tan, and charcoal grey minerals. This medium-grained stone offers a highly uniform texture, making it a highly versatile and durable choice for various architectural applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Granite001A_2K-JPG_Color.jpg",
+    "name": "Granite 001A Color",
+    "category": "Granite",
+    "colors": [
+      "Warm Beige",
+      "Taupe",
+      "Charcoal Grey",
+      "Cream Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Texture"
+    ],
+    "description": "This granite features a consistent, fine-grained speckled pattern combining warm beige, taupe, and subtle charcoal flecks. Its uniform texture and earthy color palette make it a versatile choice for both classic and contemporary architectural applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Granite001B.png",
+    "name": "Granite 001B",
+    "category": "Granite",
+    "colors": [
+      "Warm Beige",
+      "Tan",
+      "Light Grey",
+      "Charcoal Flecks"
+    ],
+    "features": [
+      "Speckled",
+      "Medium Grained",
+      "Uniform Pattern"
+    ],
+    "description": "Granite 001B is a classic stone featuring a warm blend of beige, tan, and light grey beautifully contrasted by intricate charcoal flecks. Its traditional speckled, medium-grained texture provides a uniform and versatile aesthetic suitable for both traditional and modern architectural designs.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Granite001B_2K-JPG_Color.jpg",
+    "name": "Granite 001B Color",
+    "category": "Granite",
+    "colors": [
+      "Tan",
+      "Light Grey",
+      "Dark Brown",
+      "Cream"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Texture"
+    ],
+    "description": "Granite 001B Color features a classic, finely speckled texture dominated by warm tan, grey, and subtle dark brown minerals. This uniform, tight-grained structure provides a consistent and versatile appearance suitable for a variety of traditional and modern applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Granite002A.png",
+    "name": "Granite 002A",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Off-White",
+      "Charcoal Speckles",
+      "Black"
+    ],
+    "features": [
+      "Speckled Pattern",
+      "Fine to Medium Grained",
+      "Uniform Texture"
+    ],
+    "description": "Granite 002A features a classic, uniform speckled pattern with a light grey and off-white base punctuated by dense charcoal and black minerals. Its fine-to-medium grained texture offers a consistent and versatile surface ideal for traditional and modern applications alike.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002A_2K-JPG_Color.jpg",
+    "name": "Granite 002A",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Charcoal Specks",
+      "White"
+    ],
+    "features": [
+      "Speckled Pattern",
+      "Fine Grained",
+      "Uniform Texture"
+    ],
+    "description": "Granite 002A is a classic natural stone characterized by its densely speckled salt-and-pepper appearance. The fine-grained texture features a balanced blend of light grey, white, and charcoal flecks that offer a versatile and highly uniform surface.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002B.png",
+    "name": "Granite002B",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Dark Grey",
+      "Black Specks"
+    ],
+    "features": [
+      "Speckled Pattern",
+      "Fine Grained",
+      "Granular Texture"
+    ],
+    "description": "Granite002B is a classic light grey granite characterized by a dense, even distribution of dark grey and black speckling. Its fine-grained, granular texture provides a consistent and durable surface suitable for a wide range of applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002B_2K-JPG_Color.jpg",
+    "name": "Granite 002B",
+    "category": "Granite",
+    "colors": [
+      "Light Gray",
+      "White",
+      "Dark Gray",
+      "Black Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Texture"
+    ],
+    "description": "Granite 002B is a classic salt-and-pepper style granite featuring a tightly packed, speckled composition of white, gray, and black minerals. Its uniform, fine-grained texture makes it a highly consistent and versatile choice for both contemporary and traditional design applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite003A.png",
+    "name": "Granite 003A",
+    "category": "Granite",
+    "colors": [
+      "Light Grey Base",
+      "Rust and Tan Flecks",
+      "Charcoal Speckling",
+      "White Matrix"
+    ],
+    "features": [
+      "Fine to Medium Grained",
+      "Densely Speckled",
+      "Uniform Granular Pattern",
+      "Polished Finish"
+    ],
+    "description": "Granite 003A is a classic light-toned stone featuring a dense, granular matrix of rust, tan, and charcoal flecks set against a soft white and light grey background. Its fine-grained texture and uniform speckled pattern provide a versatile and elegant surface for diverse architectural applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite003A_2K-JPG_Color.jpg",
+    "name": "Granite 003A",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Rust Brown",
+      "Charcoal Specks",
+      "Muted Blue-Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Highly Speckled",
+      "Dense Mineral Distribution"
+    ],
+    "description": "Granite 003A features a densely packed, fine-grained surface characterized by a dynamic interplay of light grey, muted blue-grey, and rust-brown mineral deposits. This highly speckled granite offers a versatile and textured appearance, making it an excellent choice for surfaces requiring a complex yet balanced visual profile.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005A.png",
+    "name": "Granite 005 A",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Blue Flecks",
+      "Tan Specks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Consistent Texture"
+    ],
+    "description": "Granite 005 A is a fine-grained granite featuring a predominantly light grey base densely speckled with blue and tan flecks. Its consistent, uniform texture and cool undertones make it a versatile choice for a clean, modern aesthetic.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005A_2K-JPG_Color.jpg",
+    "name": "Granite 005A",
+    "category": "Granite",
+    "colors": [
+      "Slate Blue",
+      "Mauve Grey",
+      "Sandy Beige",
+      "Ash Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Distribution"
+    ],
+    "description": "Granite 005A is a highly textured, fine-grained stone featuring a dense, speckled distribution of slate blue, mauve, and beige particulates. Its uniform, tightly packed granular structure offers a cohesive and subtly colorful surface suitable for diverse architectural applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005B.png",
+    "name": "Granite 005B",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Beige",
+      "Blue Flecks",
+      "Brown Speckles"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Consistent Pattern"
+    ],
+    "description": "Granite 005B presents a densely speckled surface characterized by a light grey and beige background interwoven with fine blue and brown flecks. This fine-grained granite offers a highly consistent and uniform pattern, making it a versatile choice for a wide array of architectural applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005B_2K-JPG_Color.jpg",
+    "name": "Granite 005B",
+    "category": "Granite",
+    "colors": [
+      "Slate Blue",
+      "Taupe",
+      "Cream",
+      "Muted Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Granular Texture",
+      "Tightly Packed Minerals"
+    ],
+    "description": "Granite 005B features a tightly packed, uniform speckled pattern blending slate blue, taupe, and muted grey minerals. Its fine-grained, granular texture provides a consistent and durable surface without distinct veining, making it ideal for versatile design applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite006A.png",
+    "name": "Granite 006A",
+    "category": "Granite",
+    "colors": [
+      "Warm Bronze",
+      "Caramel Brown",
+      "Dark Charcoal Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Consistent Pattern"
+    ],
+    "description": "Granite 006A is a warm, bronze-toned granite with a finely speckled texture. The consistent distribution of dark charcoal flecks against a caramel brown background provides a uniformly textured surface suitable for versatile applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Granite006A_2K-JPG_Color.jpg",
+    "name": "Granite 006A 2K Color",
+    "category": "Granite",
+    "colors": [
+      "Terracotta Red",
+      "Rust Orange",
+      "Dark Brown Specs"
+    ],
+    "features": [
+      "Fine-Grained",
+      "Speckled Pattern",
+      "Earthy Hues"
+    ],
+    "description": "Granite 006A is a warm, earthy granite featuring a predominantly terracotta red base peppered with rust orange and dark brown specks. Its fine-grained, evenly distributed pattern creates a consistent and inviting surface suitable for both traditional and contemporary designs.",
+    "tone": "Warm"
+  },
+  {
+    "id": "granite_tile_02_diff_2k.jpg",
+    "name": "Granite Tile 02 Diff",
+    "category": "Granite",
+    "colors": [
+      "Earthy Brown",
+      "Charcoal Grey",
+      "Speckled Grey"
+    ],
+    "features": [
+      "Geometric Grid Pattern",
+      "Fine Grained Texture",
+      "Matte Finish",
+      "Contrasting Borders"
+    ],
+    "description": "This granite surface features a structured geometric grid, consisting of earthy brown square tiles framed by charcoal grey rectangular bands. Small, speckled grey square accents at the intersections highlight the fine-grained, matte texture of the stone.",
+    "tone": "Warm"
+  },
+  {
+    "id": "granite_tile_02_disp_2k.png",
+    "name": "Granite Tile 02",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Medium Grey",
+      "Dark Grey Grout"
+    ],
+    "features": [
+      "Grid Pattern",
+      "Geometric Tile Layout",
+      "Subtle Granite Speckling",
+      "Defined Grout Lines"
+    ],
+    "description": "This surface showcases a precise geometric layout featuring large square granite tiles separated by intersecting linear bands and small corner accents. The subtle speckled texture across the light grey stone conveys a classic, structured aesthetic ideal for commercial or residential installations.",
+    "tone": "Light"
+  },
+  {
+    "id": "granite_tile_03_diff_2k.jpg",
+    "name": "Granite Tile 03 Diff 2K",
+    "category": "Granite",
+    "colors": [
+      "Warm Taupe",
+      "Chocolate Brown",
+      "Charcoal Flecks"
+    ],
+    "features": [
+      "Medium Grained",
+      "Speckled",
+      "Even Texture"
+    ],
+    "description": "This tile features a warm taupe and chocolate brown granite with a consistent, medium-grained speckled texture. Dark charcoal flecks are evenly distributed throughout, creating a harmonious and earthy surface suitable for diverse applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "granite_tile_03_disp_2k.png",
+    "name": "Granite Tile 03",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Pale Ash",
+      "Off-White"
+    ],
+    "features": [
+      "Tile Grid Pattern",
+      "Fine Grained",
+      "Subtle Speckling",
+      "Uniform Texture"
+    ],
+    "description": "This surface presents a clean layout of large, light grey granite tiles separated by fine grout lines. The stone exhibits a uniform, fine-grained texture with very subtle mottling, making it ideal for sleek, modern architectural applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "granite_tile_04_diff_2k.jpg",
+    "name": "Granite Tile 04 Diff 2k",
+    "category": "Granite",
+    "colors": [
+      "Medium Brown",
+      "Taupe",
+      "Grey Speckles"
+    ],
+    "features": [
+      "Square Tiles",
+      "Grid Layout",
+      "Fine Speckled Texture",
+      "Uniform Appearance"
+    ],
+    "description": "This image features a collection of square granite tiles arranged in a uniform grid. The stone exhibits a medium brown to taupe color base with fine, subtle grey speckles spread evenly across the surface.",
+    "tone": "Warm"
+  },
+  {
+    "id": "granite_tile_04_disp_2k.png",
+    "name": "Granite Tile 04",
+    "category": "Granite",
+    "colors": [
+      "Silver Gray",
+      "Light Ash Gray",
+      "Subtle Charcoal"
+    ],
+    "features": [
+      "Square Tile Pattern",
+      "Defined Grout Lines",
+      "Subtle Topographical Depth",
+      "Uniform Grid Layout"
+    ],
+    "description": "This structural granite arrangement features a precise square tile layout with neatly defined grout lines. Subtle shading across the tiles indicates gentle surface depth, offering a clean and modern aesthetic suitable for expansive architectural cladding.",
+    "tone": "Light"
+  },
+  {
+    "id": "granite_tile_diff_2k.jpg",
+    "name": "Granite Tile",
+    "category": "Granite",
+    "colors": [
+      "Charcoal Grey",
+      "Dark Slate Grey",
+      "Subtle Ash Mottling"
+    ],
+    "features": [
+      "Square Tile Pattern",
+      "Matte Finish",
+      "Fine Grained",
+      "Subtle Texture"
+    ],
+    "description": "Granite Tile features a consistent, dark charcoal grey palette arranged in a classic square tile grid pattern. The surface exhibits a subtle directional texture and matte finish, providing a sleek and modern aesthetic suitable for architectural applications.",
+    "tone": "Dark"
+  },
+  {
+    "id": "granite_tile_disp_2k.png",
+    "name": "Granite Tile Disp 2k",
+    "category": "Granite",
+    "colors": [
+      "Light Gray",
+      "Medium Gray",
+      "Silver"
+    ],
+    "features": [
+      "Square Tile Grid",
+      "Subtle Mottling",
+      "Smooth Finish",
+      "Uniform Geometric Pattern"
+    ],
+    "description": "This image displays a grid of square granite tiles characterized by a subtle, mottled grayscale texture. The varying shades of light to medium gray across the tiles suggest slight differences in surface depth and finish, typical of a displacement or bump map for 3D rendering.",
+    "tone": "Light"
+  },
+  {
+    "id": "granite_wall_diff_2k.jpg",
+    "name": "Granite Wall",
+    "category": "Granite",
+    "colors": [
+      "Earthy Brown",
+      "Rust Orange",
+      "Greyish Tan",
+      "White Mortar"
+    ],
+    "features": [
+      "Brick Pattern",
+      "Speckled Texture",
+      "Rough-Hewn Surface",
+      "Visible Mortar Lines"
+    ],
+    "description": "This surface features a structured wall pattern composed of speckled granite blocks in warm earthy brown and rust tones. The rough-hewn rectangular stones are separated by visible white mortar lines, highlighting the granular texture and natural variation inherent to the material.",
+    "tone": "Warm"
+  },
+  {
+    "id": "granite_wall_disp_2k.png",
+    "name": "Granite Wall Disp 2k",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Medium Grey",
+      "Dark Grey Lines"
+    ],
+    "features": [
+      "Horizontal Blocks",
+      "Subtle Texture",
+      "Slight Vertical Joints"
+    ],
+    "description": "Granite Wall Disp 2k displays a pattern of horizontal blocks in varying shades of light to medium grey, accented by darker lines defining the edges. The subtle texture and slight vertical joints give it a realistic, structured appearance suitable for architectural applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite001A_2K-JPG_Displacement.jpg",
+    "name": "Granite001A 2K Jpg Displacement",
+    "category": "Granite",
+    "colors": [
+      "Medium Grey",
+      "Subtle Dark Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Uniform Texture"
+    ],
+    "description": "This image showcases a finely grained granite texture in medium grey tones, creating a highly uniform and consistent appearance. The subtle speckling and very fine texture are typical of displacement maps designed to add depth to 3D materials without introducing pronounced patterns.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite001A_2K-JPG_NormalDX.jpg",
+    "name": "Granite 001A Normal DX",
+    "category": "Granite",
+    "colors": [
+      "Lavender Blue",
+      "Periwinkle",
+      "Soft Violet"
+    ],
+    "features": [
+      "Uniform Surface",
+      "Fine Grained",
+      "Digital Normal Map"
+    ],
+    "description": "This image serves as a tangent-space normal map for a 3D granite material, utilizing a lavender-blue color palette to encode subtle surface geometry and elevation. The predominantly uniform and smooth color field indicates a finely polished, fine-grained stone finish with minimal deep texturing or heavy natural veining.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite001A_2K-JPG_NormalGL.jpg",
+    "name": "Granite 001A Normal",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Light Violet"
+    ],
+    "features": [
+      "Smooth Surface",
+      "Uniform Texture",
+      "Normal Map"
+    ],
+    "description": "This image is a flat, uniform normal map associated with a Granite 001A material, designed for 3D texture rendering. Its solid periwinkle blue color indicates a perfectly smooth, highly polished stone surface devoid of any topographical variations or bumps.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite001A_2K-JPG_Roughness.jpg",
+    "name": "Granite Roughness Map",
+    "category": "Granite",
+    "colors": [
+      "Pitch Black",
+      "Charcoal Grey",
+      "Dark Ash"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Uniform Texture",
+      "Matte Finish"
+    ],
+    "description": "This image represents a roughness map for a granite surface, characterized by a uniform, finely speckled texture that translates to micro-variations in glossiness when rendered. The pitch black and dark charcoal tones indicate areas of varying microscopic roughness, essential for creating realistic, light-scattering stone materials.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite001B_2K-JPG_Displacement.jpg",
+    "name": "Granite 001B Displacement",
+    "category": "Granite",
+    "colors": [
+      "Pale Gray",
+      "Ash Gray",
+      "Off-White"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Texture",
+      "Uniform Distribution"
+    ],
+    "description": "Granite 001B Displacement presents a highly uniform, fine-grained surface characterized by a dense speckled pattern typical of classic granite structures. This monochromatic map features a tightly packed distribution of micro-crystalline forms, making it ideal for generating realistic textural depth.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite001B_2K-JPG_NormalDX.jpg",
+    "name": "Granite001B",
+    "category": "Granite",
+    "colors": [
+      "Light Blue",
+      "Periwinkle",
+      "Subtle White"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Uniform Texture",
+      "Slightly Rough"
+    ],
+    "description": "Granite001B is a uniform, fine-grained granite characterized by a soft, periwinkle blue base with very subtle white speckling. The evenly distributed, fine texture creates a consistent, slightly rough surface suitable for varied applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite001B_2K-JPG_NormalGL.jpg",
+    "name": "Granite 001B Normal GL",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Soft Lavender",
+      "Light Indigo"
+    ],
+    "features": [
+      "Uniform Stippled Texture",
+      "Fine Grained",
+      "Normal Map Data"
+    ],
+    "description": "This image is a normal map representation of a fine-grained granite surface, exhibiting a uniform stippled texture across the entire plane. The characteristic periwinkle and lavender hues encode the micro-surface detail and elevation changes typical of textured granite.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite001B_2K-JPG_Roughness.jpg",
+    "name": "Granite Roughness Map",
+    "category": "Granite",
+    "colors": [
+      "Uniform Grey",
+      "Subtle Lighter Grey Speckling",
+      "Soft Slate Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Matte Finish",
+      "Uniform Texture"
+    ],
+    "description": "This image represents a roughness map for a fine-grained granite surface, characterized by its incredibly uniform and subtle light grey speckling. The texture is consistent and delicate, indicative of a highly polished or smoothly honed natural stone finish.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002A_2K-JPG_Displacement.jpg",
+    "name": "Granite 002A",
+    "category": "Granite",
+    "colors": [
+      "Medium Grey",
+      "Ash Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Texture",
+      "Uniform Depth"
+    ],
+    "description": "Granite 002A presents a highly consistent, fine-grained texture visually represented through its subtle displacement map. The uniform medium grey surface indicates a smooth, tightly packed granular structure typical of premium architectural granite.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite002A_2K-JPG_NormalDX.jpg",
+    "name": "Granite 002A Normal Map DX",
+    "category": "Granite",
+    "colors": [
+      "Light Blue",
+      "Purple",
+      "Periwinkle"
+    ],
+    "features": [
+      "Uniform color",
+      "Smooth appearance",
+      "Normal map representation"
+    ],
+    "description": "This image represents a normal map for a granite texture, specifically in DirectX format. The uniform light purple or periwinkle color suggests a relatively smooth surface without prominent high-frequency details in this specific map.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002A_2K-JPG_NormalGL.jpg",
+    "name": "Granite 002A Normal",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Lavender",
+      "Soft Violet"
+    ],
+    "features": [
+      "Normal Map Encoding",
+      "Subtle Micro-Texture",
+      "Fine Grain Pattern"
+    ],
+    "description": "This image serves as an OpenGL normal map for a Granite 002A material, utilizing typical periwinkle and lavender hues to encode spatial depth and surface angles. The subtle, tightly packed visual noise indicates a finely grained, relatively polished granite surface with minimal deep fissures.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002A_2K-JPG_Roughness.jpg",
+    "name": "Granite002A 2K Jpg Roughness",
+    "category": "Granite",
+    "colors": [
+      "Deep Black",
+      "Charcoal Grey",
+      "Subtle Dark Grey Speckles"
+    ],
+    "features": [
+      "Fine Speckled Texture",
+      "Uniform Dark Ground",
+      "Subtle Surface Variation"
+    ],
+    "description": "Granite002A 2K Jpg Roughness is a very dark, almost solid black granite with an incredibly fine, subtle speckled texture of charcoal and dark grey. The near-uniform appearance gives it a sleek and solid character, typical of high-quality, dense black granites used for creating dramatic contrasts.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite002B_2K-JPG_Displacement.jpg",
+    "name": "Granite 002B",
+    "category": "Granite",
+    "colors": [
+      "White",
+      "Light Grey",
+      "Ash Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Texture",
+      "Uniform Granular Pattern"
+    ],
+    "description": "Granite 002B features a remarkably uniform, fine-grained speckled pattern in shades of light grey and white. Its consistent granular texture and subtle tonal variations make it a versatile choice for clean, contemporary surface applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002B_2K-JPG_NormalDX.jpg",
+    "name": "Granite 002B 2K Normal Dx",
+    "category": "Granite",
+    "colors": [
+      "Purple/Blue",
+      "Lavender"
+    ],
+    "features": [
+      "Uniform Texture",
+      "Fine Grained",
+      "Normal Map"
+    ],
+    "description": "This is a normal map of a fine-grained granite surface, appearing in uniform lavender and purple/blue tones. The texture is consistent with minor surface irregularities typical of a polished stone.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002B_2K-JPG_NormalGL.jpg",
+    "name": "Granite002B 2K JPG NormalGL",
+    "category": "Granite",
+    "colors": [
+      "Lilac",
+      "Soft Violet",
+      "Periwinkle"
+    ],
+    "features": [
+      "Fine-Grained",
+      "Speckled",
+      "Subtle Texture"
+    ],
+    "description": "This fine-grained granite showcases a beautiful blend of lilac and soft violet tones, creating a tranquil and sophisticated appearance. The subtle speckled texture adds a touch of natural elegance, making it an ideal choice for serene and stylish interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002B_2K-JPG_Roughness.jpg",
+    "name": "Granite 002B",
+    "category": "Granite",
+    "colors": [
+      "Medium Gray",
+      "Light Gray",
+      "Silver Speckles"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Texture",
+      "Uniform Pattern"
+    ],
+    "description": "Granite 002B features a highly uniform, finely grained texture characterized by densely packed speckles in varying shades of gray. This granular surface presents a consistent, mottled appearance typical of classic granite compositions, making it ideal for versatile architectural applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite003A_2K-JPG_Displacement.jpg",
+    "name": "Granite 003A",
+    "category": "Granite",
+    "colors": [
+      "Medium Grey",
+      "Ash Grey"
+    ],
+    "features": [
+      "Fine Grained Texture",
+      "Uniform Displacement",
+      "Subtle Micro-Pitting"
+    ],
+    "description": "This displacement map for Granite 003A captures the subtle, fine-grained surface relief characteristic of polished granite. The uniform medium grey tones indicate a relatively even surface with microscopic crystalline variations.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite003A_2K-JPG_NormalDX.jpg",
+    "name": "Granite 003A Normal",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Lavender",
+      "Solid Violet"
+    ],
+    "features": [
+      "Uniform Texture",
+      "Completely Smooth",
+      "No Veining"
+    ],
+    "description": "Granite 003A Normal is characterized by a completely uniform, solid color indicating a flawlessly smooth surface. Representing flat topological data, this highly polished finish is entirely devoid of typical granular granite textures or veining.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite003A_2K-JPG_NormalGL.jpg",
+    "name": "Normal GL Granite",
+    "category": "Granite",
+    "colors": [
+      "Purple-Blue",
+      "Lavender",
+      "Periwinkle"
+    ],
+    "features": [
+      "Normal Map Texture",
+      "Fine-Grained",
+      "Even Coloration"
+    ],
+    "description": "This image features a uniform periwinkle or purple-blue coloration, representing a normal map used in 3D rendering rather than a natural stone texture. Due to its nature as a normal map, it lacks the typical visual characteristics of granite such as speckling or veining, appearing instead as a solid, flat color field.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Granite003A_2K-JPG_Roughness.jpg",
+    "name": "Granite 003A 2K Roughness",
+    "category": "Granite",
+    "colors": [
+      "Deep Black",
+      "Charcoal Grey Speckles",
+      "Faint Ash Grey Undertones"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Subtle Texture"
+    ],
+    "description": "Granite 003A 2K Roughness features a predominantly deep black background enriched with fine charcoal grey speckles and faint ash grey undertones. Its fine-grained, subtly textured surface offers a dense, consistent appearance suitable for sophisticated architectural applications.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite005A_2K-JPG_Displacement.jpg",
+    "name": "Granite 005A",
+    "category": "Granite",
+    "colors": [
+      "Slate Gray",
+      "Ash Gray"
+    ],
+    "features": [
+      "Micro-speckled",
+      "Uniform Finish",
+      "Subtle Texture"
+    ],
+    "description": "This granite surface presents a highly uniform, monochromatic slate gray appearance with an extremely fine micro-speckled texture. Its even finish and lack of prominent veining make it an ideal neutral backdrop for modern architectural designs.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite005A_2K-JPG_NormalDX.jpg",
+    "name": "Granite 005 A",
+    "category": "Granite",
+    "colors": [
+      "Vibrant Periwinkle",
+      "Soft Lilac",
+      "Subtle Indigo"
+    ],
+    "features": [
+      "Uniform Solid Texture",
+      "Monochromatic",
+      "Minimal Grain",
+      "Smooth Finish"
+    ],
+    "description": "Granite 005 A features a remarkably uniform surface dominated by a vibrant periwinkle hue. Its nearly solid color and minimal grain structure provide a uniquely smooth, contemporary appearance suitable for bold design applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005A_2K-JPG_NormalGL.jpg",
+    "name": "Granite005A 2K JPG NormalGL",
+    "category": "Granite",
+    "colors": [
+      "Light Blue",
+      "Periwinkle"
+    ],
+    "features": [
+      "Uniform color",
+      "Solid flat background"
+    ],
+    "description": "This image is a flat, solid light blue or periwinkle color. It appears to be a normal map, lacking any distinct granite features or texture.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005A_2K-JPG_Roughness.jpg",
+    "name": "Granite Roughness Map",
+    "category": "Granite",
+    "colors": [
+      "Deep Black",
+      "Charcoal Grey",
+      "Faint White Speckles"
+    ],
+    "features": [
+      "Fine Speckling",
+      "Uniform Texture",
+      "Subtle Variations"
+    ],
+    "description": "This image depicts the roughness map for a granite material, predominantly black with very fine variations indicating surface texture. The subtle grey and white speckles map out the micro-structure and light-scattering properties of the stone finish.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite005B_2K-JPG_Displacement.jpg",
+    "name": "Granite 005B",
+    "category": "Granite",
+    "colors": [
+      "Light Gray",
+      "Ash Gray",
+      "Soft White"
+    ],
+    "features": [
+      "Fine Grained",
+      "Uniform Speckling",
+      "Granular Texture"
+    ],
+    "description": "Granite 005B is characterized by its exceptionally fine-grained, uniform granular texture that creates a consistent speckled appearance. This subtle pattern provides an excellent basis for adding realistic micro-surface displacement to stone materials.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005B_2K-JPG_NormalDX.jpg",
+    "name": "Granite 005B",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Soft Lavender",
+      "Bright Indigo"
+    ],
+    "features": [
+      "Fine Grained",
+      "Uniform Texture",
+      "Stippled Surface"
+    ],
+    "description": "This image is a DirectX normal map representing a fine-grained granite surface with a highly uniform, stippled texture that indicates low physical relief. The light purple and blue pixel values meticulously encode the subtle micro-variations across the stone's topography for realistic 3D lighting calculations.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005B_2K-JPG_NormalGL.jpg",
+    "name": "Granite 005B",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Soft Purple",
+      "Indigo Details"
+    ],
+    "features": [
+      "Fine Grain",
+      "Uniform Texture",
+      "Micro-stippled Surface"
+    ],
+    "description": "This image is a normal map for Granite 005B, capturing the minute surface topography and structural details of the stone. It reveals an exceptionally fine-grained, uniform texture indicative of a smooth, tightly packed igneous rock.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005B_2K-JPG_Roughness.jpg",
+    "name": "Granite 005B Roughness",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Medium Grey",
+      "Silver"
+    ],
+    "features": [
+      "Fine Grained",
+      "Uniform Texture",
+      "Subtle Mottling"
+    ],
+    "description": "Granite 005B Roughness presents a highly uniform, finely grained texture with subtle variations in light to medium gray tones. This surface exhibits gentle mottling and a consistent particulate pattern characteristic of a refined granite finish.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite006A_2K-JPG_Displacement.jpg",
+    "name": "Granite 006A",
+    "category": "Granite",
+    "colors": [
+      "Medium Gray",
+      "Ash Gray"
+    ],
+    "features": [
+      "Subtle Micro-texture",
+      "Uniform Surface",
+      "Low Relief"
+    ],
+    "description": "This image represents a displacement map for a granite material, exhibiting a highly uniform medium gray field. The remarkably smooth surface suggests minimal textural variation, indicating a finely polished or very low-relief stone finish.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite006A_2K-JPG_NormalDX.jpg",
+    "name": "Granite 006A Normal DX",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle",
+      "Light Violet",
+      "Soft Purple"
+    ],
+    "features": [
+      "Normal Map Texture",
+      "Fine Grained Surface",
+      "Uniform Field"
+    ],
+    "description": "This image represents a DirectX normal map for a granite surface, characterized by its solid periwinkle and soft violet tones that encode surface bump and depth data. The relatively uniform color distribution across the map suggests a finely grained granite with minimal deep texture variations or heavy structural fissures.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite006A_2K-JPG_NormalGL.jpg",
+    "name": "Granite 006A Normal",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Standard Normal Blue"
+    ],
+    "features": [
+      "Uniform Smoothness",
+      "Polished Finish",
+      "OpenGL Normal Map"
+    ],
+    "description": "This image is a standard OpenGL normal map representing a uniformly flat and highly polished granite surface. The solid periwinkle blue coloration indicates zero surface deviation, ideal for rendering smooth architectural finishes.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite006A_2K-JPG_Roughness.jpg",
+    "name": "Granite 006A Roughness",
+    "category": "Granite",
+    "colors": [
+      "Deep Black",
+      "Charcoal Grey",
+      "Subtle White Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Rough Texture",
+      "Uniform Appearance"
+    ],
+    "description": "Granite 006A Roughness features a predominantly deep black background enriched with charcoal grey tones and subtle white flecks. The stone exhibits a fine-grained, speckled pattern with a notably rough texture, ideal for applications requiring a robust and uniform aesthetic.",
+    "tone": "Dark"
+  }
+]

@@ -1,0 +1,3326 @@
+[
+  {
+    "id": "sandik.jpg",
+    "name": "Sandik",
+    "category": "Dekton",
+    "colors": [
+      "Off-White",
+      "Light Grey",
+      "Cream"
+    ],
+    "features": [
+      "Subtle Veining",
+      "Uniform Texture",
+      "Minimalist Pattern"
+    ],
+    "description": "Sandik is an exceptionally clean and modern Dekton surface featuring an off-white base with very subtle light grey and cream undertones. Its minimalist pattern and uniform texture, accented by delicate veining, make it an ideal choice for bright and contemporary architectural spaces.",
+    "tone": "Light",
+    "created_at": "2026-03-09 10:45:49"
+  },
+  {
+    "id": "trevi.jpg",
+    "name": "Trevi",
+    "category": "Dekton",
+    "colors": [
+      "Light Grey",
+      "Cream",
+      "Taupe Veining"
+    ],
+    "features": [
+      "Linear Striations",
+      "Travertine Look",
+      "Subtle Texture"
+    ],
+    "description": "Trevi features a soft, light grey and cream background accented by delicate, horizontal taupe veining. This Dekton surface perfectly captures the classic, linear elegance of natural travertine while offering modern durability.",
+    "tone": "Light",
+    "created_at": "2026-03-09 10:45:49"
+  },
+  {
+    "id": "nebu.jpg",
+    "name": "Nebu",
+    "category": "Dekton",
+    "colors": [
+      "Light Beige",
+      "Cream",
+      "Sand"
+    ],
+    "features": [
+      "Horizontal Linear Veining",
+      "Travertine Effect",
+      "Subtle Textural Details"
+    ],
+    "description": "Nebu is a sophisticated Dekton surface that masterfully replicates the look of natural travertine with its warm blend of light beige, cream, and sand hues. The design is defined by gentle horizontal linear veining and subtle textural details that evoke sedimentary rock formations.",
+    "tone": "Warm",
+    "created_at": "2026-03-09 10:45:32"
+  },
+  {
+    "id": "polar.jpg",
+    "name": "Polar",
+    "category": "Dekton",
+    "colors": [
+      "Off-White",
+      "Light Grey",
+      "Beige Specks"
+    ],
+    "features": [
+      "Fine-Grained",
+      "Speckled",
+      "Subtle Fissures"
+    ],
+    "description": "Polar is an elegant, off-white Dekton surface featuring a fine-grained texture punctuated by subtle beige and light grey specks. Its minimalist aesthetic is enhanced by delicate, organic fissures, offering a versatile and modern finish for any interior space.",
+    "tone": "Light",
+    "created_at": "2026-03-09 10:44:08"
+  },
+  {
+    "id": "nara.jpg",
+    "name": "Nara",
+    "category": "Dekton",
+    "colors": [
+      "Creamy White",
+      "Pale Beige",
+      "Light Gray"
+    ],
+    "features": [
+      "Wave-like Veining",
+      "Subtle Stratification",
+      "Fine Texture"
+    ],
+    "description": "Nara is a serene surface characterized by its creamy white and pale beige background, elegantly interrupted by gentle wave-like veining and subtle stratification. The fine texture and light gray undertones create a sophisticated, horizontal flow reminiscent of natural quartzite.",
+    "tone": "Light",
+    "created_at": "2026-03-09 10:43:43"
+  },
+  {
+    "id": "dekton-trilium.png",
+    "name": "Dekton Trilium",
+    "category": "Dekton",
+    "colors": [
+      "Deep Charcoal",
+      "Crisp White",
+      "Light Ash Grey"
+    ],
+    "features": [
+      "Prominent White Veining",
+      "Subtle Mottling",
+      "Marble Effect"
+    ],
+    "description": "Dekton Trilium showcases a deep charcoal background accented by subtle mottling and light ash grey undertones for a rich, sophisticated look. Prominent crisp white veining strikes across the surface, delivering a powerful marble effect that elevates contemporary architectural spaces.",
+    "tone": "Dark",
+    "created_at": "2026-03-09 10:43:30"
+  },
+  {
+    "id": "Color.jpg",
+    "name": "Taupe Brown Marble",
+    "category": "Marble",
+    "colors": [
+      "Taupe",
+      "Medium Brown",
+      "Dark Grey Mottling"
+    ],
+    "features": [
+      "Mottled Pattern",
+      "Earthy Texture",
+      "Subtle Fissures"
+    ],
+    "description": "This earthy marble features a warm taupe and medium brown background accented by irregular dark grey mottling. Its rustic, textured appearance and subtle fissures make it ideal for spaces seeking an organic, natural aesthetic.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Color_1.jpg",
+    "name": "Color 1",
+    "category": "Marble",
+    "colors": [
+      "Deep Brown",
+      "Bronze",
+      "Tan Mottling",
+      "Beige Highlights"
+    ],
+    "features": [
+      "Mottled Texture",
+      "Irregular Veining",
+      "Cloudy Formations"
+    ],
+    "description": "Color 1 is a striking marble defined by its deep, rich brown background heavily interwoven with tan and beige mottling. The surface showcases irregular veining and cloudy formations that create a warm, organic texture perfect for elegant design applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Color_2.jpg",
+    "name": "Color 2",
+    "category": "Marble",
+    "colors": [
+      "Deep Black",
+      "Dark Emerald Green",
+      "Charcoal Grey"
+    ],
+    "features": [
+      "Mottled Texture",
+      "Subtle Veining",
+      "Fine Grained",
+      "Dense Crystalline Structure"
+    ],
+    "description": "Color 2 is a striking dark marble characterized by a deep black background intertwined with subtle dark emerald green and charcoal grey mottling. Its dense, fine-grained crystalline structure and complex pattern offer a sophisticated and moody aesthetic suitable for dramatic interior applications.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Color_3.jpg",
+    "name": "Color 3",
+    "category": "Marble",
+    "colors": [
+      "Light Beige",
+      "Cream",
+      "Pale Ivory"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Mottling",
+      "Minimal Veining"
+    ],
+    "description": "Color 3 is a soft and elegant marble characterized by its warm beige background and delicate pale ivory mottling. Its remarkably fine-grained and uniform texture provides a clean, minimalist aesthetic ideal for sophisticated interiors.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Color_4.jpg",
+    "name": "Color 4",
+    "category": "Marble",
+    "colors": [
+      "Bright White",
+      "Light Grey",
+      "Charcoal Veining"
+    ],
+    "features": [
+      "Fine Veining",
+      "Subtle Speckling",
+      "Spiderweb Pattern"
+    ],
+    "description": "Color 4 is a pristine white marble characterized by delicate, spiderweb-like grey veining and subtle speckling. Its bright background and fine-grained texture make it an elegant choice for minimalist and classic designs alike.",
+    "tone": "Light"
+  },
+  {
+    "id": "Color_5.jpg",
+    "name": "Color 5",
+    "category": "Marble",
+    "colors": [
+      "Charcoal Grey",
+      "White Veining",
+      "Slate"
+    ],
+    "features": [
+      "Intricate Webbing",
+      "Crackled Pattern",
+      "Fine Grained"
+    ],
+    "description": "Color 5 is a striking dark marble characterized by a deep charcoal grey base layered with an intricate, web-like network of fine white veining. The dense, crackled pattern creates a dramatic visual texture that brings sophisticated contrast and depth to modern interior designs.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Color_6.jpg",
+    "name": "Color 6",
+    "category": "Marble",
+    "colors": [
+      "Taupe",
+      "Warm Grey",
+      "Subtle Rose Veining"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Veining",
+      "Smooth Texture"
+    ],
+    "description": "Color 6 is an elegant taupe marble characterized by its warm grey base and subtle, delicate rose-tinted veining. Its fine-grained texture and low-contrast pattern create a sophisticated, muted surface ideal for contemporary interiors.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Color_7.jpg",
+    "name": "Color 7",
+    "category": "Marble",
+    "colors": [
+      "Soft White",
+      "Pale Grey",
+      "Faint Silver Veining"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Veining",
+      "Consistent Texture"
+    ],
+    "description": "Color 7 is a remarkably serene marble characterized by its predominantly soft white and pale grey background with incredibly subtle, wispy silver veining. Its fine-grained, consistent texture offers a minimalist and elegant aesthetic perfect for contemporary design applications requiring a clean, luminous surface.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite001A.png",
+    "name": "Granite 001A",
+    "category": "Granite",
+    "colors": [
+      "Warm Beige",
+      "Tan Speckles",
+      "Charcoal Grey",
+      "Creamy White"
+    ],
+    "features": [
+      "Speckled Pattern",
+      "Medium Grained",
+      "Uniform Texture",
+      "Densely Packed"
+    ],
+    "description": "Granite 001A features a classic, densely packed speckled pattern with a harmonious blend of warm beige, tan, and charcoal grey minerals. This medium-grained stone offers a highly uniform texture, making it a highly versatile and durable choice for various architectural applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Granite001A_2K-JPG_Color.jpg",
+    "name": "Granite 001A Color",
+    "category": "Granite",
+    "colors": [
+      "Warm Beige",
+      "Taupe",
+      "Charcoal Grey",
+      "Cream Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Texture"
+    ],
+    "description": "This granite features a consistent, fine-grained speckled pattern combining warm beige, taupe, and subtle charcoal flecks. Its uniform texture and earthy color palette make it a versatile choice for both classic and contemporary architectural applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Granite001B.png",
+    "name": "Granite 001B",
+    "category": "Granite",
+    "colors": [
+      "Warm Beige",
+      "Tan",
+      "Light Grey",
+      "Charcoal Flecks"
+    ],
+    "features": [
+      "Speckled",
+      "Medium Grained",
+      "Uniform Pattern"
+    ],
+    "description": "Granite 001B is a classic stone featuring a warm blend of beige, tan, and light grey beautifully contrasted by intricate charcoal flecks. Its traditional speckled, medium-grained texture provides a uniform and versatile aesthetic suitable for both traditional and modern architectural designs.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Granite001B_2K-JPG_Color.jpg",
+    "name": "Granite 001B Color",
+    "category": "Granite",
+    "colors": [
+      "Tan",
+      "Light Grey",
+      "Dark Brown",
+      "Cream"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Texture"
+    ],
+    "description": "Granite 001B Color features a classic, finely speckled texture dominated by warm tan, grey, and subtle dark brown minerals. This uniform, tight-grained structure provides a consistent and versatile appearance suitable for a variety of traditional and modern applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Granite002A.png",
+    "name": "Granite 002A",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Off-White",
+      "Charcoal Speckles",
+      "Black"
+    ],
+    "features": [
+      "Speckled Pattern",
+      "Fine to Medium Grained",
+      "Uniform Texture"
+    ],
+    "description": "Granite 002A features a classic, uniform speckled pattern with a light grey and off-white base punctuated by dense charcoal and black minerals. Its fine-to-medium grained texture offers a consistent and versatile surface ideal for traditional and modern applications alike.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002A_2K-JPG_Color.jpg",
+    "name": "Granite 002A",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Charcoal Specks",
+      "White"
+    ],
+    "features": [
+      "Speckled Pattern",
+      "Fine Grained",
+      "Uniform Texture"
+    ],
+    "description": "Granite 002A is a classic natural stone characterized by its densely speckled salt-and-pepper appearance. The fine-grained texture features a balanced blend of light grey, white, and charcoal flecks that offer a versatile and highly uniform surface.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002B.png",
+    "name": "Granite002B",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Dark Grey",
+      "Black Specks"
+    ],
+    "features": [
+      "Speckled Pattern",
+      "Fine Grained",
+      "Granular Texture"
+    ],
+    "description": "Granite002B is a classic light grey granite characterized by a dense, even distribution of dark grey and black speckling. Its fine-grained, granular texture provides a consistent and durable surface suitable for a wide range of applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002B_2K-JPG_Color.jpg",
+    "name": "Granite 002B",
+    "category": "Granite",
+    "colors": [
+      "Light Gray",
+      "White",
+      "Dark Gray",
+      "Black Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Texture"
+    ],
+    "description": "Granite 002B is a classic salt-and-pepper style granite featuring a tightly packed, speckled composition of white, gray, and black minerals. Its uniform, fine-grained texture makes it a highly consistent and versatile choice for both contemporary and traditional design applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite003A.png",
+    "name": "Granite 003A",
+    "category": "Granite",
+    "colors": [
+      "Light Grey Base",
+      "Rust and Tan Flecks",
+      "Charcoal Speckling",
+      "White Matrix"
+    ],
+    "features": [
+      "Fine to Medium Grained",
+      "Densely Speckled",
+      "Uniform Granular Pattern",
+      "Polished Finish"
+    ],
+    "description": "Granite 003A is a classic light-toned stone featuring a dense, granular matrix of rust, tan, and charcoal flecks set against a soft white and light grey background. Its fine-grained texture and uniform speckled pattern provide a versatile and elegant surface for diverse architectural applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite003A_2K-JPG_Color.jpg",
+    "name": "Granite 003A",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Rust Brown",
+      "Charcoal Specks",
+      "Muted Blue-Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Highly Speckled",
+      "Dense Mineral Distribution"
+    ],
+    "description": "Granite 003A features a densely packed, fine-grained surface characterized by a dynamic interplay of light grey, muted blue-grey, and rust-brown mineral deposits. This highly speckled granite offers a versatile and textured appearance, making it an excellent choice for surfaces requiring a complex yet balanced visual profile.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005A.png",
+    "name": "Granite 005 A",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Blue Flecks",
+      "Tan Specks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Consistent Texture"
+    ],
+    "description": "Granite 005 A is a fine-grained granite featuring a predominantly light grey base densely speckled with blue and tan flecks. Its consistent, uniform texture and cool undertones make it a versatile choice for a clean, modern aesthetic.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005A_2K-JPG_Color.jpg",
+    "name": "Granite 005A",
+    "category": "Granite",
+    "colors": [
+      "Slate Blue",
+      "Mauve Grey",
+      "Sandy Beige",
+      "Ash Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Distribution"
+    ],
+    "description": "Granite 005A is a highly textured, fine-grained stone featuring a dense, speckled distribution of slate blue, mauve, and beige particulates. Its uniform, tightly packed granular structure offers a cohesive and subtly colorful surface suitable for diverse architectural applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005B.png",
+    "name": "Granite 005B",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Beige",
+      "Blue Flecks",
+      "Brown Speckles"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Consistent Pattern"
+    ],
+    "description": "Granite 005B presents a densely speckled surface characterized by a light grey and beige background interwoven with fine blue and brown flecks. This fine-grained granite offers a highly consistent and uniform pattern, making it a versatile choice for a wide array of architectural applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005B_2K-JPG_Color.jpg",
+    "name": "Granite 005B",
+    "category": "Granite",
+    "colors": [
+      "Slate Blue",
+      "Taupe",
+      "Cream",
+      "Muted Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Granular Texture",
+      "Tightly Packed Minerals"
+    ],
+    "description": "Granite 005B features a tightly packed, uniform speckled pattern blending slate blue, taupe, and muted grey minerals. Its fine-grained, granular texture provides a consistent and durable surface without distinct veining, making it ideal for versatile design applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite006A.png",
+    "name": "Granite 006A",
+    "category": "Granite",
+    "colors": [
+      "Warm Bronze",
+      "Caramel Brown",
+      "Dark Charcoal Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Consistent Pattern"
+    ],
+    "description": "Granite 006A is a warm, bronze-toned granite with a finely speckled texture. The consistent distribution of dark charcoal flecks against a caramel brown background provides a uniformly textured surface suitable for versatile applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Granite006A_2K-JPG_Color.jpg",
+    "name": "Granite 006A 2K Color",
+    "category": "Granite",
+    "colors": [
+      "Terracotta Red",
+      "Rust Orange",
+      "Dark Brown Specs"
+    ],
+    "features": [
+      "Fine-Grained",
+      "Speckled Pattern",
+      "Earthy Hues"
+    ],
+    "description": "Granite 006A is a warm, earthy granite featuring a predominantly terracotta red base peppered with rust orange and dark brown specks. Its fine-grained, evenly distributed pattern creates a consistent and inviting surface suitable for both traditional and contemporary designs.",
+    "tone": "Warm"
+  },
+  {
+    "id": "granite_tile_02_diff_2k.jpg",
+    "name": "Granite Tile 02 Diff",
+    "category": "Granite",
+    "colors": [
+      "Earthy Brown",
+      "Charcoal Grey",
+      "Speckled Grey"
+    ],
+    "features": [
+      "Geometric Grid Pattern",
+      "Fine Grained Texture",
+      "Matte Finish",
+      "Contrasting Borders"
+    ],
+    "description": "This granite surface features a structured geometric grid, consisting of earthy brown square tiles framed by charcoal grey rectangular bands. Small, speckled grey square accents at the intersections highlight the fine-grained, matte texture of the stone.",
+    "tone": "Warm"
+  },
+  {
+    "id": "granite_tile_02_disp_2k.png",
+    "name": "Granite Tile 02",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Medium Grey",
+      "Dark Grey Grout"
+    ],
+    "features": [
+      "Grid Pattern",
+      "Geometric Tile Layout",
+      "Subtle Granite Speckling",
+      "Defined Grout Lines"
+    ],
+    "description": "This surface showcases a precise geometric layout featuring large square granite tiles separated by intersecting linear bands and small corner accents. The subtle speckled texture across the light grey stone conveys a classic, structured aesthetic ideal for commercial or residential installations.",
+    "tone": "Light"
+  },
+  {
+    "id": "granite_tile_03_diff_2k.jpg",
+    "name": "Granite Tile 03 Diff 2K",
+    "category": "Granite",
+    "colors": [
+      "Warm Taupe",
+      "Chocolate Brown",
+      "Charcoal Flecks"
+    ],
+    "features": [
+      "Medium Grained",
+      "Speckled",
+      "Even Texture"
+    ],
+    "description": "This tile features a warm taupe and chocolate brown granite with a consistent, medium-grained speckled texture. Dark charcoal flecks are evenly distributed throughout, creating a harmonious and earthy surface suitable for diverse applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "granite_tile_03_disp_2k.png",
+    "name": "Granite Tile 03",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Pale Ash",
+      "Off-White"
+    ],
+    "features": [
+      "Tile Grid Pattern",
+      "Fine Grained",
+      "Subtle Speckling",
+      "Uniform Texture"
+    ],
+    "description": "This surface presents a clean layout of large, light grey granite tiles separated by fine grout lines. The stone exhibits a uniform, fine-grained texture with very subtle mottling, making it ideal for sleek, modern architectural applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "granite_tile_04_diff_2k.jpg",
+    "name": "Granite Tile 04 Diff 2k",
+    "category": "Granite",
+    "colors": [
+      "Medium Brown",
+      "Taupe",
+      "Grey Speckles"
+    ],
+    "features": [
+      "Square Tiles",
+      "Grid Layout",
+      "Fine Speckled Texture",
+      "Uniform Appearance"
+    ],
+    "description": "This image features a collection of square granite tiles arranged in a uniform grid. The stone exhibits a medium brown to taupe color base with fine, subtle grey speckles spread evenly across the surface.",
+    "tone": "Warm"
+  },
+  {
+    "id": "granite_tile_04_disp_2k.png",
+    "name": "Granite Tile 04",
+    "category": "Granite",
+    "colors": [
+      "Silver Gray",
+      "Light Ash Gray",
+      "Subtle Charcoal"
+    ],
+    "features": [
+      "Square Tile Pattern",
+      "Defined Grout Lines",
+      "Subtle Topographical Depth",
+      "Uniform Grid Layout"
+    ],
+    "description": "This structural granite arrangement features a precise square tile layout with neatly defined grout lines. Subtle shading across the tiles indicates gentle surface depth, offering a clean and modern aesthetic suitable for expansive architectural cladding.",
+    "tone": "Light"
+  },
+  {
+    "id": "granite_tile_diff_2k.jpg",
+    "name": "Granite Tile",
+    "category": "Granite",
+    "colors": [
+      "Charcoal Grey",
+      "Dark Slate Grey",
+      "Subtle Ash Mottling"
+    ],
+    "features": [
+      "Square Tile Pattern",
+      "Matte Finish",
+      "Fine Grained",
+      "Subtle Texture"
+    ],
+    "description": "Granite Tile features a consistent, dark charcoal grey palette arranged in a classic square tile grid pattern. The surface exhibits a subtle directional texture and matte finish, providing a sleek and modern aesthetic suitable for architectural applications.",
+    "tone": "Dark"
+  },
+  {
+    "id": "granite_tile_disp_2k.png",
+    "name": "Granite Tile Disp 2k",
+    "category": "Granite",
+    "colors": [
+      "Light Gray",
+      "Medium Gray",
+      "Silver"
+    ],
+    "features": [
+      "Square Tile Grid",
+      "Subtle Mottling",
+      "Smooth Finish",
+      "Uniform Geometric Pattern"
+    ],
+    "description": "This image displays a grid of square granite tiles characterized by a subtle, mottled grayscale texture. The varying shades of light to medium gray across the tiles suggest slight differences in surface depth and finish, typical of a displacement or bump map for 3D rendering.",
+    "tone": "Light"
+  },
+  {
+    "id": "granite_wall_diff_2k.jpg",
+    "name": "Granite Wall",
+    "category": "Granite",
+    "colors": [
+      "Earthy Brown",
+      "Rust Orange",
+      "Greyish Tan",
+      "White Mortar"
+    ],
+    "features": [
+      "Brick Pattern",
+      "Speckled Texture",
+      "Rough-Hewn Surface",
+      "Visible Mortar Lines"
+    ],
+    "description": "This surface features a structured wall pattern composed of speckled granite blocks in warm earthy brown and rust tones. The rough-hewn rectangular stones are separated by visible white mortar lines, highlighting the granular texture and natural variation inherent to the material.",
+    "tone": "Warm"
+  },
+  {
+    "id": "granite_wall_disp_2k.png",
+    "name": "Granite Wall Disp 2k",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Medium Grey",
+      "Dark Grey Lines"
+    ],
+    "features": [
+      "Horizontal Blocks",
+      "Subtle Texture",
+      "Slight Vertical Joints"
+    ],
+    "description": "Granite Wall Disp 2k displays a pattern of horizontal blocks in varying shades of light to medium grey, accented by darker lines defining the edges. The subtle texture and slight vertical joints give it a realistic, structured appearance suitable for architectural applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite001A_2K-JPG_Displacement.jpg",
+    "name": "Granite001A 2K Jpg Displacement",
+    "category": "Granite",
+    "colors": [
+      "Medium Grey",
+      "Subtle Dark Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Uniform Texture"
+    ],
+    "description": "This image showcases a finely grained granite texture in medium grey tones, creating a highly uniform and consistent appearance. The subtle speckling and very fine texture are typical of displacement maps designed to add depth to 3D materials without introducing pronounced patterns.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite001A_2K-JPG_NormalDX.jpg",
+    "name": "Granite 001A Normal DX",
+    "category": "Granite",
+    "colors": [
+      "Lavender Blue",
+      "Periwinkle",
+      "Soft Violet"
+    ],
+    "features": [
+      "Uniform Surface",
+      "Fine Grained",
+      "Digital Normal Map"
+    ],
+    "description": "This image serves as a tangent-space normal map for a 3D granite material, utilizing a lavender-blue color palette to encode subtle surface geometry and elevation. The predominantly uniform and smooth color field indicates a finely polished, fine-grained stone finish with minimal deep texturing or heavy natural veining.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite001A_2K-JPG_NormalGL.jpg",
+    "name": "Granite 001A Normal",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Light Violet"
+    ],
+    "features": [
+      "Smooth Surface",
+      "Uniform Texture",
+      "Normal Map"
+    ],
+    "description": "This image is a flat, uniform normal map associated with a Granite 001A material, designed for 3D texture rendering. Its solid periwinkle blue color indicates a perfectly smooth, highly polished stone surface devoid of any topographical variations or bumps.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite001A_2K-JPG_Roughness.jpg",
+    "name": "Granite Roughness Map",
+    "category": "Granite",
+    "colors": [
+      "Pitch Black",
+      "Charcoal Grey",
+      "Dark Ash"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Uniform Texture",
+      "Matte Finish"
+    ],
+    "description": "This image represents a roughness map for a granite surface, characterized by a uniform, finely speckled texture that translates to micro-variations in glossiness when rendered. The pitch black and dark charcoal tones indicate areas of varying microscopic roughness, essential for creating realistic, light-scattering stone materials.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite001B_2K-JPG_Displacement.jpg",
+    "name": "Granite 001B Displacement",
+    "category": "Granite",
+    "colors": [
+      "Pale Gray",
+      "Ash Gray",
+      "Off-White"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Texture",
+      "Uniform Distribution"
+    ],
+    "description": "Granite 001B Displacement presents a highly uniform, fine-grained surface characterized by a dense speckled pattern typical of classic granite structures. This monochromatic map features a tightly packed distribution of micro-crystalline forms, making it ideal for generating realistic textural depth.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite001B_2K-JPG_NormalDX.jpg",
+    "name": "Granite001B",
+    "category": "Granite",
+    "colors": [
+      "Light Blue",
+      "Periwinkle",
+      "Subtle White"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Uniform Texture",
+      "Slightly Rough"
+    ],
+    "description": "Granite001B is a uniform, fine-grained granite characterized by a soft, periwinkle blue base with very subtle white speckling. The evenly distributed, fine texture creates a consistent, slightly rough surface suitable for varied applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite001B_2K-JPG_NormalGL.jpg",
+    "name": "Granite 001B Normal GL",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Soft Lavender",
+      "Light Indigo"
+    ],
+    "features": [
+      "Uniform Stippled Texture",
+      "Fine Grained",
+      "Normal Map Data"
+    ],
+    "description": "This image is a normal map representation of a fine-grained granite surface, exhibiting a uniform stippled texture across the entire plane. The characteristic periwinkle and lavender hues encode the micro-surface detail and elevation changes typical of textured granite.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite001B_2K-JPG_Roughness.jpg",
+    "name": "Granite Roughness Map",
+    "category": "Granite",
+    "colors": [
+      "Uniform Grey",
+      "Subtle Lighter Grey Speckling",
+      "Soft Slate Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Matte Finish",
+      "Uniform Texture"
+    ],
+    "description": "This image represents a roughness map for a fine-grained granite surface, characterized by its incredibly uniform and subtle light grey speckling. The texture is consistent and delicate, indicative of a highly polished or smoothly honed natural stone finish.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002A_2K-JPG_Displacement.jpg",
+    "name": "Granite 002A",
+    "category": "Granite",
+    "colors": [
+      "Medium Grey",
+      "Ash Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Texture",
+      "Uniform Depth"
+    ],
+    "description": "Granite 002A presents a highly consistent, fine-grained texture visually represented through its subtle displacement map. The uniform medium grey surface indicates a smooth, tightly packed granular structure typical of premium architectural granite.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite002A_2K-JPG_NormalDX.jpg",
+    "name": "Granite 002A Normal Map DX",
+    "category": "Granite",
+    "colors": [
+      "Light Blue",
+      "Purple",
+      "Periwinkle"
+    ],
+    "features": [
+      "Uniform color",
+      "Smooth appearance",
+      "Normal map representation"
+    ],
+    "description": "This image represents a normal map for a granite texture, specifically in DirectX format. The uniform light purple or periwinkle color suggests a relatively smooth surface without prominent high-frequency details in this specific map.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002A_2K-JPG_NormalGL.jpg",
+    "name": "Granite 002A Normal",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Lavender",
+      "Soft Violet"
+    ],
+    "features": [
+      "Normal Map Encoding",
+      "Subtle Micro-Texture",
+      "Fine Grain Pattern"
+    ],
+    "description": "This image serves as an OpenGL normal map for a Granite 002A material, utilizing typical periwinkle and lavender hues to encode spatial depth and surface angles. The subtle, tightly packed visual noise indicates a finely grained, relatively polished granite surface with minimal deep fissures.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002A_2K-JPG_Roughness.jpg",
+    "name": "Granite002A 2K Jpg Roughness",
+    "category": "Granite",
+    "colors": [
+      "Deep Black",
+      "Charcoal Grey",
+      "Subtle Dark Grey Speckles"
+    ],
+    "features": [
+      "Fine Speckled Texture",
+      "Uniform Dark Ground",
+      "Subtle Surface Variation"
+    ],
+    "description": "Granite002A 2K Jpg Roughness is a very dark, almost solid black granite with an incredibly fine, subtle speckled texture of charcoal and dark grey. The near-uniform appearance gives it a sleek and solid character, typical of high-quality, dense black granites used for creating dramatic contrasts.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite002B_2K-JPG_Displacement.jpg",
+    "name": "Granite 002B",
+    "category": "Granite",
+    "colors": [
+      "White",
+      "Light Grey",
+      "Ash Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Texture",
+      "Uniform Granular Pattern"
+    ],
+    "description": "Granite 002B features a remarkably uniform, fine-grained speckled pattern in shades of light grey and white. Its consistent granular texture and subtle tonal variations make it a versatile choice for clean, contemporary surface applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002B_2K-JPG_NormalDX.jpg",
+    "name": "Granite 002B 2K Normal Dx",
+    "category": "Granite",
+    "colors": [
+      "Purple/Blue",
+      "Lavender"
+    ],
+    "features": [
+      "Uniform Texture",
+      "Fine Grained",
+      "Normal Map"
+    ],
+    "description": "This is a normal map of a fine-grained granite surface, appearing in uniform lavender and purple/blue tones. The texture is consistent with minor surface irregularities typical of a polished stone.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002B_2K-JPG_NormalGL.jpg",
+    "name": "Granite002B 2K JPG NormalGL",
+    "category": "Granite",
+    "colors": [
+      "Lilac",
+      "Soft Violet",
+      "Periwinkle"
+    ],
+    "features": [
+      "Fine-Grained",
+      "Speckled",
+      "Subtle Texture"
+    ],
+    "description": "This fine-grained granite showcases a beautiful blend of lilac and soft violet tones, creating a tranquil and sophisticated appearance. The subtle speckled texture adds a touch of natural elegance, making it an ideal choice for serene and stylish interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite002B_2K-JPG_Roughness.jpg",
+    "name": "Granite 002B",
+    "category": "Granite",
+    "colors": [
+      "Medium Gray",
+      "Light Gray",
+      "Silver Speckles"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Texture",
+      "Uniform Pattern"
+    ],
+    "description": "Granite 002B features a highly uniform, finely grained texture characterized by densely packed speckles in varying shades of gray. This granular surface presents a consistent, mottled appearance typical of classic granite compositions, making it ideal for versatile architectural applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite003A_2K-JPG_Displacement.jpg",
+    "name": "Granite 003A",
+    "category": "Granite",
+    "colors": [
+      "Medium Grey",
+      "Ash Grey"
+    ],
+    "features": [
+      "Fine Grained Texture",
+      "Uniform Displacement",
+      "Subtle Micro-Pitting"
+    ],
+    "description": "This displacement map for Granite 003A captures the subtle, fine-grained surface relief characteristic of polished granite. The uniform medium grey tones indicate a relatively even surface with microscopic crystalline variations.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite003A_2K-JPG_NormalDX.jpg",
+    "name": "Granite 003A Normal",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Lavender",
+      "Solid Violet"
+    ],
+    "features": [
+      "Uniform Texture",
+      "Completely Smooth",
+      "No Veining"
+    ],
+    "description": "Granite 003A Normal is characterized by a completely uniform, solid color indicating a flawlessly smooth surface. Representing flat topological data, this highly polished finish is entirely devoid of typical granular granite textures or veining.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite003A_2K-JPG_NormalGL.jpg",
+    "name": "Normal GL Granite",
+    "category": "Granite",
+    "colors": [
+      "Purple-Blue",
+      "Lavender",
+      "Periwinkle"
+    ],
+    "features": [
+      "Normal Map Texture",
+      "Fine-Grained",
+      "Even Coloration"
+    ],
+    "description": "This image features a uniform periwinkle or purple-blue coloration, representing a normal map used in 3D rendering rather than a natural stone texture. Due to its nature as a normal map, it lacks the typical visual characteristics of granite such as speckling or veining, appearing instead as a solid, flat color field.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Granite003A_2K-JPG_Roughness.jpg",
+    "name": "Granite 003A 2K Roughness",
+    "category": "Granite",
+    "colors": [
+      "Deep Black",
+      "Charcoal Grey Speckles",
+      "Faint Ash Grey Undertones"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Subtle Texture"
+    ],
+    "description": "Granite 003A 2K Roughness features a predominantly deep black background enriched with fine charcoal grey speckles and faint ash grey undertones. Its fine-grained, subtly textured surface offers a dense, consistent appearance suitable for sophisticated architectural applications.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite005A_2K-JPG_Displacement.jpg",
+    "name": "Granite 005A",
+    "category": "Granite",
+    "colors": [
+      "Slate Gray",
+      "Ash Gray"
+    ],
+    "features": [
+      "Micro-speckled",
+      "Uniform Finish",
+      "Subtle Texture"
+    ],
+    "description": "This granite surface presents a highly uniform, monochromatic slate gray appearance with an extremely fine micro-speckled texture. Its even finish and lack of prominent veining make it an ideal neutral backdrop for modern architectural designs.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite005A_2K-JPG_NormalDX.jpg",
+    "name": "Granite 005 A",
+    "category": "Granite",
+    "colors": [
+      "Vibrant Periwinkle",
+      "Soft Lilac",
+      "Subtle Indigo"
+    ],
+    "features": [
+      "Uniform Solid Texture",
+      "Monochromatic",
+      "Minimal Grain",
+      "Smooth Finish"
+    ],
+    "description": "Granite 005 A features a remarkably uniform surface dominated by a vibrant periwinkle hue. Its nearly solid color and minimal grain structure provide a uniquely smooth, contemporary appearance suitable for bold design applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005A_2K-JPG_NormalGL.jpg",
+    "name": "Granite005A 2K JPG NormalGL",
+    "category": "Granite",
+    "colors": [
+      "Light Blue",
+      "Periwinkle"
+    ],
+    "features": [
+      "Uniform color",
+      "Solid flat background"
+    ],
+    "description": "This image is a flat, solid light blue or periwinkle color. It appears to be a normal map, lacking any distinct granite features or texture.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005A_2K-JPG_Roughness.jpg",
+    "name": "Granite Roughness Map",
+    "category": "Granite",
+    "colors": [
+      "Deep Black",
+      "Charcoal Grey",
+      "Faint White Speckles"
+    ],
+    "features": [
+      "Fine Speckling",
+      "Uniform Texture",
+      "Subtle Variations"
+    ],
+    "description": "This image depicts the roughness map for a granite material, predominantly black with very fine variations indicating surface texture. The subtle grey and white speckles map out the micro-structure and light-scattering properties of the stone finish.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite005B_2K-JPG_Displacement.jpg",
+    "name": "Granite 005B",
+    "category": "Granite",
+    "colors": [
+      "Light Gray",
+      "Ash Gray",
+      "Soft White"
+    ],
+    "features": [
+      "Fine Grained",
+      "Uniform Speckling",
+      "Granular Texture"
+    ],
+    "description": "Granite 005B is characterized by its exceptionally fine-grained, uniform granular texture that creates a consistent speckled appearance. This subtle pattern provides an excellent basis for adding realistic micro-surface displacement to stone materials.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005B_2K-JPG_NormalDX.jpg",
+    "name": "Granite 005B",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Soft Lavender",
+      "Bright Indigo"
+    ],
+    "features": [
+      "Fine Grained",
+      "Uniform Texture",
+      "Stippled Surface"
+    ],
+    "description": "This image is a DirectX normal map representing a fine-grained granite surface with a highly uniform, stippled texture that indicates low physical relief. The light purple and blue pixel values meticulously encode the subtle micro-variations across the stone's topography for realistic 3D lighting calculations.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005B_2K-JPG_NormalGL.jpg",
+    "name": "Granite 005B",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Soft Purple",
+      "Indigo Details"
+    ],
+    "features": [
+      "Fine Grain",
+      "Uniform Texture",
+      "Micro-stippled Surface"
+    ],
+    "description": "This image is a normal map for Granite 005B, capturing the minute surface topography and structural details of the stone. It reveals an exceptionally fine-grained, uniform texture indicative of a smooth, tightly packed igneous rock.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite005B_2K-JPG_Roughness.jpg",
+    "name": "Granite 005B Roughness",
+    "category": "Granite",
+    "colors": [
+      "Light Grey",
+      "Medium Grey",
+      "Silver"
+    ],
+    "features": [
+      "Fine Grained",
+      "Uniform Texture",
+      "Subtle Mottling"
+    ],
+    "description": "Granite 005B Roughness presents a highly uniform, finely grained texture with subtle variations in light to medium gray tones. This surface exhibits gentle mottling and a consistent particulate pattern characteristic of a refined granite finish.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite006A_2K-JPG_Displacement.jpg",
+    "name": "Granite 006A",
+    "category": "Granite",
+    "colors": [
+      "Medium Gray",
+      "Ash Gray"
+    ],
+    "features": [
+      "Subtle Micro-texture",
+      "Uniform Surface",
+      "Low Relief"
+    ],
+    "description": "This image represents a displacement map for a granite material, exhibiting a highly uniform medium gray field. The remarkably smooth surface suggests minimal textural variation, indicating a finely polished or very low-relief stone finish.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Granite006A_2K-JPG_NormalDX.jpg",
+    "name": "Granite 006A Normal DX",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle",
+      "Light Violet",
+      "Soft Purple"
+    ],
+    "features": [
+      "Normal Map Texture",
+      "Fine Grained Surface",
+      "Uniform Field"
+    ],
+    "description": "This image represents a DirectX normal map for a granite surface, characterized by its solid periwinkle and soft violet tones that encode surface bump and depth data. The relatively uniform color distribution across the map suggests a finely grained granite with minimal deep texture variations or heavy structural fissures.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite006A_2K-JPG_NormalGL.jpg",
+    "name": "Granite 006A Normal",
+    "category": "Granite",
+    "colors": [
+      "Periwinkle Blue",
+      "Standard Normal Blue"
+    ],
+    "features": [
+      "Uniform Smoothness",
+      "Polished Finish",
+      "OpenGL Normal Map"
+    ],
+    "description": "This image is a standard OpenGL normal map representing a uniformly flat and highly polished granite surface. The solid periwinkle blue coloration indicates zero surface deviation, ideal for rendering smooth architectural finishes.",
+    "tone": "Light"
+  },
+  {
+    "id": "Granite006A_2K-JPG_Roughness.jpg",
+    "name": "Granite 006A Roughness",
+    "category": "Granite",
+    "colors": [
+      "Deep Black",
+      "Charcoal Grey",
+      "Subtle White Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Rough Texture",
+      "Uniform Appearance"
+    ],
+    "description": "Granite 006A Roughness features a predominantly deep black background enriched with charcoal grey tones and subtle white flecks. The stone exhibits a fine-grained, speckled pattern with a notably rough texture, ideal for applications requiring a robust and uniform aesthetic.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Marble007.png",
+    "name": "Marble 007",
+    "category": "Marble",
+    "colors": [
+      "Warm Beige",
+      "Light Tan",
+      "Grey-Brown Mottling"
+    ],
+    "features": [
+      "Fine Grained",
+      "Mottled Texture",
+      "Subtle Veining",
+      "Polished Finish"
+    ],
+    "description": "Marble 007 features a warm beige base intricately detailed with light tan and grey-brown mottling. The subtle veining and fine-grained texture create a soft, inviting surface ideal for classic interior designs.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Marble007_2K-JPG_Color.jpg",
+    "name": "Marble007 2K JPG Color",
+    "category": "Marble",
+    "colors": [
+      "Earthy Taupe",
+      "Muted Mocha",
+      "Dark Brown Mottling",
+      "Subtle Beige Undertones"
+    ],
+    "features": [
+      "Mottled Texture",
+      "Subtle Fractures",
+      "Earthy Appearance",
+      "Irregular Mineral Deposits"
+    ],
+    "description": "This marble surface displays a deeply earthy and rustic character, characterized by an overall taupe or muted mocha base with complex, irregular dark brown mottling. The texture appears subtly weathered or fractured, giving it a natural, organic feel reminiscent of aged stone or dried earth, without prominent linear veining.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Marble008.png",
+    "name": "Brown Emperador Marble",
+    "category": "Marble",
+    "colors": [
+      "Earthy Brown",
+      "Coffee Mottle",
+      "Cream Veining",
+      "Tan Highlights"
+    ],
+    "features": [
+      "Intricate Veining",
+      "Brecciated Pattern",
+      "Highly Polished Finish",
+      "Mottled Texture"
+    ],
+    "description": "This classic brown marble features a rich, earthy base adorned with an intricate network of cream and tan veining. Its highly polished, slightly brecciated surface provides a warm and luxurious aesthetic ideal for elegant interior accents.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Marble008_2K-JPG_Color.jpg",
+    "name": "Marble 008",
+    "category": "Marble",
+    "colors": [
+      "Chocolate Brown",
+      "Tan",
+      "Earthy Beige"
+    ],
+    "features": [
+      "Mottled Pattern",
+      "Irregular Veining",
+      "Earthy Texture"
+    ],
+    "description": "This rich marble features a deep chocolate brown base heavily mottled with tan and earthy beige veining. The distressed, irregular pattern creates an organic, textured appearance perfect for warm interior designs.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Marble009.png",
+    "name": "Marble 009",
+    "category": "Marble",
+    "colors": [
+      "Deep Black",
+      "Jade Green",
+      "Mottled Grey"
+    ],
+    "features": [
+      "Mottled Pattern",
+      "Irregular Mineral Deposits",
+      "Cloudy Inclusions"
+    ],
+    "description": "Marble 009 features a striking deep black background intertwined with rich jade green and cloudy grey mottling. Its irregular mineral deposits and complex patchy texture create a dramatic aesthetic perfect for bold architectural statements.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Marble009_2K-JPG_Color.jpg",
+    "name": "Emerald Night Marble",
+    "category": "Marble",
+    "colors": [
+      "Deep Black",
+      "Forest Green",
+      "Charcoal Grey"
+    ],
+    "features": [
+      "Mottled Texture",
+      "Fine Grained",
+      "Subtle Veining"
+    ],
+    "description": "Emerald Night Marble features a very dark, almost black background heavily mottled with deep forest green and charcoal grey patches. Its fine-grained texture and subtle, diffuse patterns give it a natural, rugged appearance suitable for striking architectural applications.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Marble015.png",
+    "name": "Marble 015",
+    "category": "Marble",
+    "colors": [
+      "Ivory White",
+      "Pale Cream",
+      "Warm Off-White"
+    ],
+    "features": [
+      "Minimal Veining",
+      "Fine Grained",
+      "Subtle Cloudiness",
+      "Highly Polished"
+    ],
+    "description": "Marble 015 features a near-solid ivory white and pale cream palette with minimal veining, creating a pristine and highly elegant appearance. Its fine-grained structure and subtle cloudy variations offer an exceptionally clean surface perfect for bright, minimalist architectural designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble015_2K-JPG_Color.jpg",
+    "name": "Marble 015",
+    "category": "Marble",
+    "colors": [
+      "Light Beige",
+      "Cream Base",
+      "Subtle White Clouds"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Mottling",
+      "Uniform Texture",
+      "Soft Clouding"
+    ],
+    "description": "Marble 015 features a serene light beige and cream base accentuated by faint, cloud-like white mottling scattered throughout the surface. The fine-grained texture and highly uniform appearance make it an elegant and versatile choice for minimalist architectural applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Marble019.png",
+    "name": "Marble 019",
+    "category": "Marble",
+    "colors": [
+      "Soft White",
+      "Light Grey Veining",
+      "Subtle Greenish-Grey Undertones"
+    ],
+    "features": [
+      "Fine Hairline Veining",
+      "Delicate Speckles",
+      "Smooth Polished Finish"
+    ],
+    "description": "Marble 019 is a classic white marble featuring an exceptionally clean background with delicate, faint grey hairline veins and tiny scattered speckles. This subtle and elegant natural stone offers a timeless, sophisticated aesthetic ideal for minimalist or luxurious interior spaces.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble019_2K-JPG_Color.jpg",
+    "name": "Marble 019",
+    "category": "Marble",
+    "colors": [
+      "Brilliant White",
+      "Soft Grey Veining",
+      "Charcoal Speckles"
+    ],
+    "features": [
+      "Fine Spiderweb Veining",
+      "Subtle Mottling",
+      "Fine Grained"
+    ],
+    "description": "Marble 019 is an elegant white marble characterized by its brilliant background and delicate, spiderweb-like grey veining. The stone features subtle charcoal speckles and a fine-grained texture that lends a clean, sophisticated aesthetic to any design space.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble023.png",
+    "name": "Marble 023",
+    "category": "Marble",
+    "colors": [
+      "Slate Grey",
+      "Charcoal",
+      "White Veining"
+    ],
+    "features": [
+      "Spiderweb Veining",
+      "Fine Grained",
+      "High Gloss Finish"
+    ],
+    "description": "Marble 023 features a deep slate grey base interlaced with an intricate, spiderweb-like network of fine white veining. The highly polished surface beautifully contrasts the dark background with the delicate, fragmented light patterns, creating a sophisticated and striking visual.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Marble023_2K-JPG_Color.jpg",
+    "name": "Marble 023",
+    "category": "Marble",
+    "colors": [
+      "Deep Charcoal Grey",
+      "Light Grey",
+      "Soft White"
+    ],
+    "features": [
+      "Intricate Webbed Veining",
+      "Fine-Grained Matrix",
+      "Scattered Speckles"
+    ],
+    "description": "This striking dark marble features a deep charcoal grey base completely enveloped by an intricate, chaotic web of fine light grey and soft white veining. The highly detailed texture incorporates subtle speckling throughout the fine-grained matrix, creating a dramatic yet deeply sophisticated natural aesthetic.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Marble024.png",
+    "name": "Marble 024",
+    "category": "Marble",
+    "colors": [
+      "Taupe",
+      "Mushroom",
+      "Faint Cream Veining"
+    ],
+    "features": [
+      "Subtle Veining",
+      "Smooth Texture",
+      "Polished Finish"
+    ],
+    "description": "Marble 024 is a refined taupe marble characterized by its smooth, consistent coloration and faint, delicate cream veining. This elegant stone offers a polished finish that gracefully reflects light, making it suitable for sophisticated interior design projects.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Marble024_2K-JPG_Color.jpg",
+    "name": "Marble 024",
+    "category": "Marble",
+    "colors": [
+      "Taupe",
+      "Muted Brownish-Grey",
+      "Faint Beige Veining"
+    ],
+    "features": [
+      "Fine Veining",
+      "Low Contrast",
+      "Subtle Fractured Pattern",
+      "Homogeneous Base"
+    ],
+    "description": "Marble 024 features a warm, muted taupe background characterized by its remarkably low contrast and homogeneous appearance. Delicate, fine veining subtly webs across the surface, providing a gentle natural texture without overpowering the earthy brownish-grey tones.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Marble025.png",
+    "name": "Marble 025",
+    "category": "Marble",
+    "colors": [
+      "Soft White",
+      "Pale Light Grey",
+      "Faint Silver"
+    ],
+    "features": [
+      "Subtle Veining",
+      "Fine Grained",
+      "Uniform Texture"
+    ],
+    "description": "Marble 025 features an incredibly soft white and pale grey background with extremely subtle, faint veining. The fine-grained texture and uniform color palette make it an ideal choice for minimalist and contemporary designs seeking a touch of elegant simplicity.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble025_2K-JPG_Color.jpg",
+    "name": "Marble 025",
+    "category": "Marble",
+    "colors": [
+      "Light Grey",
+      "Soft White",
+      "Faint Silver Mottling"
+    ],
+    "features": [
+      "Fine Grained",
+      "Extremely Subtle Veining",
+      "Uniform Appearance",
+      "Minimalist Texture"
+    ],
+    "description": "Marble 025 is an exceptionally subtle light grey marble characterized by its nearly uniform background and faint, gossamer-like veining. Its clean, fine-grained texture offers a modern, minimalist aesthetic suitable for elegant and understated architectural applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "marble_01_diff_2k.jpg",
+    "name": "Marble 01 Diff 2K",
+    "category": "Marble",
+    "colors": [
+      "Warm Beige",
+      "Light Tan",
+      "Subtle Cream Highlights"
+    ],
+    "features": [
+      "Subtle Veining",
+      "Large Rectangular Tiles",
+      "Fossil-like Inclusions",
+      "Honed Finish"
+    ],
+    "description": "Marble 01 Diff 2K presents a warm, inviting beige tone arranged in a large rectangular tile format, offering a classic and versatile aesthetic. The subtle veining and occasional fossil-like inclusions add a touch of natural history and understated elegance to the surface.",
+    "tone": "Warm"
+  },
+  {
+    "id": "marble_01_disp_2k.png",
+    "name": "Marble 01 Disp 2k",
+    "category": "Marble",
+    "colors": [
+      "Light Grey",
+      "Medium Grey",
+      "Subtle Variations"
+    ],
+    "features": [
+      "Smooth",
+      "Slight Mottling",
+      "Fine Grained"
+    ],
+    "description": "Marble 01 Disp 2k features a predominantly light to medium grey palette with subtle, mottled variations. Its fine-grained, smooth texture makes it a versatile and understated choice for a variety of design applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "marble_01_rough_2k.jpg",
+    "name": "Marble 01 Rough",
+    "category": "Marble",
+    "colors": [
+      "Medium Grey",
+      "Light Grey",
+      "Soft White"
+    ],
+    "features": [
+      "Subtle Veining",
+      "Mottled Surface",
+      "Rough Texture",
+      "Tiled Appearance"
+    ],
+    "description": "Marble 01 Rough features a consistent medium grey base gently distressed with soft white mottling and sparse, subtle veining. The rough finish and fine-grained, textured surface impart a tactile, understated elegance that is perfectly suited for both modern and rustic design applications.",
+    "tone": "Dark"
+  },
+  {
+    "id": "marble_mosaic_tiles_diff_2k.jpg",
+    "name": "Marble Mosaic Tiles",
+    "category": "Marble",
+    "colors": [
+      "Reddish Brown",
+      "Sandy Tan",
+      "Off-White Fragments",
+      "Grey Veining"
+    ],
+    "features": [
+      "Mosaic Checkerboard Pattern",
+      "Angular Marble Fragments",
+      "Terrazzo Style Binder",
+      "Contrasting Square Grids"
+    ],
+    "description": "This striking marble mosaic features a classic checkerboard layout with alternating reddish-brown and sandy tan square grids. Each square is embedded with angular, off-white marble fragments that exhibit delicate grey veining, creating a rustic yet refined terrazzo-style surface.",
+    "tone": "Warm"
+  },
+  {
+    "id": "marble_mosaic_tiles_disp_2k.png",
+    "name": "Marble Mosaic Tiles Disp 2k",
+    "category": "Marble",
+    "colors": [
+      "Light Grey Base",
+      "White Aggregates",
+      "Dark Grey Specs"
+    ],
+    "features": [
+      "Mosaic Pattern",
+      "Embedded Fragments",
+      "Subtle Color Variation",
+      "Square Tiles"
+    ],
+    "description": "The Marble Mosaic Tiles Disp 2k features a complex arrangement of square tiles, each containing a mosaic of white and light grey marble fragments set against a subtly varied light grey background. This material presents a textured, terrazzo-like appearance with a consistent geometric grid that adds structure to its chaotic internal pattern.",
+    "tone": "Light"
+  },
+  {
+    "id": "marble_tiles_diff_2k.jpg",
+    "name": "Marble Tiles",
+    "category": "Marble",
+    "colors": [
+      "Creamy Beige",
+      "Rust Brown",
+      "Dark Sepia"
+    ],
+    "features": [
+      "Square Mosaic Grid",
+      "Heavily Speckled",
+      "Weathered Texture",
+      "Prominent Grout Lines"
+    ],
+    "description": "This surface showcases a classic square mosaic tile pattern crafted from marble with a creamy beige base heavily speckled with rust-brown inclusions. The distinct grid layout and weathered, mottled texture provide a rustic yet structured aesthetic ideal for architectural applications.",
+    "tone": "Warm"
+  },
+  {
+    "id": "marble_tiles_disp_2k.png",
+    "name": "Marble Tiles Disp 2K",
+    "category": "Marble",
+    "colors": [
+      "Light Grey",
+      "Subtle White",
+      "Soft Charcoal"
+    ],
+    "features": [
+      "Square Tile Pattern",
+      "Subtle Clouding",
+      "Faint Texture"
+    ],
+    "description": "Marble Tiles Disp 2K features a uniform grid of square marble tiles with soft, cloudy variations in light grey and subtle white. The structured layout combined with faint textural differences creates a clean yet visually interesting surface.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble007_2K-JPG_Displacement.jpg",
+    "name": "Marble 007 Displacement",
+    "category": "Marble",
+    "colors": [
+      "Light Grey",
+      "Medium Grey",
+      "White"
+    ],
+    "features": [
+      "Textured Surface",
+      "Mottled Pattern",
+      "Subtle Variations"
+    ],
+    "description": "Marble 007 Displacement features a textured surface with a mottled pattern in shades of light grey, medium grey, and white. Its subtle variations in tone create a sense of depth and visual interest.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble007_2K-JPG_NormalDX.jpg",
+    "name": "Marble Normal DX",
+    "category": "Marble",
+    "colors": [
+      "Uniform Lavender",
+      "Soft Violet"
+    ],
+    "features": [
+      "Solid Color",
+      "No Veining",
+      "Smooth Surface"
+    ],
+    "description": "Marble Normal DX presents a completely uniform lavender surface with no visible veining or variation. Its striking solid violet hue provides a modern and minimalist aesthetic.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble007_2K-JPG_NormalGL.jpg",
+    "name": "Marble 007",
+    "category": "Marble",
+    "colors": [
+      "Periwinkle Blue",
+      "Soft Purple"
+    ],
+    "features": [
+      "Polished Surface",
+      "Smooth Finish",
+      "Uniform Texture"
+    ],
+    "description": "This image serves as an OpenGL normal map for a marble material, denoted by its uniform periwinkle blue appearance. The completely flat color distribution indicates an exceptionally smooth, highly polished surface with no significant textural variations or bumps.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble007_2K-JPG_Roughness.jpg",
+    "name": "Marble 007 Roughness",
+    "category": "Marble",
+    "colors": [
+      "Deep Black",
+      "Charcoal Grey"
+    ],
+    "features": [
+      "Subtle Mottling",
+      "Cloudy Texture",
+      "Fine Grained"
+    ],
+    "description": "This texture exhibits a cloudy, monochromatic appearance defined by a dense network of subtle mottling. The interplay of deep black and charcoal grey areas creates a fine-grained visual effect indicative of an unpolished or naturally weathered marble surface.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Marble008_2K-JPG_Displacement.jpg",
+    "name": "Marble 008 2K Displacement",
+    "category": "Marble",
+    "colors": [
+      "Light Grey",
+      "Ash Grey",
+      "Soft White"
+    ],
+    "features": [
+      "Mottled Texture",
+      "Subtle Veining",
+      "Granular Details",
+      "Weathered Appearance"
+    ],
+    "description": "Marble 008 2K Displacement features a mottled, highly textured surface with an interplay of light grey and soft white tones. Its complex, granular details and subtle veining create a weathered, natural appearance suitable for realistic material rendering.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble008_2K-JPG_NormalDX.jpg",
+    "name": "Marble 008 Normal",
+    "category": "Marble",
+    "colors": [
+      "Periwinkle Blue",
+      "Lavender",
+      "Solid Purple"
+    ],
+    "features": [
+      "Smooth Surface",
+      "Polished Finish",
+      "Uniform Texture"
+    ],
+    "description": "This image serves as a DirectX normal map for a marble material, characterized by its solid periwinkle blue and lavender hues. The completely uniform color indicates a perfectly smooth and highly polished surface lacking any structural bumps or deep surface veining.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble008_2K-JPG_NormalGL.jpg",
+    "name": "Marble 008 Normal GL",
+    "category": "Marble",
+    "colors": [
+      "Periwinkle",
+      "Light Blue",
+      "Soft Purple"
+    ],
+    "features": [
+      "Smooth Surface",
+      "Normal Map Rendering",
+      "Flat Texture"
+    ],
+    "description": "This image serves as a tangent-space normal map rendering for a marble material, utilizing a uniform periwinkle color to indicate a perfectly flat and smooth surface. The lack of varied pixel data suggests a highly polished stone finish without any structural bumps, veining indentations, or surface irregularities.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble008_2K-JPG_Roughness.jpg",
+    "name": "Marble 008 Roughness",
+    "category": "Marble",
+    "colors": [
+      "Pitch Black",
+      "Charcoal Gray",
+      "Ash Gray"
+    ],
+    "features": [
+      "Mottled Texture",
+      "Cloudy Formations",
+      "Fine Grained",
+      "Subtle Tonal Variations"
+    ],
+    "description": "This exceptionally dark marble surface features a dense, mottled texture with subtle variations in charcoal and ash gray. Its fine-grained structure and cloudy formations create a deep, sophisticated appearance perfect for modern and dramatic design applications.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Marble009_2K-JPG_Displacement.jpg",
+    "name": "Marble 009 Displacement",
+    "category": "Marble",
+    "colors": [
+      "White",
+      "Light Gray",
+      "Medium Gray"
+    ],
+    "features": [
+      "Dense Cracking",
+      "Granular Texture",
+      "Brecciated Structure"
+    ],
+    "description": "This image presents a detailed displacement map for a marble texture, highlighting a dense network of cracks and a rough, granular surface. The stark grayscale contrast delineates deep fissures and brecciated fragments, providing a comprehensive structural blueprint for realistic stone rendering.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble009_2K-JPG_NormalDX.jpg",
+    "name": "Marble 009 Normal DX",
+    "category": "Marble",
+    "colors": [
+      "Periwinkle Blue",
+      "Soft Violet"
+    ],
+    "features": [
+      "Smooth Topography",
+      "DirectX Normal Map",
+      "Polished Finish"
+    ],
+    "description": "This image serves as a DirectX normal map for a marble material, displaying a uniform periwinkle blue tone that indicates an exceptionally flat surface. The absence of prominent topographical details suggests a highly polished marble finish with minimal surface texture or deep veining.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble009_2K-JPG_NormalGL.jpg",
+    "name": "Marble 009 Normal GL",
+    "category": "Marble",
+    "colors": [
+      "Periwinkle Blue",
+      "Soft Lavender"
+    ],
+    "features": [
+      "Completely Smooth",
+      "Uniform Plane",
+      "Non-textured"
+    ],
+    "description": "This image serves as a standard normal map for a marble material, presenting a completely uniform periwinkle blue color that indicates a perfectly flat surface. The absence of any textural variations or bump details suggests a highly polished, flawless stone finish without any prominent veining.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble009_2K-JPG_Roughness.jpg",
+    "name": "Marble Roughness",
+    "category": "Marble",
+    "colors": [
+      "Deep Charcoal",
+      "Faint Black Mottling",
+      "Dark Grey Nuances"
+    ],
+    "features": [
+      "Subtle Texture",
+      "Low Contrast Veining",
+      "Consistent Dark Base",
+      "Fine Grained"
+    ],
+    "description": "A deeply saturated dark marble featuring subtle, low-contrast mottling and very faint veining against a nearly black base. The fine-grained texture suggests a solid, unyielding surface suitable for striking contemporary designs.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Marble015_2K-JPG_Displacement.jpg",
+    "name": "Marble 015 Displacement",
+    "category": "Marble",
+    "colors": [
+      "White",
+      "Light Gray",
+      "Dark Gray Mottling"
+    ],
+    "features": [
+      "Rough Texture",
+      "Mottled Surface",
+      "Fissured",
+      "Brecciated Look"
+    ],
+    "description": "This marble surface exhibits a highly textured, mottled appearance with an intricate network of fine fissures and rough patches. The interplay of white and varying shades of gray creates a complex, brecciated look characteristic of deeply eroded or natural stone displacement.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble015_2K-JPG_NormalDX.jpg",
+    "name": "Marble 015 Normal",
+    "category": "Marble",
+    "colors": [
+      "Solid Periwinkle",
+      "Bright Lavender"
+    ],
+    "features": [
+      "Uniform Smoothness",
+      "Flat Topography",
+      "Polished Finish"
+    ],
+    "description": "This image serves as a flat normal map for a marble material, displaying a uniform periwinkle and lavender hue that encodes a perfectly smooth, unblemished surface. The complete absence of topological variation indicates a highly polished stone finish with zero depth or structural texturing.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble015_2K-JPG_NormalGL.jpg",
+    "name": "Marble 015",
+    "category": "Marble",
+    "colors": [
+      "Periwinkle Blue",
+      "Solid Lavender",
+      "Light Purple"
+    ],
+    "features": [
+      "Extremely Smooth",
+      "Polished Finish",
+      "Uniform Surface",
+      "Unveined"
+    ],
+    "description": "This perfectly smooth marble surface exhibits a uniform periwinkle blue and solid lavender coloration without any visible veining or natural imperfections. Its flawlessly polished finish offers a pristine and ultra-modern appearance suitable for highly contemporary designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble015_2K-JPG_Roughness.jpg",
+    "name": "Marble 015 Roughness",
+    "category": "Marble",
+    "colors": [
+      "Jet Black",
+      "Charcoal Grey",
+      "Faint Slate Grey"
+    ],
+    "features": [
+      "Mottled Texture",
+      "Subtle Clouding",
+      "Fine Grained"
+    ],
+    "description": "Marble 015 Roughness features a deeply saturated jet black base dominated by intricate, dark charcoal grey mottling and subtle clouding effects. The finely grained surface exhibits a complex, distressed texture that suggests high variation in glossiness and natural stone porosity.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Marble019_2K-JPG_Displacement.jpg",
+    "name": "Marble 019 Displacement",
+    "category": "Marble",
+    "colors": [
+      "Light Gray",
+      "Medium Gray",
+      "Dark Gray Veining"
+    ],
+    "features": [
+      "Fine Veining",
+      "Fractured Pattern",
+      "Granular Texture",
+      "Micro-fissures"
+    ],
+    "description": "Marble 019 Displacement features a light gray base with an intricate, spiderweb-like network of dark micro-fissures and fine veins. Its highly textured surface exhibits a granular, fractured appearance perfect for adding realistic depth and tactile character to materials.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble019_2K-JPG_NormalDX.jpg",
+    "name": "Marble 019 Normal DX",
+    "category": "Marble",
+    "colors": [
+      "Uniform Light Purple"
+    ],
+    "features": [
+      "Solid Color",
+      "Normal Map Artifact",
+      "Lack of Texture"
+    ],
+    "description": "This image exhibits a solid, uniform light purple color indicative of a digital normal map rather than a natural stone surface. It lacks any visible veining, grain, or texture typically associated with marble.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble019_2K-JPG_NormalGL.jpg",
+    "name": "Marble 019 Normal GL",
+    "category": "Marble",
+    "colors": [
+      "Vibrant Periwinkle",
+      "Soft Lilac Shadows",
+      "Subtle Indigo Highlights"
+    ],
+    "features": [
+      "Uniform Monochromatic Surface",
+      "Smooth Texture",
+      "Subtle Matte Finish"
+    ],
+    "description": "Marble 019 Normal GL features a striking and uniformly vibrant periwinkle hue, creating a bold, modern aesthetic. The stone's smooth texture and subtle matte finish enhance its clean, continuous color without the distraction of veining or varied patterns.",
+    "tone": "Warm"
+  },
+  {
+    "id": "Marble019_2K-JPG_Roughness.jpg",
+    "name": "Marble 019 Roughness",
+    "category": "Marble",
+    "colors": [
+      "Medium Grey",
+      "Dark Charcoal Veining",
+      "Light Grey Highlights"
+    ],
+    "features": [
+      "Intricate Veining",
+      "Fractured Appearance",
+      "Rough Texture Map"
+    ],
+    "description": "This marble roughness map features a complex network of dark, jagged veins spreading across a medium grey background. The intricate fracturing suggests a highly textured surface with varying degrees of matte and gloss finishes.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Marble023_2K-JPG_Displacement.jpg",
+    "name": "Displacement 2k",
+    "category": "Marble",
+    "colors": [
+      "Light Grey",
+      "Silver Grey",
+      "Dark Grey Veining"
+    ],
+    "features": [
+      "Fine Web-like Veining",
+      "Subtle Mottling",
+      "Fine Grained"
+    ],
+    "description": "This light grey marble features an intricate network of fine, web-like darker grey veins spread evenly across a subtly mottled background. The overall effect is a delicate and sophisticated texture ideal for subtle accents.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble023_2K-JPG_NormalDX.jpg",
+    "name": "Marble 023",
+    "category": "Marble",
+    "colors": [
+      "Periwinkle Blue",
+      "Soft Violet"
+    ],
+    "features": [
+      "Smooth Surface",
+      "Uniform Texture",
+      "Unblemished Finish"
+    ],
+    "description": "This is a digital normal map representing a perfectly smooth marble surface, evidenced by its flat periwinkle color. The uniform texture implies a highly polished finish devoid of any raised or recessed physical features.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble023_2K-JPG_NormalGL.jpg",
+    "name": "Marble 023 Normal GL",
+    "category": "Marble",
+    "colors": [
+      "Periwinkle Blue",
+      "Soft Lavender",
+      "Solid Indigo"
+    ],
+    "features": [
+      "Uniform Texture",
+      "Smooth Finish",
+      "Flat Topography"
+    ],
+    "description": "This image represents a tangent-space normal map for a marble surface, visually characterized by its uniform periwinkle blue hue. The complete lack of topological variation in the map indicates a perfectly smooth, highly polished stone finish without any physical veining or surface indentations.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble023_2K-JPG_Roughness.jpg",
+    "name": "Marble 023 2K Roughness",
+    "category": "Marble",
+    "colors": [
+      "Deep Black",
+      "Charcoal"
+    ],
+    "features": [
+      "Roughness Map",
+      "Subtle Texture Variation",
+      "Smudged Pattern"
+    ],
+    "description": "This image represents the roughness map for a marble material, predominantly rendered in deep black to indicate areas of high gloss or smoothness. The subtle charcoal variations across the surface detail the micro-textures and smudged patterns that will affect light reflection in a 3D rendering.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Marble024_2K-JPG_Displacement.jpg",
+    "name": "Displacement Marble",
+    "category": "Marble",
+    "colors": [
+      "Ash Grey",
+      "Slate Grey",
+      "Subtle Charcoal"
+    ],
+    "features": [
+      "Fine Fissures",
+      "Subtle Veining",
+      "Consistent Grain",
+      "Earthy Texture"
+    ],
+    "description": "Displacement Marble features a uniform ash grey background heavily textured with fine, dark fissures and subtle veining. Its consistent grain and earthy appearance make it an ideal choice for both contemporary and traditional designs requiring a durable yet understated aesthetic.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble024_2K-JPG_NormalDX.jpg",
+    "name": "Marble 024",
+    "category": "Marble",
+    "colors": [
+      "Periwinkle Blue",
+      "Lavender",
+      "Solid Purple"
+    ],
+    "features": [
+      "Perfectly Smooth",
+      "Uniform Surface",
+      "No Visible Veining"
+    ],
+    "description": "This image displays a solid, uniform periwinkle blue surface typical of a perfectly flat normal map. It features a completely smooth texture with absolutely no veining, grain, or visual imperfections.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble024_2K-JPG_NormalGL.jpg",
+    "name": "Marble 024",
+    "category": "Marble",
+    "colors": [
+      "Periwinkle Blue",
+      "Soft Lavender"
+    ],
+    "features": [
+      "Solid Color Map",
+      "Normal Map Image",
+      "Uniform Texture"
+    ],
+    "description": "This image appears to be a normal map rather than a true representation of the physical stone, showing a uniform periwinkle or soft lavender hue indicating surface angle data. It lacks visible veining or natural stone features due to its technical purpose in 3D rendering.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble024_2K-JPG_Roughness.jpg",
+    "name": "Marble 024",
+    "category": "Marble",
+    "colors": [
+      "Deep Charcoal",
+      "Faint Grey Veining",
+      "Subtle White Flaws"
+    ],
+    "features": [
+      "Cloudy Texture",
+      "Very Fine Veining",
+      "Smudged Appearance"
+    ],
+    "description": "Marble 024 presents a deep, almost solid charcoal base with extremely faint, web-like grey veining and subtle white flaws. The texture appears somewhat cloudy and smudged, giving it a soft, muted look despite its dark color.",
+    "tone": "Dark"
+  },
+  {
+    "id": "Marble025_2K-JPG_Displacement.jpg",
+    "name": "Marble 025",
+    "category": "Marble",
+    "colors": [
+      "Ash Grey",
+      "Silver Grey",
+      "Dark Grey Crevices"
+    ],
+    "features": [
+      "Fine Fissures",
+      "Jagged Veins",
+      "Pitted Surface",
+      "Granular Texture"
+    ],
+    "description": "This marble exhibits a detailed network of fine, jagged fissures and intricate veining spread across an ash grey base. Its textured surface features subtle pitting and granular variations, providing a deeply tactile and organic appearance.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble025_2K-JPG_NormalDX.jpg",
+    "name": "Marble 025 Normal Map",
+    "category": "Marble",
+    "colors": [
+      "Periwinkle Blue",
+      "Light Purple",
+      "Uniform Violet"
+    ],
+    "features": [
+      "Smooth Finish",
+      "Flat Topography",
+      "Unblemished Surface",
+      "Uniform Texture"
+    ],
+    "description": "This image serves as a normal map for Marble 025, displaying a perfectly flat and uniform topography without any structural variations. The smooth, unblemished surface suggests a highly polished stone finish free from natural fissures or indentations.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble025_2K-JPG_NormalGL.jpg",
+    "name": "Marble 025 Normal GL",
+    "category": "Marble",
+    "colors": [
+      "Periwinkle Blue",
+      "Lavender Purple"
+    ],
+    "features": [
+      "Polished Finish",
+      "Uniform Surface",
+      "Zero Relief"
+    ],
+    "description": "Marble 025 Normal GL presents a perfectly uniform periwinkle blue surface, indicative of a completely smooth and polished finish without physical relief. This flat normal map representation lacks tactile veining or surface variations, suggesting an exceptionally refined and unblemished stone plane.",
+    "tone": "Light"
+  },
+  {
+    "id": "Marble025_2K-JPG_Roughness.jpg",
+    "name": "Marble 025 Roughness",
+    "category": "Marble",
+    "colors": [
+      "Medium Grey",
+      "Dark Grey",
+      "Black Veining"
+    ],
+    "features": [
+      "Jagged Veining",
+      "Cracked Appearance",
+      "Textured Surface"
+    ],
+    "description": "This stone surface exhibits a distinct medium grey base heavily characterized by jagged, dark veining that resembles organic fractures. The fine-grained texture and intricate web of cracks suggest a highly detailed, rugged marble profile suitable for adding depth to architectural visualizations.",
+    "tone": "Dark"
+  },
+  {
+    "id": "blanco_norte14.jpg",
+    "name": "Blanco Norte 14",
+    "category": "Quartz",
+    "colors": [
+      "Soft White",
+      "Light Grey Veining",
+      "Cloudy Grey Undertones"
+    ],
+    "features": [
+      "Subtle Veining",
+      "Marble Look",
+      "Fine Grained"
+    ],
+    "description": "Blanco Norte 14 is an elegant quartz surface featuring a pristine soft white background delicately etched with faint, light grey veining. This fine-grained, marble-inspired stone offers a serene and classic aesthetic perfect for creating bright, sophisticated spaces in both modern and traditional designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "blue-dunes-granite.jpg",
+    "name": "Blue Dunes Granite",
+    "category": "Quartz",
+    "colors": [
+      "Slate Blue",
+      "Pale Gray",
+      "Charcoal Black",
+      "Cream Undertones"
+    ],
+    "features": [
+      "Swirling Fluid Veining",
+      "Complex Liquid Pattern",
+      "High Contrast Movement"
+    ],
+    "description": "Blue Dunes Granite features a mesmerizing, fluid landscape of slate blues, pale grays, and deep charcoal blacks that create a striking marbleized effect. The complex, swirling veining mimics the natural flow of water or shifting sands, making it an extraordinary statement piece for any modern design project.",
+    "tone": "Dark"
+  },
+  {
+    "id": "bohemian_flame.jpg",
+    "name": "Bohemian Flame",
+    "category": "Quartz",
+    "colors": [
+      "Charcoal Grey",
+      "Copper",
+      "Rust Orange"
+    ],
+    "features": [
+      "Distinct Veining",
+      "Mottled Base",
+      "Fine Grained"
+    ],
+    "description": "Bohemian Flame Quartz showcases a deep charcoal grey background enriched with subtle, darker mottled undertones. Striking, organic veins in shades of copper and rust orange branch across the surface, providing a warm and fiery contrast.",
+    "tone": "Dark"
+  },
+  {
+    "id": "BQ100-Quasar-Light-or-SUPER-WHITEtm-US-Polished-001-DIFFUSE-2K.png",
+    "name": "Quasar Light Super White",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Ultra Light Grey"
+    ],
+    "features": [
+      "Solid Color",
+      "Fine Grained",
+      "Uniform Texture",
+      "Minimalist Appearance"
+    ],
+    "description": "Quasar Light Super White is a stunningly pure and uniform quartz offering an immaculate solid white canvas. Its remarkably consistent and fine-grained texture makes it an ideal choice for ultra-modern, minimalist architectural designs where clean lines are paramount.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ100-Quasar-Light-or-SUPER-WHITEtm-US-Polished-001-GLOSSINESS-2K.png",
+    "name": "Quasar Light Super White",
+    "category": "Quartz",
+    "colors": [
+      "Light Gray",
+      "Neutral Silver"
+    ],
+    "features": [
+      "Uniform Pattern",
+      "Solid Background",
+      "Polished Finish"
+    ],
+    "description": "Quasar Light Super White Quartz exhibits a perfectly uniform and solid gray appearance, ideal for creating seamless and modern surfaces. The material lacks any distinct veining or speckling, providing a clean and minimalist backdrop for contemporary interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ100-Quasar-Light-or-SUPER-WHITEtm-US-Polished-001-REFLECTION-2K.png",
+    "name": "Quasar Light Super White",
+    "category": "Quartz",
+    "colors": [
+      "Bright White",
+      "Soft Light Grey",
+      "Uniform Off-White"
+    ],
+    "features": [
+      "Solid Pattern",
+      "Fine Grained",
+      "Uniform Texture"
+    ],
+    "description": "Quasar Light Super White is a brilliantly clean and uniform quartz surface featuring a pristine off-white background with minimal to no visible patterning. Its solid, fine-grained texture and highly polished finish offer a sleek, modern aesthetic perfect for minimalist interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ100-Quasar-Light-or-SUPER-WHITEtm-US-Polished-plane-preview.png",
+    "name": "Quasar Light Super White",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Bright White"
+    ],
+    "features": [
+      "Solid Color",
+      "Uniform Texture",
+      "No Veining"
+    ],
+    "description": "Quasar Light, also known as Super White, is a pristine and uniform quartz surface offering a pure, unblemished aesthetic. Its solid, bright white background provides a clean and modern foundation perfect for minimalist and contemporary interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ100-Quasar-Light-or-SUPER-WHITEtm-US-Polished-sphere-preview-01.png",
+    "name": "Quasar Light Super White",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Bright White"
+    ],
+    "features": [
+      "Solid Color",
+      "Uniform Texture",
+      "High Gloss Finish"
+    ],
+    "description": "Quasar Light Super White is a pristine quartz material defined by its completely uniform and radiant pure white surface. This sleek, unblemished stone offers a clean and contemporary aesthetic perfect for minimalist designs requiring a brilliant solid background.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ200-Artic-Snow-or-PURE-WHITEtm-CAN-or-US-Polished-001-DIFFUSE-2K.png",
+    "name": "Arctic Snow Pure White",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Arctic White",
+      "Subtle Frost"
+    ],
+    "features": [
+      "Uniform Texture",
+      "Fine Grained",
+      "Solid Coloration"
+    ],
+    "description": "Arctic Snow Pure White is a remarkably clean and uniform quartz surface that offers a pristine, unblemished appearance. Its fine-grained texture and solid white coloration make it an ideal choice for modern, minimalist designs seeking a flawless, luminous finish.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ200-Artic-Snow-or-PURE-WHITEtm-CAN-or-US-Polished-001-GLOSSINESS-2K.png",
+    "name": "Arctic Snow Pure White",
+    "category": "Quartz",
+    "colors": [
+      "Light Grey",
+      "Silver"
+    ],
+    "features": [
+      "Uniform Texture",
+      "Solid Pattern",
+      "High Gloss Representation"
+    ],
+    "description": "This image displays a perfectly uniform light grey surface, serving as a glossiness map for an Arctic Snow Pure White quartz slab. The consistent coloration indicates a smooth, highly polished finish devoid of any significant textural variations or veining.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ200-Artic-Snow-or-PURE-WHITEtm-CAN-or-US-Polished-001-REFLECTION-2K.png",
+    "name": "Arctic Snow Pure White",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Soft Light Grey",
+      "Off-White"
+    ],
+    "features": [
+      "Solid Color",
+      "Uniform Texture",
+      "Fine Grained",
+      "Polished Finish"
+    ],
+    "description": "Arctic Snow Pure White quartz presents a flawlessly uniform, crisp white surface with extremely subtle cool undertones. Its clean, unblemished appearance provides a minimalist and modern aesthetic perfect for contemporary design applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ200-Artic-Snow-or-PURE-WHITEtm-CAN-or-US-Polished-plane-preview.png",
+    "name": "Arctic Snow PURE WHITE",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Subtle Warm White Undertones"
+    ],
+    "features": [
+      "Solid Color",
+      "Minimal Texture",
+      "Fine Grained",
+      "Uniform Appearance"
+    ],
+    "description": "Arctic Snow PURE WHITE Quartz is a pristine and uniform surface characterized by its brilliant, unblemished white coloration. Its solid composition and lack of prominent veining offer a clean, modern aesthetic perfect for minimalist designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ200-Artic-Snow-or-PURE-WHITEtm-CAN-or-US-Polished-sphere-preview-01.png",
+    "name": "Artic Snow Pure White",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Bright White"
+    ],
+    "features": [
+      "Solid Color",
+      "Polished Finish",
+      "Consistent Pattern"
+    ],
+    "description": "Artic Snow Pure White is a pristine, unblemished quartz surface that offers a clean and highly contemporary aesthetic. Its solid, brilliant white composition lacks distinct veining or speckling, making it an ideal choice for minimalist and modern design applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ206-Thasos-or-Thasosr-US-Polished-001-DIFFUSE-2K.png",
+    "name": "Thasos Quartz",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Subtle Off-White",
+      "Faint Grey"
+    ],
+    "features": [
+      "Fine Grained",
+      "Ultra-Subtle Texture",
+      "Uniform Base",
+      "Minimal Movement"
+    ],
+    "description": "Thasos Quartz is a brilliantly pristine white stone characterized by its exceptionally clean, uniform appearance and flawlessly polished finish. Its fine-grained structure features incredibly subtle mottling, providing a minimalist and modern aesthetic perfect for illuminating expansive interior spaces.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ206-Thasos-or-Thasosr-US-Polished-001-GLOSSINESS-2K.png",
+    "name": "Thasos Polished",
+    "category": "Quartz",
+    "colors": [
+      "Medium Gray",
+      "Solid Gray",
+      "Neutral Silver"
+    ],
+    "features": [
+      "Uniform Texture",
+      "Smooth Surface",
+      "Glossiness Map",
+      "No Veining"
+    ],
+    "description": "This image represents the glossiness map of a Thasos Quartz surface, displaying a completely uniform medium gray tone. The lack of visual texture or veining indicates a consistently smooth and highly polished finish across the entire material.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ206-Thasos-or-Thasosr-US-Polished-001-REFLECTION-2K.png",
+    "name": "Thasos US Polished",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Soft Grey Undertones"
+    ],
+    "features": [
+      "Solid Color",
+      "Ultra-uniform Texture",
+      "Polished Finish"
+    ],
+    "description": "Thasos US Polished is a pristine, ultra-uniform quartz surface that perfectly captures the clean, bright essence of a solid white aesthetic. Its flawless, unblemished coloration and polished finish make it an ideal choice for contemporary designs seeking a seamless, minimalist look.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ206-Thasos-or-Thasosr-US-Polished-plane-preview.png",
+    "name": "Thasos Quartz",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Snow White",
+      "Subtle Frost White"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Crystalline Texture",
+      "Uniform Appearance"
+    ],
+    "description": "Thasos is a brilliantly pristine white quartz surface designed to emulate the classic purity of Grecian Thassos marble. It features a remarkably uniform appearance with an exceptionally fine-grained, subtle crystalline texture that adds gentle depth to its luminous background.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ206-Thasos-or-Thasosr-US-Polished-sphere-preview-01.png",
+    "name": "BQ206 Thasos",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Alabaster"
+    ],
+    "features": [
+      "Solid Color",
+      "Uniform Texture",
+      "Fine Grained",
+      "Polished Finish"
+    ],
+    "description": "BQ206 Thasos quartz features an exceptionally clean and uniform pure white surface devoid of heavy veining or busy patterns. This brilliantly polished stone provides a sleek, modern canvas that effortlessly elevates minimalist and contemporary interior spaces.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2081-Deoro-or-Deoro-Polished-001-DIFFUSE-2K.png",
+    "name": "Deoro Polished",
+    "category": "Quartz",
+    "colors": [
+      "Warm White",
+      "Subtle Ivory",
+      "Faint Beige Specks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Ultra Subtle Texture",
+      "Uniform Background",
+      "Minimalist"
+    ],
+    "description": "Deoro Polished is an elegant quartz surface characterized by its exceptionally clean, warm white background and ultra-subtle texture. Its minimalist design and fine-grained structure offer a pristine and versatile foundation suitable for contemporary and classic interior spaces alike.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2081-Deoro-or-Deoro-Polished-001-GLOSSINESS-2K.png",
+    "name": "BQ2081 Deoro Polished",
+    "category": "Quartz",
+    "colors": [
+      "Medium Gray",
+      "Silver Tone",
+      "Monochromatic Gray"
+    ],
+    "features": [
+      "Uniform Texture",
+      "Consistent Base",
+      "Unveined Surface"
+    ],
+    "description": "BQ2081 Deoro Polished features a highly uniform, monochromatic medium gray surface that exudes a clean, modern aesthetic. The lack of veining and consistent coloration make this quartz an excellent foundation for sleek, contemporary interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2081-Deoro-or-Deoro-Polished-001-REFLECTION-2K.png",
+    "name": "BQ2081 Deoro Polished",
+    "category": "Quartz",
+    "colors": [
+      "Pale Grey",
+      "Off-White",
+      "Subtle Pearl"
+    ],
+    "features": [
+      "Uniform Texture",
+      "Solid Coloration",
+      "Minimalist Aesthetics"
+    ],
+    "description": "BQ2081 Deoro Polished Quartz offers a perfectly uniform and unblemished surface in a soft, pale grey hue. Its minimalist design and smooth coloration make it an ideal choice for clean, contemporary architectural spaces.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2081-Deoro-or-Deoro-Polished-plane-preview.png",
+    "name": "Deoro Polished",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Faint Warm Flecks",
+      "Soft Ivory"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Texture",
+      "Nearly Solid Background"
+    ],
+    "description": "Deoro Polished is an incredibly pure white quartz that offers a bright, minimalist aesthetic perfect for modern design spaces. Its ultra-fine grain and microscopic, warm-toned textural details give the polished surface a soft depth without compromising its pristine appearance.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2081-Deoro-or-Deoro-Polished-sphere-preview-01.png",
+    "name": "Deoro",
+    "category": "Quartz",
+    "colors": [
+      "Soft White",
+      "Warm White",
+      "Faint Beige Veining"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Fissures",
+      "Uniform Appearance"
+    ],
+    "description": "Deoro is an elegant quartz surface showcasing a brilliant soft white base accented by incredibly delicate, warm beige veining. This fine-grained stone provides a pristine and luminous foundation ideal for minimalist and contemporary design applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2088-Onyx-White-or-ONYX-WHITEr-Polished-001-DIFFUSE-2K.png",
+    "name": "Onyx White",
+    "category": "Quartz",
+    "colors": [
+      "Warm White",
+      "Cream",
+      "Subtle Beige"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Speckling",
+      "Uniform Pattern"
+    ],
+    "description": "Onyx White is a beautifully uniform quartz surface featuring a warm white base with subtle, fine-grained beige speckling. Its consistent texture and elegant polished finish make it an ideal, versatile choice for clean and contemporary design spaces.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2088-Onyx-White-or-ONYX-WHITEr-Polished-001-GLOSSINESS-2K.png",
+    "name": "BQ2088 Onyx White Polished",
+    "category": "Quartz",
+    "colors": [
+      "Soft Grey",
+      "Uniform Silver",
+      "Light Ash"
+    ],
+    "features": [
+      "Uniform Texture",
+      "Smooth Appearance",
+      "Monolithic Solid"
+    ],
+    "description": "This image serves as a glossiness map for an Onyx White quartz surface, exhibiting a perfectly flat and consistent soft grey tone. The unvarying, monochromatic appearance indicates a highly polished, smooth finish without any disruptive texture.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2088-Onyx-White-or-ONYX-WHITEr-Polished-001-REFLECTION-2K.png",
+    "name": "Onyx White",
+    "category": "Quartz",
+    "colors": [
+      "Off-White",
+      "Pale Grey",
+      "Soft Pearl"
+    ],
+    "features": [
+      "Uniform Color",
+      "Subtle Texture",
+      "Polished Finish",
+      "Minimalist Design"
+    ],
+    "description": "Onyx White is a pristine quartz surface characterized by its exceptionally uniform off-white and pale grey background. The absence of prominent veining combined with a sleek polished finish offers a seamless and contemporary aesthetic suitable for modern interiors.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2088-Onyx-White-or-ONYX-WHITEr-Polished-plane-preview.png",
+    "name": "Onyx White",
+    "category": "Quartz",
+    "colors": [
+      "Soft White",
+      "Light Grey Speckles",
+      "Subtle Beige Hints"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtly Speckled",
+      "Consistent Pattern"
+    ],
+    "description": "Onyx White is a pristine quartz surface characterized by its soft, snowy white background and delicate, fine-grained speckling. The subtle interplay of light grey and warm beige flecks provides a clean, consistent texture ideal for modern minimalist designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2088-Onyx-White-or-ONYX-WHITEr-Polished-plane-preview_1.png",
+    "name": "Onyx White",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Soft Grey Speckles",
+      "Subtle Beige Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Texture"
+    ],
+    "description": "Onyx White is a pristine quartz surface characterized by its pure white background and delicate, fine-grained speckling. The subtle infusion of soft grey and beige flecks creates a uniform, elegant texture perfect for bright, minimalist design schemes.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2088-Onyx-White-or-ONYX-WHITEr-Polished-sphere-preview-01.png",
+    "name": "Onyx White",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Soft Cream",
+      "Faint Gray Speckles"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Speckling",
+      "Consistent Pattern",
+      "Polished Finish"
+    ],
+    "description": "Onyx White Quartz presents a pristine, pure white canvas delicately enhanced by a fine-grained, subtle speckled texture. This elegant and highly consistent surface offers a luminous, minimalist aesthetic perfect for clean, contemporary designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2088-Onyx-White-or-ONYX-WHITEr-Polished-sphere-preview-01_1.png",
+    "name": "Onyx White",
+    "category": "Quartz",
+    "colors": [
+      "Bright White",
+      "Pale Grey Speckles",
+      "Translucent Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Uniform Texture",
+      "Subtle Speckling"
+    ],
+    "description": "Onyx White Quartz features a crisp, bright white background subtly enhanced by fine, translucent and pale grey speckles. This engineered stone offers a highly uniform texture and polished finish, providing a clean and contemporary aesthetic perfect for modern interior spaces.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2600-Valley-White-or-Valley-Whiter-Polished-001-DIFFUSE-2K.png",
+    "name": "BQ2600 Valley White",
+    "category": "Quartz",
+    "colors": [
+      "Pure White Background",
+      "Faint Grey Veining",
+      "Subtle Cream Undertones"
+    ],
+    "features": [
+      "Fine Grained",
+      "Delicate Veining",
+      "Polished Finish"
+    ],
+    "description": "BQ2600 Valley White is a pristine quartz surface characterized by its pure white background and incredibly faint, delicate grey veining that creates a soft, almost cloud-like appearance. The ultra-fine grain and subtle cream undertones give this polished material an elegant, minimalist aesthetic perfect for modern and transitional spaces.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2600-Valley-White-or-Valley-Whiter-Polished-001-GLOSSINESS-2K.png",
+    "name": "BQ2600 Valley White or Valley Whiter Polished 001 GLOSSINESS 2K",
+    "category": "Quartz",
+    "colors": [
+      "Light Grey",
+      "Silver"
+    ],
+    "features": [
+      "Solid Color",
+      "Glossy Finish",
+      "Uniform Texture"
+    ],
+    "description": "A polished quartz surface featuring a uniform light grey to silver tone with a glossy finish. The lack of prominent veining or speckling gives it a sleek and contemporary appearance, suitable for modern design spaces.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2600-Valley-White-or-Valley-Whiter-Polished-001-REFLECTION-2K.png",
+    "name": "Valley White",
+    "category": "Quartz",
+    "colors": [
+      "Soft White",
+      "Pale Grey",
+      "Off-White"
+    ],
+    "features": [
+      "Solid Surface",
+      "Uniform Texture",
+      "Fine Grained",
+      "Minimalist Appearance"
+    ],
+    "description": "Valley White is a pristine, consistent quartz featuring a soft white to pale grey base with an ultra-fine grain. Its clean, unblemished surface offers a modern, minimalist aesthetic perfectly suited for sleek contemporary designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2600-Valley-White-or-Valley-Whiter-Polished-plane-preview.png",
+    "name": "Valley White",
+    "category": "Quartz",
+    "colors": [
+      "Bright White",
+      "Subtle Light Grey Veining",
+      "Soft Cream"
+    ],
+    "features": [
+      "Delicate Veining",
+      "Fine Texture",
+      "Uniform Appearance"
+    ],
+    "description": "Valley White quartz features a bright, pristine white background gently accented by very faint, web-like light grey veining. This subtle and elegant pattern provides a clean, modern aesthetic perfect for minimalist or classic design spaces.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2600-Valley-White-or-Valley-Whiter-Polished-sphere-preview-01.png",
+    "name": "Valley White",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Subtle Light Grey",
+      "Alabaster"
+    ],
+    "features": [
+      "Subtle Veining",
+      "Fine Grained",
+      "Uniform Texture"
+    ],
+    "description": "Valley White quartz features a pristine, pure white background beautifully complemented by extremely subtle, delicate light grey veining. This elegant and understated stone offers a clean, refined aesthetic that is perfect for bright and minimalist interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2605-Denali-or-DENALI-US-Polished-001-DIFFUSE-2K.png",
+    "name": "Denali",
+    "category": "Quartz",
+    "colors": [
+      "Warm White",
+      "Soft Taupe",
+      "Light Beige"
+    ],
+    "features": [
+      "Fine Web Veining",
+      "Subtle Crackle Pattern",
+      "Uniform Background"
+    ],
+    "description": "Denali quartz features a pristine warm white background delicately traced with a fine, web-like network of soft taupe and beige veining. This elegant surface offers a subtle crackle effect that provides quiet depth and sophisticated texture to both contemporary and traditional interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2605-Denali-or-DENALI-US-Polished-001-GLOSSINESS-2K.png",
+    "name": "Denali Polished",
+    "category": "Quartz",
+    "colors": [
+      "Neutral Grey",
+      "Silver Grey"
+    ],
+    "features": [
+      "Uniform Appearance",
+      "Consistent Base",
+      "Monochromatic",
+      "Smooth Finish"
+    ],
+    "description": "Denali Polished quartz presents a sleek, monochromatic neutral grey surface with a completely uniform appearance. Its lack of veining or granular texture provides a clean, minimalist aesthetic perfectly suited for contemporary and modern interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2605-Denali-or-DENALI-US-Polished-001-REFLECTION-2K.png",
+    "name": "Denali",
+    "category": "Quartz",
+    "colors": [
+      "Pale Gray",
+      "Off-White",
+      "Soft Greige"
+    ],
+    "features": [
+      "Solid Color",
+      "Uniform Appearance",
+      "Minimalist Texture"
+    ],
+    "description": "Denali quartz features an exceptionally clean and uniform pale gray surface with a pristine polished finish. This minimalist stone provides a sleek, consistent aesthetic without visible veining, making it an ideal choice for modern and contemporary interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2605-Denali-or-DENALI-US-Polished-plane-preview.png",
+    "name": "Denali",
+    "category": "Quartz",
+    "colors": [
+      "Soft White",
+      "Faint Copper",
+      "Warm Beige"
+    ],
+    "features": [
+      "Fine Veining",
+      "Crackle Pattern",
+      "Subtle Marbling"
+    ],
+    "description": "Denali is an elegant quartz surface featuring a luminous soft white background interwoven with a delicate, copper-toned crackle pattern. This intricate, fine web veining creates a subtle yet sophisticated visual texture suitable for refined interior spaces.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2605-Denali-or-DENALI-US-Polished-sphere-preview-01.png",
+    "name": "Denali",
+    "category": "Quartz",
+    "colors": [
+      "Crisp White",
+      "Faint Light Grey",
+      "Subtle Beige"
+    ],
+    "features": [
+      "Delicate Web Veining",
+      "Crackle Pattern",
+      "Polished Finish"
+    ],
+    "description": "Denali is a sophisticated quartz surface that features a pristine white background interwoven with a delicate, fine crackle veining. The subtle spiderweb-like grey and beige details offer a clean, elegant aesthetic perfect for bright, minimalist interiors.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2609-Ceres-or-CERES-CAN-or-US-Polished-001-DIFFUSE-2K.png",
+    "name": "BQ2609 Ceres",
+    "category": "Quartz",
+    "colors": [
+      "Soft White",
+      "Pale Grey",
+      "Faint Charcoal Veining"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Spiderweb Veining",
+      "Polished Finish"
+    ],
+    "description": "BQ2609 Ceres is a pristine quartz surface characterized by its soft white base and intricate network of pale grey veining. The delicate, spiderweb-like pattern provides a sophisticated and understated elegance perfect for minimalist and contemporary designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2609-Ceres-or-CERES-CAN-or-US-Polished-001-GLOSSINESS-2K.png",
+    "name": "BQ2609 Ceres Polished",
+    "category": "Quartz",
+    "colors": [
+      "Neutral Gray",
+      "Silver Gray"
+    ],
+    "features": [
+      "Uniform Pattern",
+      "Solid Tone",
+      "Fine Grained",
+      "Smooth Texture"
+    ],
+    "description": "BQ2609 Ceres Polished is a sleek and minimalist quartz featuring a completely uniform neutral gray tone without any visible veining. The solid coloration and smooth finish provide a highly contemporary and versatile surface ideal for modern architectural designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2609-Ceres-or-CERES-CAN-or-US-Polished-001-REFLECTION-2K.png",
+    "name": "Ceres Quartz",
+    "category": "Quartz",
+    "colors": [
+      "Light Grey",
+      "Soft Off-White"
+    ],
+    "features": [
+      "Uniform Background",
+      "No Veining",
+      "Fine Grained",
+      "Polished Finish"
+    ],
+    "description": "Ceres is a sleek, ultra-fine-grained quartz characterized by its exceptionally uniform light grey and soft off-white tones. Its completely solid, unpatterned surface makes it ideal for minimalist and contemporary designs seeking a clean, polished aesthetic.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2609-Ceres-or-CERES-CAN-or-US-Polished-plane-preview.png",
+    "name": "Ceres or CERES CAN or US Polished plane preview",
+    "category": "Quartz",
+    "colors": [
+      "Cool White",
+      "Soft Grey",
+      "Subtle Silver"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Veining",
+      "Minimalist",
+      "Uniform Base"
+    ],
+    "description": "This elegant quartz features a cool white background delicately overlaid with a fine network of soft grey and silver veining. The minimalist design provides a clean, uniform look that brings a touch of sophisticated tranquility to any modern space.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ2609-Ceres-or-CERES-CAN-or-US-Polished-sphere-preview-01.png",
+    "name": "Ceres Polished",
+    "category": "Quartz",
+    "colors": [
+      "Soft White",
+      "Light Gray",
+      "Subtle Beige Veining"
+    ],
+    "features": [
+      "Fine Veining",
+      "Polished Finish",
+      "Subtle Mottling"
+    ],
+    "description": "Ceres Polished quartz presents a soft white background adorned with delicate, fine gray and subtle beige veining. This elegant surface offers a pristine and polished look, perfect for creating bright, sophisticated interior spaces.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ277-Santenay-Honed-001-Base_Color-2K.png",
+    "name": "Santenay Honed",
+    "category": "Quartz",
+    "colors": [
+      "Medium Grey",
+      "Ash Grey",
+      "Subtle Dark Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Uniform Texture",
+      "Subtle Speckling"
+    ],
+    "description": "Santenay Honed is a sophisticated quartz featuring a solid, medium ash-grey base with a beautifully uniform, finely textured surface. The subtle, microscopic speckling adds a touch of natural depth without disrupting its clean, minimalist aesthetic.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ277-Santenay-Honed-001-Base_Color-2K_1.png",
+    "name": "Santenay Honed",
+    "category": "Quartz",
+    "colors": [
+      "Ash Grey",
+      "Light Grey",
+      "Charcoal Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Subtle Speckling",
+      "Uniform Texture",
+      "Honed Finish"
+    ],
+    "description": "Santenay Honed is a sophisticated quartz surface featuring a remarkably uniform ash-grey background enriched by delicate, fine-grained speckling. Its subtle texture and soft matte finish make it an ideal choice for creating seamless, contemporary interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ277-Santenay-Honed-plane-preview.png",
+    "name": "Santenay Honed",
+    "category": "Quartz",
+    "colors": [
+      "Light Grey",
+      "Subtle Beige Speckles",
+      "White Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Honed Finish",
+      "Consistent Texture"
+    ],
+    "description": "Santenay Honed quartz features a soothing light grey background evenly scattered with fine beige and white speckles. Its consistent granular texture and matte honed finish provide a subtle, contemporary aesthetic suitable for minimalist designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ277-Santenay-Honed-plane-preview_1.png",
+    "name": "Santenay Honed",
+    "category": "Quartz",
+    "colors": [
+      "Light Grey",
+      "Warm Beige",
+      "Charcoal Speckles"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Honed Finish",
+      "Terrazzo Appearance"
+    ],
+    "description": "Santenay Honed quartz showcases a soft light grey base meticulously detailed with fine charcoal and beige speckles. This terrazzo-inspired, finely grained stone offers a smooth honed finish that perfectly complements modern and industrial interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ277-Santenay-Honed-sphere-preview-01.png",
+    "name": "Santenay Honed",
+    "category": "Quartz",
+    "colors": [
+      "Light Grey",
+      "Taupe Speckles",
+      "Charcoal Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Matte Honed Finish"
+    ],
+    "description": "Santenay Honed quartz features a minimalist light grey background subtly accented with very fine taupe and charcoal speckles. Its uniform texture and smooth honed finish create a soft, contemporary surface perfect for modern interiors.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ277-Santenay-Honed-sphere-preview-01_1.png",
+    "name": "Santenay Honed",
+    "category": "Quartz",
+    "colors": [
+      "Light Grey",
+      "Taupe",
+      "White Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Texture"
+    ],
+    "description": "Santenay Honed quartz presents a soothing, light grey canvas uniformly dotted with fine taupe and white flecks. Its finely grained, speckled texture offers a versatile, modern aesthetic perfect for minimalist interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ400-Silver-White-or-TITANIUMtm-Polished-CAN-or-US-Polished-001-Base_Color-2K.png",
+    "name": "Silver White Titanium",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Light Grey Speckles",
+      "Subtle Silver"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled",
+      "Homogeneous Pattern"
+    ],
+    "description": "Silver White Titanium is a pristine quartz surface featuring a bright white background accented by exceptionally fine silver and grey speckling. This homogeneous and polished material offers a sleek, minimalist aesthetic perfect for clean and modern interior designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ400-Silver-White-or-TITANIUMtm-Polished-CAN-or-US-Polished-plane-preview.png",
+    "name": "Silver White Titanium",
+    "category": "Quartz",
+    "colors": [
+      "Bright White",
+      "Silver Grey",
+      "Faint Beige"
+    ],
+    "features": [
+      "Fine Speckled",
+      "Uniform Pattern",
+      "Polished Finish"
+    ],
+    "description": "Silver White Titanium is a radiant white quartz featuring a delicate, fine-grained speckled pattern of silver and subtle beige. Its uniform distribution and polished finish create a pristine, contemporary surface ideal for modern interiors.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ400-Silver-White-or-TITANIUMtm-Polished-CAN-or-US-Polished-sphere-preview-01.png",
+    "name": "BQ400 Silver White Titanium",
+    "category": "Quartz",
+    "colors": [
+      "Bright White",
+      "Silver Speckles",
+      "Light Grey Flecks"
+    ],
+    "features": [
+      "Fine Grained",
+      "Speckled Pattern",
+      "Uniform Appearance",
+      "Polished Finish"
+    ],
+    "description": "BQ400 Silver White Titanium is an elegant quartz surface featuring a bright white foundation delicately scattered with fine silver and light grey speckles. This exceptionally uniform and finely grained material offers a crisp, modern aesthetic ideal for minimalist architectural designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ6700-Covelani-or-COVELANIr-US-Polished-001-DIFFUSE-2K.png",
+    "name": "Covelani",
+    "category": "Quartz",
+    "colors": [
+      "Crisp White",
+      "Light Grey",
+      "Silver-Grey Veining"
+    ],
+    "features": [
+      "Prominent Long Veins",
+      "Branching Lines",
+      "Subtle Mottling",
+      "Marble-like Texture"
+    ],
+    "description": "Covelani is an elegant quartz surface featuring a pristine white background traversed by striking, continuous silver-grey veins. The bold, branching linear patterns create a sophisticated marble-inspired aesthetic that is perfect for contemporary interiors.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ6700-Covelani-or-COVELANIr-US-Polished-001-GLOSSINESS-2K.png",
+    "name": "Covelani Quartz",
+    "category": "Quartz",
+    "colors": [
+      "Solid Gray",
+      "Light Silver"
+    ],
+    "features": [
+      "Uniform Texture",
+      "Consistent Base",
+      "Polished Finish"
+    ],
+    "description": "Covelani Quartz features a smooth, uniformly solid gray background that provides a sleek and minimalist aesthetic. The pristine, unblemished surface is perfect for contemporary designs requiring a consistent and neutral foundation.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ6700-Covelani-or-COVELANIr-US-Polished-001-REFLECTION-2K.png",
+    "name": "Covelani",
+    "category": "Quartz",
+    "colors": [
+      "Pale Grey",
+      "Off-White",
+      "Soft Ash"
+    ],
+    "features": [
+      "Solid Pattern",
+      "Uniform Texture",
+      "Minimalist Aesthetic"
+    ],
+    "description": "Covelani Quartz offers a remarkably clean and uniform pale grey surface devoid of heavy veining or speckling. This minimalist aesthetic provides a smooth, versatile foundation ideal for modern and contemporary architectural designs.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ6700-Covelani-or-COVELANIr-US-Polished-plane-preview.png",
+    "name": "Covelani",
+    "category": "Quartz",
+    "colors": [
+      "Brilliant White",
+      "Silver Grey",
+      "Charcoal Veining"
+    ],
+    "features": [
+      "Flowing Veins",
+      "Marble Look",
+      "Subtle Mottling"
+    ],
+    "description": "Covelani quartz features a brilliant white background traversed by striking, long silver and charcoal grey veins. This polished surface beautifully replicates the elegant look of natural marble while offering the exceptional durability of premium quartz.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ6700-Covelani-or-COVELANIr-US-Polished-sphere-preview-01.png",
+    "name": "BQ6700 Covelani",
+    "category": "Quartz",
+    "colors": [
+      "Soft White",
+      "Warm Grey",
+      "Subtle Charcoal"
+    ],
+    "features": [
+      "Prominent Fissure Veining",
+      "Marble Effect",
+      "Polished Finish"
+    ],
+    "description": "BQ6700 Covelani is a sophisticated quartz showcasing a soft white background intersected by bold, dynamic warm grey and subtle charcoal fissure veining. This elegant stone perfectly replicates the luxurious look of natural marble while offering the durability of premium polished quartz.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ6715-Cipollino-or-CIPOLLINOtm-US-Polished-001-DIFFUSE-2K.png",
+    "name": "Cipollino",
+    "category": "Quartz",
+    "colors": [
+      "Creamy White",
+      "Soft Grey Veining",
+      "Subtle Beige Undertones"
+    ],
+    "features": [
+      "Delicate Veining",
+      "Smooth Texture",
+      "Flowing Pattern"
+    ],
+    "description": "Cipollino Quartz presents a soft, creamy white canvas detailed with delicate, flowing light grey and beige veining. This elegant stone offers a serene and sophisticated aesthetic that beautifully mimics natural marble.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ6715-Cipollino-or-CIPOLLINOtm-US-Polished-001-GLOSSINESS-2K.png",
+    "name": "Cipollino Polished Glossiness",
+    "category": "Quartz",
+    "colors": [
+      "Medium Grey",
+      "Ash Grey"
+    ],
+    "features": [
+      "Uniform Texture",
+      "Monochromatic",
+      "Smooth Surface"
+    ],
+    "description": "This image displays a perfectly uniform medium grey surface, characteristic of a flat glossiness or texture map. Its sleek, monochromatic ash grey appearance offers a completely unblemished and consistent visual field.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ6715-Cipollino-or-CIPOLLINOtm-US-Polished-001-REFLECTION-2K.png",
+    "name": "BQ6715 Cipollino",
+    "category": "Quartz",
+    "colors": [
+      "Light Grey",
+      "Off-White",
+      "Pale Ash"
+    ],
+    "features": [
+      "Uniform Appearance",
+      "Polished Finish",
+      "Smooth Texture"
+    ],
+    "description": "BQ6715 Cipollino quartz features a beautifully uniform, pale grey surface that provides a pristine and versatile foundation for modern interiors. Its impeccably smooth, polished finish offers a subtle luminosity with an exceptionally clean, unpatterned aesthetic.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ6715-Cipollino-or-CIPOLLINOtm-US-Polished-sphere-preview-01.png",
+    "name": "Cipollino",
+    "category": "Quartz",
+    "colors": [
+      "Soft White",
+      "Light Grey Veining",
+      "Faint Beige Highlights"
+    ],
+    "features": [
+      "Subtle Veining",
+      "Polished Finish",
+      "Marble-Look"
+    ],
+    "description": "Cipollino quartz features a soft white background accented by delicate, wispy light grey veining that mimics the natural beauty of marble. The polished finish and subtle, elegant pattern provide a sophisticated aesthetic ideal for modern interior applications.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ6801-Marmoris-or-MARMORIStm-CAN-or-US-Polished-001-Base_Color-2K_1.png",
+    "name": "BQ6801 Marmoris",
+    "category": "Quartz",
+    "colors": [
+      "Warm White",
+      "Faint Gold",
+      "Soft Grey"
+    ],
+    "features": [
+      "Subtle Veining",
+      "Long Sweeping Veins",
+      "Marble-Look"
+    ],
+    "description": "BQ6801 Marmoris is an elegant quartz surface featuring a luminous warm white background that brings a sense of serenity to any space. Delicate, sweeping veins in soft grey and faint gold traverse the slab, creating a sophisticated marble-like aesthetic ideal for luxurious interiors.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ6801-Marmoris-or-MARMORIStm-CAN-or-US-Polished-sphere-preview-01.png",
+    "name": "Marmoris",
+    "category": "Quartz",
+    "colors": [
+      "Pure White",
+      "Light Grey Veining",
+      "Subtle Gold Accents"
+    ],
+    "features": [
+      "Delicate Veining",
+      "Subtle Marbling",
+      "Polished Finish"
+    ],
+    "description": "Marmoris is a pristine white quartz featuring an exceptionally clean background accented by delicate, wispy veining in light grey and subtle gold tones. This elegant surface offers a refined, luxurious aesthetic perfect for creating bright, sophisticated spaces with a timeless appeal.",
+    "tone": "Light"
+  },
+  {
+    "id": "BQ6801-Marmoris-or-MARMORIStm-CAN-or-US-Polished-sphere-preview-01_1.png",
+    "name": "Marmoris",
+    "category": "Quartz",
+    "colors": [
+      "Warm White",
+      "Subtle Beige Veining",
+      "Light Gray Undertones"
+    ],
+    "features": [
+      "Fine Veining",
+      "Sparse Patterning",
+      "Polished Finish"
+    ],
+    "description": "Marmoris quartz presents a pristine, warm white background delicately enhanced by very fine, subtle beige and light gray veining. This elegant, minimalist design offers the luxurious look of classic marble with the durable, low-maintenance benefits of premium quartz.",
+    "tone": "Light"
+  }
+]

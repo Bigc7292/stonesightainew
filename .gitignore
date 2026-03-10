@@ -1,8 +1,22 @@
-node_modules/
-build/
-dist/
-coverage/
+# Dependencies
+/node_modules
+
+# Build artifacts
+/dist
+
+# Environment variables
+.env
+.env.*
+
+# IDE-specific files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS-specific files
 .DS_Store
-*.log
-.env*
-!.env.example
+Thumbs.db
