@@ -34,14 +34,7 @@ import { STONE_DATABASE } from './stones';
 const Header = () => (
   <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5 px-8 py-4 flex justify-between items-center">
     <div className="flex items-center gap-4">
-      {/* Custom Logo based on screenshot */}
-      <div className="relative w-8 h-8 flex items-center justify-center">
-        <svg viewBox="0 0 100 100" className="w-full h-full text-gold-500 fill-current">
-          <path d="M50 10 L80 40 L20 40 Z" className="text-gold-400" />
-          <path d="M15 45 L85 45 L80 60 L20 60 Z" className="text-gold-500" />
-          <path d="M10 65 L90 65 L85 80 L15 80 Z" className="text-gold-600" />
-        </svg>
-      </div>
+      <img src="/logo.jpg" alt="StoneSight Logo" className="w-12 h-12" />
       <div className="flex flex-col">
         <div className="flex items-baseline">
           <h1 className="text-xl font-bold tracking-tight text-white leading-none font-display">
@@ -324,11 +317,7 @@ export default function App() {
               <div className="relative mb-8">
                 <div className="absolute inset-0 bg-gold-500/20 blur-3xl rounded-full" />
                 <div className="relative w-32 h-32 flex flex-col items-center justify-center">
-                  <svg viewBox="0 0 100 100" className="w-full h-full text-gold-500 fill-current drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]">
-                    <path d="M50 10 L80 40 L20 40 Z" className="text-gold-400" />
-                    <path d="M15 45 L85 45 L80 60 L20 60 Z" className="text-gold-500" />
-                    <path d="M10 65 L90 65 L85 80 L15 80 Z" className="text-gold-600" />
-                  </svg>
+                  <img src="/logo.jpg" alt="StoneSight Logo" className="w-32 h-32" />
                 </div>
               </div>
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 leading-[1.1] font-display">
@@ -641,11 +630,7 @@ export default function App() {
                   <div className="relative mb-12">
                     <div className="w-32 h-32 rounded-full border border-white/10 border-t-gold-500 animate-spin" />
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <svg viewBox="0 0 100 100" className="w-12 h-12 text-gold-500 fill-current">
-                        <path d="M50 10 L80 40 L20 40 Z" className="text-gold-400" />
-                        <path d="M15 45 L85 45 L80 60 L20 60 Z" className="text-gold-500" />
-                        <path d="M10 65 L90 65 L85 80 L15 80 Z" className="text-gold-600" />
-                      </svg>
+                      <img src="/logo.jpg" alt="StoneSight Logo" className="w-16 h-16" />
                     </div>
                   </div>
                   <h2 className="text-3xl font-display font-medium mb-4 text-gray-100">Crafting Your Vision</h2>
@@ -920,13 +905,7 @@ export default function App() {
               <div className="relative w-full h-full flex flex-col items-center justify-center">
                 <div className="absolute top-0 left-0 right-0 flex flex-col sm:flex-row sm:items-center justify-between p-4 z-10 gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 flex items-center justify-center shrink-0">
-                      <svg viewBox="0 0 100 100" className="w-full h-full text-gold-500 fill-current">
-                        <path d="M50 10 L80 40 L20 40 Z" className="text-gold-400" />
-                        <path d="M15 45 L85 45 L80 60 L20 60 Z" className="text-gold-500" />
-                        <path d="M10 65 L90 65 L85 80 L15 80 Z" className="text-gold-600" />
-                      </svg>
-                    </div>
+                    <img src="/logo.jpg" alt="StoneSight Logo" className="w-8 h-8" />
                     <h3 className="text-gray-100 font-display font-medium tracking-tight truncate">{selectedStone?.name} Visualization</h3>
                   </div>
                   <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
