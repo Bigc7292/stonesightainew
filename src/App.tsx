@@ -626,16 +626,19 @@ export default function App() {
             >
               <StepIndicator currentStep={2} />
               {isProcessing ? (
-                <div className="flex flex-col items-center justify-center py-20 text-center">
-                  <div className="relative mb-12">
-                    <div className="w-32 h-32 rounded-full border border-white/10 border-t-gold-500 animate-spin" />
+                <div className="flex flex-col items-center justify-center py-20 text-center relative overflow-hidden">
+                  <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(212,175,55,0.1),rgba(255,255,255,0))] -z-10" />
+                  <div className="relative mb-12 w-32 h-32">
+                    <div className="absolute inset-0 rounded-full bg-gold-500/5 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '1s' }} />
+                    <div className="absolute inset-0 rounded-full bg-gold-500/10 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" />
+                    <div className="absolute inset-0 rounded-full border border-white/10 border-t-gold-500 animate-spin" />
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <img src="/logo.jpg" alt="StoneSight Logo" className="w-16 h-16" />
+                      <img src="/logo.jpg" alt="StoneSight Logo" className="w-16 h-16 rounded-full shadow-lg" />
                     </div>
                   </div>
                   <h2 className="text-3xl font-display font-medium mb-4 text-gray-100">Crafting Your Vision</h2>
-                  <p className="text-lg text-gray-400 mb-12 font-light">{processingStatus}</p>
-                  
+                  <p className="text-lg text-gold-400/90 mb-12 font-light min-h-[28px] animate-pulse">{processingStatus || "Initializing..."}</p>
+
                   <div className="max-w-md w-full space-y-4 text-left bg-dark-800/50 p-8 rounded-[24px] border border-white/5 shadow-premium backdrop-blur-sm">
                     <div className="flex items-center gap-4">
                       <div className={`w-6 h-6 rounded-full flex items-center justify-center border ${resultImage ? 'bg-gold-500/20 border-gold-500 text-gold-400' : 'border-white/10 text-gray-600'}`}>
@@ -830,9 +833,17 @@ export default function App() {
                               poster={resultImage!}
                             />
                           ) : (
-                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-dark-900/90 backdrop-blur-sm">
-                              <Loader2 className="w-8 h-8 animate-spin text-gold-500" />
-                              <p className="text-[10px] font-medium uppercase tracking-widest text-gray-400">Rendering Clockwise Tour...</p>
+                            <div className="absolute inset-0 bg-dark-900/50 backdrop-blur-md flex flex-col items-center justify-center p-4 text-center overflow-hidden border border-white/5">
+                              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(212,175,55,0.15),rgba(255,255,255,0))]" />
+                              <div className="relative">
+                                <Loader2 className="w-8 h-8 animate-spin text-gold-500" />
+                                <p className="mt-4 text-xs font-medium uppercase tracking-widest text-gold-400/80">
+                                  Rendering Walkthrough
+                                </p>
+                                <p className="text-[10px] text-gray-500 mt-1">
+                                  Please wait...
+                                </p>
+                              </div>
                             </div>
                           )}
                           <div className="absolute top-4 left-4 sm:top-6 sm:left-6 px-3 py-1.5 bg-dark-900/80 backdrop-blur-md rounded-lg text-[10px] font-medium uppercase tracking-widest text-gray-300 border border-white/10 shadow-sm">
@@ -863,9 +874,17 @@ export default function App() {
                               poster={resultImage!}
                             />
                           ) : (
-                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-dark-900/90 backdrop-blur-sm">
-                              <Loader2 className="w-8 h-8 animate-spin text-gold-500" />
-                              <p className="text-[10px] font-medium uppercase tracking-widest text-gray-400">Rendering Anti-Clockwise Tour...</p>
+                            <div className="absolute inset-0 bg-dark-900/50 backdrop-blur-md flex flex-col items-center justify-center p-4 text-center overflow-hidden border border-white/5">
+                              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(212,175,55,0.15),rgba(255,255,255,0))]" />
+                              <div className="relative">
+                                <Loader2 className="w-8 h-8 animate-spin text-gold-500" />
+                                <p className="mt-4 text-xs font-medium uppercase tracking-widest text-gold-400/80">
+                                  Rendering Walkthrough
+                                </p>
+                                <p className="text-[10px] text-gray-500 mt-1">
+                                  Please wait...
+                                </p>
+                              </div>
                             </div>
                           )}
                           <div className="absolute top-4 left-4 sm:top-6 sm:left-6 px-3 py-1.5 bg-dark-900/80 backdrop-blur-md rounded-lg text-[10px] font-medium uppercase tracking-widest text-gray-300 border border-white/10 shadow-sm">
