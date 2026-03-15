@@ -140,7 +140,7 @@ export default function App() {
       // 1. Generate Edited Image
       setProcessingStatus('Surgically applying ' + selectedStone.name + '...');
       
-      let imageResponse: { candidates: { content: { parts: any; }; }[]; };
+      let imageResponse: any;
       try {
         imageResponse = await ai.models.generateContent({
           model: 'gemini-2.5-flash-image',
@@ -260,7 +260,7 @@ export default function App() {
         
         const clockwisePromise = generateVideo(`A cinematic 11-second wide-angle architectural sweep. The camera performs a smooth, continuous 180-degree clockwise panoramic orbit of the entire room. The motion captures the full scale of the kitchen, showcasing the new ${selectedStone.name} surfaces from the far left to the far right. Architectural visualization style, 4k, fluid motion.`, 'clockwise');
         
-        const counterPromise = generateVideo(`A cinematic 11-second wide-angle architectural sweep. The camera performs a smooth, continuous 180-degree counter-clockwise panoramic orbit of the entire room. The motion captures the full scale of the kitchen, showcasing the new ${selectedStone.name} surfaces from the far right to the far left. Architectural visualization style, 4k, fluid motion.`, 'counter-clockwise');
+        const counterPromise = generateVideo(`A cinematic 11-second wide-angle architectural sweep. The camera performs a smooth, continuous 180-degree counter-clockwise panoramic orbit of the entire room. The motion captures the full scale of the kitchen, showcasing the new ${selectedStone.name} surfaces from the far right to the far left. Architectural visualization style, 4k, fluid motion.`, 'anti-clockwise');
 
         const [clockwiseUrl, counterUrl] = await Promise.all([
           clockwisePromise.then(url => {
@@ -562,9 +562,9 @@ export default function App() {
                           <p className="font-medium text-sm">No stones found matching your criteria.</p>
                         </div>
                       ) : (
-                        filteredStones.map((stone: { id: any; swatchUrl: any; name: any; category: any; }) => (
+                        filteredStones.map((stone: Stone, index: number) => (
                           <motion.div
-                            key={stone.id}
+                            key={`${stone.name || 'stone'}-${index}`}
                             whileHover={{ y: -4 }}
                             onMouseEnter={() => {
                               setHoveredStone(stone);
