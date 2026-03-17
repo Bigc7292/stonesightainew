@@ -358,41 +358,50 @@ export default function App() {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="space-y-4">
-                    <div className="aspect-[4/3] rounded-xl overflow-hidden bg-dark-700 relative border border-white/5">
-                      <div className="absolute top-3 right-3 bg-dark-900/80 backdrop-blur-sm text-gold-400 p-1.5 rounded-full border border-white/10">
-                        <CheckCircle2 className="w-4 h-4" />
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-sm mb-1 text-gray-200">Natural Lighting</h4>
-                      <p className="text-xs text-gray-500 leading-relaxed">Ensure the room is well-lit, preferably with natural daylight. Avoid harsh shadows.</p>
-                    </div>
-                  </div>
+                  {/* Guideline 1: Natural Lighting */}
+                  <motion.div 
+                    className="space-y-4 p-4 bg-dark-700/50 rounded-xl border border-white/5 hover:border-gold-500/30 transition-all cursor-pointer group"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1, duration: 0.3 }}
+                    whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(212, 175, 55, 0.1), 0 4px 6px -2px rgba(212, 175, 55, 0.05)" }}
+                  >
+                    <h4 className="font-medium text-sm mb-1 text-gray-200 flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-gold-500 group-hover:scale-110 transition-transform" />
+                      Natural Lighting
+                    </h4>
+                    <p className="text-xs text-gray-500 leading-relaxed">Ensure the room is well-lit, preferably with natural daylight. Avoid harsh shadows.</p>
+                  </motion.div>
                   
-                  <div className="space-y-4">
-                    <div className="aspect-[4/3] rounded-xl overflow-hidden bg-dark-700 relative border border-white/5">
-                      <div className="absolute top-3 right-3 bg-dark-900/80 backdrop-blur-sm text-gold-400 p-1.5 rounded-full border border-white/10">
-                        <CheckCircle2 className="w-4 h-4" />
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-sm mb-1 text-gray-200">Clear Surfaces</h4>
-                      <p className="text-xs text-gray-500 leading-relaxed">Capture a wide angle showing existing countertops clearly. Remove clutter.</p>
-                    </div>
-                  </div>
+                  {/* Guideline 2: Clear Surfaces */}
+                  <motion.div 
+                    className="space-y-4 p-4 bg-dark-700/50 rounded-xl border border-white/5 hover:border-gold-500/30 transition-all cursor-pointer group"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.3 }}
+                    whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(212, 175, 55, 0.1), 0 4px 6px -2px rgba(212, 175, 55, 0.05)" }}
+                  >
+                    <h4 className="font-medium text-sm mb-1 text-gray-200 flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-gold-500 group-hover:scale-110 transition-transform" />
+                      Clear Surfaces
+                    </h4>
+                    <p className="text-xs text-gray-500 leading-relaxed">Capture a wide angle showing existing countertops clearly. Remove clutter.</p>
+                  </motion.div>
                   
-                  <div className="space-y-4">
-                    <div className="aspect-[4/3] rounded-xl overflow-hidden bg-dark-700 relative border border-white/5">
-                      <div className="absolute top-3 right-3 bg-dark-900/80 backdrop-blur-sm text-gold-400 p-1.5 rounded-full border border-white/10">
-                        <CheckCircle2 className="w-4 h-4" />
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-sm mb-1 text-gray-200">Direct Angle</h4>
-                      <p className="text-xs text-gray-500 leading-relaxed">Take the photo straight on or at a slight angle, avoiding extreme perspectives.</p>
-                    </div>
-                  </div>
+                  {/* Guideline 3: Direct Angle */}
+                  <motion.div 
+                    className="space-y-4 p-4 bg-dark-700/50 rounded-xl border border-white/5 hover:border-gold-500/30 transition-all cursor-pointer group"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.3 }}
+                    whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(212, 175, 55, 0.1), 0 4px 6px -2px rgba(212, 175, 55, 0.05)" }}
+                  >
+                    <h4 className="font-medium text-sm mb-1 text-gray-200 flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-gold-500 group-hover:scale-110 transition-transform" />
+                      Direct Angle
+                    </h4>
+                    <p className="text-xs text-gray-500 leading-relaxed">Take the photo straight on or at a slight angle, avoiding extreme perspectives.</p>
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
@@ -556,7 +565,7 @@ export default function App() {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    <>
+                    
                       {filteredStones.length === 0 ? (
                         <div className="col-span-full py-20 text-center text-gray-500">
                           <p className="font-medium text-sm">No stones found matching your criteria.</p>
@@ -609,7 +618,7 @@ export default function App() {
                           </motion.div>
                         ))
                       )}
-                    </>
+                    
                   </div>
                 </div>
               </div>
@@ -793,7 +802,7 @@ export default function App() {
                               }
                             }}
                             disabled={!resultVideos?.clockwise && !resultVideos?.counter}
-                            className={`p-4 rounded-2xl bg-dark-700/50 hover:bg-dark-600 hover:text-gold-400 transition-all flex sm:flex-col items-center justify-center gap-3 sm:gap-2 group border border-white/5 hover:border-gold-500/30 text-gray-300 disabled:opacity-40 disabled:cursor-not-allowed'`}
+                            className={`p-4 rounded-2xl bg-dark-700/50 hover:bg-dark-600 hover:text-gold-400 transition-all flex sm:flex-col items-center justify-center gap-3 sm:gap-2 group border border-white/5 hover:border-gold-500/30 text-gray-300 disabled:opacity-40 disabled:cursor-not-allowed'}`}
                           >
                             <Video className="w-5 h-5 group-hover:scale-110 transition-transform" />
                             <span className="text-[10px] font-medium uppercase tracking-widest">Save Videos</span>
@@ -831,7 +840,7 @@ export default function App() {
                             />
                           ) : (
                             <div className="absolute inset-0 bg-dark-900/50 backdrop-blur-md flex flex-col items-center justify-center p-4 text-center overflow-hidden border border-white/5">
-                              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(212,175,55,0.1),rgba(255,255,255,0))]" />
+                              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(212,175,55,0.1),rgba(255,255,255,0))]"/>
                               <div className="relative flex flex-col items-center justify-center">
                                 <Loader2 className="w-8 h-8 animate-spin text-gold-500" />
                                 <p className="mt-4 text-sm font-medium text-gold-400/80">
@@ -843,10 +852,6 @@ export default function App() {
                               </div>
                             </div>
                           )}
-                          <div className="absolute top-4 left-4 sm:top-6 sm:left-6 px-3 py-1.5 bg-dark-900/80 backdrop-blur-md rounded-lg text-[10px] font-medium uppercase tracking-widest text-gold-400 border border-gold-500/20 shadow-sm flex items-center gap-2">
-                            <span>Walk along pink path</span>
-                            <ChevronRight className="w-3 h-3" />
-                          </div>
                           <button 
                             onClick={() => {
                               const link = document.createElement('a');
@@ -874,7 +879,7 @@ export default function App() {
                             />
                           ) : (
                             <div className="absolute inset-0 bg-dark-900/50 backdrop-blur-md flex flex-col items-center justify-center p-4 text-center overflow-hidden border border-white/5">
-                              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(212,175,55,0.1),rgba(255,255,255,0))]" />
+                              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(212,175,55,0.1),rgba(255,255,255,0))]"/>
                               <div className="relative flex flex-col items-center justify-center">
                                 <Loader2 className="w-8 h-8 animate-spin text-gold-500" />
                                 <p className="mt-4 text-sm font-medium text-gold-400/80">
@@ -886,15 +891,11 @@ export default function App() {
                               </div>
                             </div>
                           )}
-                          <div className="absolute top-4 left-4 sm:top-6 sm:left-6 px-3 py-1.5 bg-dark-900/80 backdrop-blur-md rounded-lg text-[10px] font-medium uppercase tracking-widest text-gold-400 border border-gold-500/20 shadow-sm flex items-center gap-2">
-                            <ChevronLeft className="w-3 h-3" />
-                            <span>Walk along blue path</span>
-                          </div>
                           <button 
                             onClick={() => {
                               const link = document.createElement('a');
                               link.href = resultVideos.counter!;
-                              link.download = `walkthrough-anti-clockwise.mp4`;
+                              link.download = `walkthrough-counter.mp4`;
                               link.click();
                             }}
                             disabled={!resultVideos?.counter}

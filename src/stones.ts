@@ -167,7 +167,7 @@ export const STONE_DATABASE: Stone[] = [
     "name": "Granite 002B",
     "category": "Granite",
     "tone": "Light",
-    "description": "Granite 002B is a classic light grey granite characterized by a dense, even distribution of dark grey and black speckling. Its fine-grained, granular texture provides a consistent and durable surface suitable for a wide range of applications.",
+    "description": "Granite002B is a classic light grey granite characterized by a dense, even distribution of dark grey and black speckling. Its fine-grained, granular texture provides a consistent and durable surface suitable for a wide range of applications.",
     "swatchUrl": "/granite/Granite002B.png"
   },
   {
@@ -517,10 +517,10 @@ export const STONE_DATABASE: Stone[] = [
   {
     "id": "blue-dunes-granite.jpg",
     "name": "Blue Dunes Granite",
-    "category": "Quartz",
+    "category": "Granite",
     "tone": "Dark",
     "description": "Blue Dunes Granite features a mesmerizing, fluid landscape of slate blues, pale grays, and deep charcoal blacks that create a striking marbleized effect. The complex, swirling veining mimics the natural flow of water or shifting sands, making it an extraordinary statement piece for any modern design project.",
-    "swatchUrl": "/quartz/blue-dunes-granite.jpg"
+    "swatchUrl": "/granite/blue-dunes-granite.jpg"
   },
   {
     "id": "bohemian_flame.jpg",
