@@ -258,9 +258,9 @@ export default function App() {
         // Run them in parallel for speed
         setProcessingStatus('Generating cinematic walkthroughs in parallel...');
         
-        const clockwisePromise = generateVideo(`A cinematic 11-second wide-angle architectural sweep. The camera performs a smooth, continuous 180-degree clockwise panoramic orbit of the entire room. The motion captures the full scale of the kitchen, showcasing the new ${selectedStone.name} surfaces from the far left to the far right. Architectural visualization style, 4k, fluid motion.`, 'clockwise');
+        const clockwisePromise = generateVideo(`Cinematic 11-second architectural video. Starting from a fixed center point, the camera trucks right and arcs around the kitchen island following a wide 180-degree path to the right. Focus on the ${selectedStone.name} grain. 4k, fluid movement.`, 'clockwise');
         
-        const counterPromise = generateVideo(`A cinematic 11-second wide-angle architectural sweep. The camera performs a smooth, continuous 180-degree counter-clockwise panoramic orbit of the entire room. The motion captures the full scale of the kitchen, showcasing the new ${selectedStone.name} surfaces from the far right to the far left. Architectural visualization style, 4k, fluid motion.`, 'anti-clockwise');
+        const counterPromise = generateVideo(`Cinematic 11-second architectural video. Starting from a fixed center point, the camera trucks left and arcs around the kitchen island following a wide 180-degree path to the left. Focus on the ${selectedStone.name} grain. 4k, fluid movement.`, 'anti-clockwise');
 
         const [clockwiseUrl, counterUrl] = await Promise.all([
           clockwisePromise.then(url => {
@@ -474,7 +474,7 @@ export default function App() {
                       <div>
                         <label className="text-[10px] font-medium text-gray-500 uppercase tracking-widest mb-3 block">Material</label>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                          {['Quartz', 'Dekton', 'Marble', 'Granite', 'Quartzite'].map(cat => (
+                          {['Quartz', 'Dekton', 'Marble', 'Granite'].map(cat => (
                             <button 
                               key={cat} 
                               onClick={() => setActiveCategory(activeCategory === cat ? null : cat)}
@@ -625,64 +625,34 @@ export default function App() {
               className="w-full"
             >
               <StepIndicator currentStep={2} />
-              {isProcessing ? (
-                <div className="flex flex-col items-center justify-center py-20 text-center relative overflow-hidden">
-                  <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(212,175,55,0.1),rgba(255,255,255,0))] -z-10" />
-                  <div className="relative mb-12 w-32 h-32">
-                    <div className="absolute inset-0 rounded-full bg-gold-500/5 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '1s' }} />
-                    <div className="absolute inset-0 rounded-full bg-gold-500/10 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" />
-                    <div className="absolute inset-0 rounded-full border border-white/10 border-t-gold-500 animate-spin" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <img src="/logo.jpg" alt="StoneSight Logo" className="w-16 h-16 rounded-full shadow-lg" />
-                    </div>
-                  </div>
-                  <h2 className="text-3xl font-display font-medium mb-4 text-gray-100">Crafting Your Vision</h2>
-                  <p className="text-lg text-gold-400/90 mb-12 font-light min-h-[28px] animate-pulse">{processingStatus || "Initializing..."}</p>
+              
+              <div className="space-y-12">
+                  {resultImage && isGeneratingVideos && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-dark-800/50 border border-gold-500/30 p-4 rounded-2xl text-center text-sm text-gold-400 font-light shadow-premium flex items-center justify-center gap-4"
+                    >
+                      <Info className="w-5 h-5 text-gold-500 shrink-0" />
+                      <span>Image ready! Videos are generating in the background – this usually takes 3-5 minutes.</span>
+                    </motion.div>
+                  )}
 
-                  <div className="max-w-md w-full space-y-4 text-left bg-dark-800/50 p-8 rounded-[24px] border border-white/5 shadow-premium backdrop-blur-sm">
-                    <div className="flex items-center gap-4">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center border ${resultImage ? 'bg-gold-500/20 border-gold-500 text-gold-400' : 'border-white/10 text-gray-600'}`}>
-                        {resultImage ? <Check className="w-3 h-3" /> : <Loader2 className="w-3 h-3 animate-spin text-gold-500" />}
-                      </div>
-                      <span className={`text-xs font-medium uppercase tracking-widest ${resultImage ? 'text-gold-400' : 'text-gray-500'}`}>1. Material Integration</span>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center border ${resultVideos ? 'bg-gold-500/20 border-gold-500 text-gold-400' : 'border-white/10 text-gray-600'}`}>
-                        {resultVideos ? <Check className="w-3 h-3" /> : (resultImage ? <Loader2 className="w-3 h-3 animate-spin text-gold-500" /> : <div className="w-1.5 h-1.5 bg-gray-600 rounded-full" />)}
-                      </div>
-                      <span className={`text-xs font-medium uppercase tracking-widest ${resultVideos ? 'text-gold-400' : (resultImage ? 'text-gray-300' : 'text-gray-600')}`}>2. Cinematic Rendering</span>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center border ${resultVideos ? 'bg-gold-500/20 border-gold-500 text-gold-400' : 'border-white/10 text-gray-600'}`}>
-                        {resultVideos ? <Check className="w-3 h-3" /> : <div className="w-1.5 h-1.5 bg-gray-600 rounded-full" />}
-                      </div>
-                      <span className="text-xs font-medium uppercase tracking-widest text-gray-600">3. Finalizing Assets</span>
-                    </div>
-                  </div>
-
-                  <div className="mt-12 max-w-md w-full bg-dark-800/50 h-1 rounded-full overflow-hidden border border-white/5">
-                    <motion.div 
-                      className="h-full bg-gradient-gold"
-                      initial={{ width: "0%" }}
-                      animate={{ width: resultVideos ? "100%" : (resultImage ? "70%" : "30%") }}
-                      transition={{ duration: 2, ease: "easeOut" }}
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-12">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div>
-                      <h2 className="text-3xl font-display font-medium text-gray-100 mb-2">Project: Modern Space</h2>
+                      <h2 className="text-3xl font-display font-medium text-gray-100 mb-2">
+                        {(isProcessing || isGeneratingVideos) ? "Crafting Your Vision" : "Project: Modern Space"}
+                      </h2>
                       <p className="text-gray-400 flex items-center gap-2 text-sm">
-                        <span className="w-2 h-2 rounded-full bg-gold-500" />
-                        Featuring {selectedStone?.name}
+                        <span className={`w-2 h-2 rounded-full ${isProcessing || isGeneratingVideos ? 'bg-gold-500 animate-pulse' : 'bg-gold-500'}`} />
+                        {isProcessing ? 'Applying ' : 'Featuring '}{selectedStone?.name}
                       </p>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-                      <button 
+                       <button 
                         onClick={() => setStep(1)}
-                        className="w-full sm:w-auto px-6 py-2.5 rounded-xl border border-white/10 font-medium text-sm hover:bg-white/5 transition-colors text-gray-300 flex items-center justify-center gap-2"
+                        disabled={isProcessing || isGeneratingVideos}
+                        className="w-full sm:w-auto px-8 py-3 rounded-xl border font-medium text-sm transition-all flex items-center justify-center gap-2 bg-gradient-to-r from-gold-500 to-gold-400 text-dark-900 shadow-gold-glow hover:scale-[1.03] active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none"
                       >
                         <RefreshCcw className="w-4 h-4" /> Try Another Stone
                       </button>
@@ -712,7 +682,8 @@ export default function App() {
                             }, 1000);
                           }
                         }}
-                        className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-gold text-dark-900 font-medium text-sm shadow-gold-glow hover:scale-[1.02] transition-transform flex items-center justify-center gap-2"
+                        disabled={!resultImage}
+                        className="w-full sm:w-auto px-6 py-3 rounded-xl bg-dark-700/50 text-gray-300 font-medium text-sm border border-white/10 hover:bg-dark-600 hover:text-white transition-colors flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         <Download className="w-4 h-4" /> Download All
                       </button>
@@ -725,13 +696,37 @@ export default function App() {
                       <h3 className="text-xs font-medium uppercase tracking-widest text-gray-400 flex items-center gap-2">
                         <ImageIcon className="w-4 h-4 text-gold-500" /> Interactive Comparison
                       </h3>
-                      <div className="bg-dark-800/50 p-2 rounded-[32px] shadow-premium border border-white/5">
-                        <BeforeAfterSlider 
-                          beforeImage={uploadedImage!} 
-                          afterImage={resultImage!} 
-                          onFullscreen={() => setIsFullscreen(true)}
-                        />
+                      <div className="bg-dark-800/50 p-2 rounded-[32px] shadow-premium border border-white/5 aspect-video flex items-center justify-center">
+                         {!resultImage ? (
+                            <div className="text-center flex flex-col items-center justify-center p-4">
+                                <div className="relative w-20 h-20 mx-auto mb-6">
+                                  <div className="absolute inset-0 rounded-full bg-gold-500/5 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" />
+                                  <div className="absolute inset-0 rounded-full border-2 border-white/10 border-t-gold-500 animate-spin" />
+                                </div>
+                                <h3 className="font-medium text-gold-400">Generating your stone-applied room...</h3>
+                                <p className="text-xs text-gray-500 mt-1">(This part is fast!)</p>
+                            </div>
+                         ) : (
+                            <motion.div
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1, boxShadow: ['0 0 0px rgba(212,175,55,0)', '0 0 50px rgba(212,175,55,0.2)', '0 0 0px rgba(212,175,55,0)'] }}
+                              transition={{ duration: 1.5, ease: "easeOut" }}
+                              className="w-full h-full rounded-[24px] overflow-hidden"
+                            >
+                              <BeforeAfterSlider 
+                                beforeImage={uploadedImage!} 
+                                afterImage={resultImage!} 
+                                onFullscreen={() => setIsFullscreen(true)}
+                              />
+                            </motion.div>
+                         )}
                       </div>
+                       {resultImage && (
+                          <div className="text-center text-xs text-gold-400/70 font-light bg-dark-800/30 border border-gold-500/20 rounded-lg px-4 py-2 flex items-center justify-center gap-2">
+                              <Info className="w-4 h-4 shrink-0" />
+                              <span>Stone applied to main surfaces – re-generate if any counters were missed.</span>
+                          </div>
+                      )}
                     </div>
 
                     <div className="space-y-8">
@@ -758,12 +753,13 @@ export default function App() {
                       <div className="bg-dark-800/50 p-8 rounded-[32px] shadow-premium border border-white/5 backdrop-blur-sm">
                         <h3 className="text-xs font-medium uppercase tracking-widest text-gray-400 mb-4 flex items-center justify-between">
                           <span>Quick Actions</span>
-                          <span className="text-[10px] bg-gold-500/10 text-gold-400 px-2.5 py-1 rounded-md border border-gold-500/20">Ready</span>
+                          <span className="text-[10px] bg-gold-500/10 text-gold-400 px-2.5 py-1 rounded-md border border-gold-500/20">{!resultImage ? 'Processing' : 'Ready'}</span>
                         </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                           <button 
                             onClick={() => setIsFullscreen(true)}
-                            className="p-4 rounded-2xl bg-dark-700/50 hover:bg-dark-600 hover:text-gold-400 transition-all flex sm:flex-col items-center justify-center gap-3 sm:gap-2 group border border-white/5 hover:border-gold-500/30 text-gray-300"
+                             disabled={!resultImage}
+                            className="p-4 rounded-2xl bg-dark-700/50 hover:bg-dark-600 hover:text-gold-400 transition-all flex sm:flex-col items-center justify-center gap-3 sm:gap-2 group border border-white/5 hover:border-gold-500/30 text-gray-300 disabled:opacity-40 disabled:cursor-not-allowed"
                           >
                             <Maximize2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
                             <span className="text-[10px] font-medium uppercase tracking-widest">Fullscreen</span>
@@ -775,7 +771,8 @@ export default function App() {
                               link.download = `visualized-${selectedStone?.name.toLowerCase().replace(/\s+/g, '-')}.png`;
                               link.click();
                             }}
-                            className="p-4 rounded-2xl bg-dark-700/50 hover:bg-dark-600 hover:text-gold-400 transition-all flex sm:flex-col items-center justify-center gap-3 sm:gap-2 group border border-white/5 hover:border-gold-500/30 text-gray-300"
+                            disabled={!resultImage}
+                            className="p-4 rounded-2xl bg-dark-700/50 hover:bg-dark-600 hover:text-gold-400 transition-all flex sm:flex-col items-center justify-center gap-3 sm:gap-2 group border border-white/5 hover:border-gold-500/30 text-gray-300 disabled:opacity-40 disabled:cursor-not-allowed"
                           >
                             <Download className="w-5 h-5 group-hover:scale-110 transition-transform" />
                             <span className="text-[10px] font-medium uppercase tracking-widest">Save Image</span>
@@ -796,7 +793,7 @@ export default function App() {
                               }
                             }}
                             disabled={!resultVideos?.clockwise && !resultVideos?.counter}
-                            className={`p-4 rounded-2xl bg-dark-700/50 hover:bg-dark-600 hover:text-gold-400 transition-all flex sm:flex-col items-center justify-center gap-3 sm:gap-2 group border border-white/5 hover:border-gold-500/30 text-gray-300 ${(!resultVideos?.clockwise && !resultVideos?.counter) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`p-4 rounded-2xl bg-dark-700/50 hover:bg-dark-600 hover:text-gold-400 transition-all flex sm:flex-col items-center justify-center gap-3 sm:gap-2 group border border-white/5 hover:border-gold-500/30 text-gray-300 disabled:opacity-40 disabled:cursor-not-allowed'`}
                           >
                             <Video className="w-5 h-5 group-hover:scale-110 transition-transform" />
                             <span className="text-[10px] font-medium uppercase tracking-widest">Save Videos</span>
@@ -834,20 +831,21 @@ export default function App() {
                             />
                           ) : (
                             <div className="absolute inset-0 bg-dark-900/50 backdrop-blur-md flex flex-col items-center justify-center p-4 text-center overflow-hidden border border-white/5">
-                              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(212,175,55,0.15),rgba(255,255,255,0))]" />
-                              <div className="relative">
+                              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(212,175,55,0.1),rgba(255,255,255,0))]" />
+                              <div className="relative flex flex-col items-center justify-center">
                                 <Loader2 className="w-8 h-8 animate-spin text-gold-500" />
-                                <p className="mt-4 text-xs font-medium uppercase tracking-widest text-gold-400/80">
-                                  Rendering Walkthrough
+                                <p className="mt-4 text-sm font-medium text-gold-400/80">
+                                  Preparing clockwise walkthrough...
                                 </p>
-                                <p className="text-[10px] text-gray-500 mt-1">
-                                  Please wait...
+                                <p className="text-xs text-gray-500 mt-1">
+                                  (processing)
                                 </p>
                               </div>
                             </div>
                           )}
-                          <div className="absolute top-4 left-4 sm:top-6 sm:left-6 px-3 py-1.5 bg-dark-900/80 backdrop-blur-md rounded-lg text-[10px] font-medium uppercase tracking-widest text-gray-300 border border-white/10 shadow-sm">
-                            Clockwise Tour
+                          <div className="absolute top-4 left-4 sm:top-6 sm:left-6 px-3 py-1.5 bg-dark-900/80 backdrop-blur-md rounded-lg text-[10px] font-medium uppercase tracking-widest text-gold-400 border border-gold-500/20 shadow-sm flex items-center gap-2">
+                            <span>Walk along pink path</span>
+                            <ChevronRight className="w-3 h-3" />
                           </div>
                           <button 
                             onClick={() => {
@@ -856,7 +854,8 @@ export default function App() {
                               link.download = `walkthrough-clockwise.mp4`;
                               link.click();
                             }}
-                            className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 bg-dark-900/80 backdrop-blur-md rounded-xl text-gray-300 hover:bg-gold-500/20 hover:text-gold-400 transition-all shadow-sm sm:opacity-0 sm:group-hover:opacity-100 border border-white/10 hover:border-gold-500/30"
+                             disabled={!resultVideos?.clockwise}
+                            className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 bg-dark-900/80 backdrop-blur-md rounded-xl text-gray-300 hover:bg-gold-500/20 hover:text-gold-400 transition-all shadow-sm sm:opacity-0 sm:group-hover:opacity-100 border border-white/10 hover:border-gold-500/30 disabled:opacity-0"
                             title="Download Clockwise Tour"
                           >
                             <Download className="w-4 h-4" />
@@ -875,20 +874,21 @@ export default function App() {
                             />
                           ) : (
                             <div className="absolute inset-0 bg-dark-900/50 backdrop-blur-md flex flex-col items-center justify-center p-4 text-center overflow-hidden border border-white/5">
-                              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(212,175,55,0.15),rgba(255,255,255,0))]" />
-                              <div className="relative">
+                              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(212,175,55,0.1),rgba(255,255,255,0))]" />
+                              <div className="relative flex flex-col items-center justify-center">
                                 <Loader2 className="w-8 h-8 animate-spin text-gold-500" />
-                                <p className="mt-4 text-xs font-medium uppercase tracking-widest text-gold-400/80">
-                                  Rendering Walkthrough
+                                <p className="mt-4 text-sm font-medium text-gold-400/80">
+                                  Preparing counter-clockwise walkthrough...
                                 </p>
-                                <p className="text-[10px] text-gray-500 mt-1">
-                                  Please wait...
+                                <p className="text-xs text-gray-500 mt-1">
+                                  (processing)
                                 </p>
                               </div>
                             </div>
                           )}
-                          <div className="absolute top-4 left-4 sm:top-6 sm:left-6 px-3 py-1.5 bg-dark-900/80 backdrop-blur-md rounded-lg text-[10px] font-medium uppercase tracking-widest text-gray-300 border border-white/10 shadow-sm">
-                            Anti-Clockwise Tour
+                          <div className="absolute top-4 left-4 sm:top-6 sm:left-6 px-3 py-1.5 bg-dark-900/80 backdrop-blur-md rounded-lg text-[10px] font-medium uppercase tracking-widest text-gold-400 border border-gold-500/20 shadow-sm flex items-center gap-2">
+                            <ChevronLeft className="w-3 h-3" />
+                            <span>Walk along blue path</span>
                           </div>
                           <button 
                             onClick={() => {
@@ -897,7 +897,8 @@ export default function App() {
                               link.download = `walkthrough-anti-clockwise.mp4`;
                               link.click();
                             }}
-                            className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 bg-dark-900/80 backdrop-blur-md rounded-xl text-gray-300 hover:bg-gold-500/20 hover:text-gold-400 transition-all shadow-sm sm:opacity-0 sm:group-hover:opacity-100 border border-white/10 hover:border-gold-500/30"
+                            disabled={!resultVideos?.counter}
+                            className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 bg-dark-900/80 backdrop-blur-md rounded-xl text-gray-300 hover:bg-gold-500/20 hover:text-gold-400 transition-all shadow-sm sm:opacity-0 sm:group-hover:opacity-100 border border-white/10 hover:border-gold-500/30 disabled:opacity-0"
                             title="Download Anti-Clockwise Tour"
                           >
                             <Download className="w-4 h-4" />
@@ -907,7 +908,6 @@ export default function App() {
                     </div>
                   </div>
                 </div>
-              )}
             </motion.div>
           )}
         </AnimatePresence>

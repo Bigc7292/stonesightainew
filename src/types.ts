@@ -1,4 +1,4 @@
-export type StoneCategory = 'Quartz' | 'Dekton' | 'Marble' | 'Granite' | 'Quartzite';
+export type StoneCategory = 'Quartz' | 'Dekton' | 'Marble' | 'Granite';
 export type StoneTone = 'Light' | 'Dark' | 'Warm';
 
 export interface Stone {
