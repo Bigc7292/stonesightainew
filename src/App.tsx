@@ -153,7 +153,7 @@ export default function App() {
                 },
               },
               {
-                text: `Perform a photorealistic material replacement. Identify and replace ALL stone-compatible surfaces in the image, including every countertop, the kitchen island, side-ledges, and matching backsplashes, with ${selectedStone.name}. Description: ${selectedStone.description}. Ensure the vein pattern flows naturally and consistently across all identified surfaces. Maintain original lighting, cabinetry, and room architecture exactly.`,
+                text: `Perform an exhaustive, photorealistic material replacement. Identify and replace ALL stone-compatible surfaces in the image, including every countertop, the central kitchen island (including vertical waterfall gables), side-ledges, and matching backsplashes, with ${selectedStone.name}. Material Description: ${selectedStone.description}. Ensure the vein pattern flows naturally with monolithic consistency across all identified surfaces. Maintain original ambient lighting, cabinetry textures, and room architecture with 100% fidelity.`,
               },
             ],
           },
@@ -166,7 +166,7 @@ export default function App() {
           ai = new GoogleGenAI({ apiKey: currentApiKey });
           imageResponse = await ai.models.generateContent({
             model: 'gemini-2.5-flash-image',
-            contents: { parts: [{ inlineData: { data: uploadedImage.split(',')[1], mimeType: 'image/png' } }, { text: `Surgically replace countertops with ${selectedStone.name}. Material description: ${(selectedStone as any).promptDescription || selectedStone.description}. Ensure the veining, color, and finish match this description exactly.` }] }
+            contents: { parts: [{ inlineData: { data: uploadedImage.split(',')[1], mimeType: 'image/png' } }, { text: `Surgically replace all horizontal countertops and vertical stone faces with ${selectedStone.name}. Material description: ${selectedStone.description}. Ensure the specific veining, color temperature, and surface finish match this description exactly, blending seamlessly into the existing environment\'s lighting.` }] }
           });
         } else {
           throw imgErr;
@@ -258,9 +258,9 @@ export default function App() {
         // Run them in parallel for speed
         setProcessingStatus('Generating cinematic walkthroughs in parallel...');
         
-        const clockwisePromise = generateVideo(`Cinematic 11-second architectural video. Starting from a fixed center point, the camera trucks right and arcs around the kitchen island following a wide 180-degree path to the right. Focus on the ${selectedStone.name} grain. 4k, fluid movement.`, 'clockwise');
+        const clockwisePromise = generateVideo(`Cinematic 11-second architectural interior video. Starting from a fixed center point, the camera trucks right and performs a sweeping 180-degree arc around the kitchen island. Maintain smooth parallax movement to emphasize the depth of the room. Focus sharply on the ${selectedStone.name} grain and surface reflections. 4k resolution, fluid gimbal-style movement, no flickering.`, 'clockwise');
         
-        const counterPromise = generateVideo(`Cinematic 11-second architectural video. Starting from a fixed center point, the camera trucks left and arcs around the kitchen island following a wide 180-degree path to the left. Focus on the ${selectedStone.name} grain. 4k, fluid movement.`, 'anti-clockwise');
+        const counterPromise = generateVideo(`Cinematic 11-second architectural interior video. Starting from a fixed center point, the camera trucks left and performs a sweeping 180-degree arc around the kitchen island. Maintain smooth parallax movement to emphasize the depth of the room. Focus sharply on the ${selectedStone.name} grain and surface reflections. 4k resolution, fluid gimbal-style movement, no flickering.`, 'anti-clockwise');
 
         const [clockwiseUrl, counterUrl] = await Promise.all([
           clockwisePromise.then(url => {
