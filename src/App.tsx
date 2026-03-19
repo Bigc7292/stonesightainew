@@ -954,7 +954,7 @@ export default function App() {
                 <motion.div 
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  className="w-full h-full max-w-6xl max-h-[85vh] rounded-[32px] overflow-hidden shadow-premium border border-white/10 bg-dark-900"
+                  className="w-full h-full max-w-6xl rounded-[32px] overflow-hidden shadow-premium border border-white/10 bg-dark-900 flex items-center justify-center"
                 >
                   <BeforeAfterSlider 
                     beforeImage={uploadedImage!} 
