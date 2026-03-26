@@ -21,42 +21,105 @@ import {
   ArrowRight,
   X,
   Info,
-  CheckCircle2
+  CheckCircle2,
+  LogOut,
+  Shield,
+  Code2,
+  User as UserIcon
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
 import { BeforeAfterSlider } from './components/BeforeAfterSlider';
 import { Stone, StoneCategory, StoneTone } from './types';
 import { STONE_DATABASE } from './stones';
+import { useAuth } from './auth/AuthContext';
+import { LoginPage } from './auth/LoginPage';
 
 // --- Components ---
 
-const Header = () => (
-  <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5 px-8 py-4 flex justify-between items-center">
-    <div className="flex items-center gap-4">
-      <img src="/logo.jpg" alt="StoneSight Logo" className="w-12 h-12" />
-      <div className="flex flex-col">
-        <div className="flex items-baseline">
-          <h1 className="text-xl font-bold tracking-tight text-white leading-none font-display">
-            St<span className="text-gold-500 relative">o<span className="absolute -top-2 left-1/2 -translate-x-1/2 text-[8px]">^</span></span>ne<span className="text-gold-500">Sight</span>
-          </h1>
+const RoleBadge = ({ role }: { role: string }) => {
+  const config = {
+    admin: { icon: <Shield className="w-3 h-3" />, label: 'Admin', classes: 'border-amber-500/30 text-amber-400 bg-amber-500/10' },
+    dev: { icon: <Code2 className="w-3 h-3" />, label: 'Dev', classes: 'border-emerald-500/30 text-emerald-400 bg-emerald-500/10' },
+    visitor: { icon: <UserIcon className="w-3 h-3" />, label: 'Visitor', classes: 'border-blue-500/30 text-blue-400 bg-blue-500/10' },
+  }[role] || { icon: null, label: role, classes: 'border-gray-500/30 text-gray-400 bg-gray-500/10' };
+
+  return (
+    <span className={`inline-flex items-center gap-1 text-[10px] uppercase tracking-wider font-medium px-2 py-0.5 rounded-full border ${config.classes}`}>
+      {config.icon}
+      {config.label}
+    </span>
+  );
+};
+
+const Header = () => {
+  const { user, logout } = useAuth();
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5 px-8 py-4 flex justify-between items-center">
+      <div className="flex items-center gap-4">
+        <img src="/logo.jpg" alt="StoneSight Logo" className="w-12 h-12" />
+        <div className="flex flex-col">
+          <div className="flex items-baseline">
+            <h1 className="text-xl font-bold tracking-tight text-white leading-none font-display">
+              St<span className="text-gold-500 relative">o<span className="absolute -top-2 left-1/2 -translate-x-1/2 text-[8px]">^</span></span>ne<span className="text-gold-500">Sight</span>
+            </h1>
+          </div>
+          <span className="text-[8px] font-medium text-gray-400 tracking-[0.15em] mt-0.5 uppercase">See Your Home, Stone by Stone</span>
         </div>
-        <span className="text-[8px] font-medium text-gray-400 tracking-[0.15em] mt-0.5 uppercase">See Your Home, Stone by Stone</span>
       </div>
-    </div>
-    <div className="flex items-center gap-6">
-      <button className="p-2 text-gray-400 hover:text-gold-500 transition-colors">
-        <Search className="w-5 h-5" />
-      </button>
-      <button className="p-2 text-gray-400 hover:text-gold-500 transition-colors">
-        <Filter className="w-5 h-5" />
-      </button>
-      <button className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:border-gold-500 hover:text-gold-500 transition-all">
-        <div className="w-4 h-4 rounded-full border-2 border-current" />
-      </button>
-    </div>
-  </header>
-);
+      <div className="flex items-center gap-6">
+        <button className="p-2 text-gray-400 hover:text-gold-500 transition-colors">
+          <Search className="w-5 h-5" />
+        </button>
+        <button className="p-2 text-gray-400 hover:text-gold-500 transition-colors">
+          <Filter className="w-5 h-5" />
+        </button>
+        {/* User menu */}
+        <div className="relative">
+          <button
+            onClick={() => setShowUserMenu(!showUserMenu)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 hover:border-gold-500/30 transition-all"
+          >
+            <div className="w-7 h-7 rounded-full bg-gradient-gold flex items-center justify-center text-dark-900 text-xs font-bold">
+              {user?.name?.charAt(0).toUpperCase() || '?'}
+            </div>
+            <span className="text-sm text-gray-300 hidden sm:block">{user?.name}</span>
+            {user && <RoleBadge role={user.role} />}
+          </button>
+
+          <AnimatePresence>
+            {showUserMenu && (
+              <motion.div
+                initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                transition={{ duration: 0.15 }}
+                className="absolute right-0 top-full mt-2 w-64 glass rounded-xl p-3 shadow-premium border border-white/10"
+              >
+                <div className="px-3 py-2 border-b border-white/5 mb-2">
+                  <p className="text-sm font-medium text-white">{user?.name}</p>
+                  <p className="text-xs text-gray-500">{user?.email}</p>
+                  <div className="mt-1.5">
+                    {user && <RoleBadge role={user.role} />}
+                  </div>
+                </div>
+                <button
+                  onClick={() => { logout(); setShowUserMenu(false); }}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-red-400 hover:bg-red-400/10 transition-all"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </header>
+  );
+};
 
 const StepIndicator = ({ currentStep }: { currentStep: number }) => {
   const steps = [
@@ -83,7 +146,7 @@ const StepIndicator = ({ currentStep }: { currentStep: number }) => {
   );
 };
 
-export default function App() {
+function StoneSightApp() {
   const [step, setStep] = useState(0);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [selectedStone, setSelectedStone] = useState<Stone | null>(null);
@@ -972,4 +1035,25 @@ export default function App() {
       </main>
     </div>
   );
+}
+
+export default function App() {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'radial-gradient(circle at 50% 0%, #1a1a1a 0%, #0a0a0a 100%)' }}>
+        <div className="flex flex-col items-center gap-4">
+          <img src="/logo.jpg" alt="StoneSight" className="w-16 h-16 animate-pulse" />
+          <div className="w-6 h-6 border-2 border-gold-500/30 border-t-gold-500 rounded-full animate-spin" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <LoginPage />;
+  }
+
+  return <StoneSightApp />;
 }
