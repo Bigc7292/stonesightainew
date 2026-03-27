@@ -1,4 +1,4 @@
-export type UserRole = 'visitor' | 'dev' | 'admin';
+export type UserRole = 'user' | 'dev' | 'admin';
 
 export interface User {
   id: string;
@@ -17,4 +17,10 @@ export interface AuthState {
 export interface LoginCredentials {
   email: string;
   password: string;
+}
+
+export interface SignupCredentials {
+  email: string;
+  password: string;
+  name: string;
 }
