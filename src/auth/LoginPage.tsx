@@ -97,7 +97,7 @@ export function LoginPage() {
               <h1 className="text-2xl font-bold tracking-tight text-white font-display">
                 St<span className="text-gold-500 relative">o<span className="absolute -top-2 left-1/2 -translate-x-1/2 text-[8px]">^</span></span>ne<span className="text-gold-500">Sight</span>
               </h1>
-              <span className="text-[9px] font-medium text-gray-500 tracking-[0.15em] uppercase">See Your Home, Stone by Stone</span>
+              <span className="text-[9px] font-medium text-gray-500 tracking-[0.15em] uppercase">Premier Architectural Visualization Suite</span>
             </div>
           </motion.div>
           <p className="text-gray-400 text-sm mt-2">
@@ -153,7 +153,7 @@ export function LoginPage() {
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    placeholder="you@example.com"
+                    placeholder="you@stonesight.ai"
                     required
                     className="w-full px-4 py-3 rounded-lg bg-dark-700 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-gold-500/50 focus:ring-1 focus:ring-gold-500/30 transition-all text-sm"
                   />
@@ -243,7 +243,7 @@ export function LoginPage() {
                     type="text"
                     value={fullName}
                     onChange={e => setFullName(e.target.value)}
-                    placeholder="John Doe"
+                    placeholder="Stone Artist"
                     required
                     className="w-full px-4 py-3 rounded-lg bg-dark-700 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-gold-500/50 focus:ring-1 focus:ring-gold-500/30 transition-all text-sm"
                   />
@@ -259,7 +259,7 @@ export function LoginPage() {
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    placeholder="you@example.com"
+                    placeholder="you@stonesight.ai"
                     required
                     className="w-full px-4 py-3 rounded-lg bg-dark-700 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-gold-500/50 focus:ring-1 focus:ring-gold-500/30 transition-all text-sm"
                   />
@@ -353,7 +353,7 @@ export function LoginPage() {
 
         {/* Footer */}
         <p className="text-center text-xs text-gray-600 mt-6">
-          StoneSight AI &middot; Powered by Gemini
+          StoneSight AI &middot; Advanced Architectural Intelligence
         </p>
       </motion.div>
     </div>

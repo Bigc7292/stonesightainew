@@ -68,7 +68,7 @@ const Header = () => {
               St<span className="text-gold-500 relative">o<span className="absolute -top-2 left-1/2 -translate-x-1/2 text-[8px]">^</span></span>ne<span className="text-gold-500">Sight</span>
             </h1>
           </div>
-          <span className="text-[8px] font-medium text-gray-400 tracking-[0.15em] mt-0.5 uppercase">See Your Home, Stone by Stone</span>
+          <span className="text-[8px] font-medium text-gray-400 tracking-[0.15em] mt-0.5 uppercase">Professional Stone & Surface Visualization</span>
         </div>
       </div>
       <div className="flex items-center gap-6">
@@ -423,10 +423,10 @@ function StoneSightApp() {
               </div>
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 leading-[1.1] font-display">
                 Visualize <br />
-                <span className="text-gradient-gold">My Home</span>
+                <span className="text-gradient-gold">New Horizons</span>
               </h1>
               <p className="text-lg text-gray-400 mb-12 max-w-xl font-light">
-                Upload a photo of your space and instantly see our premium collections applied with stunning realism.
+                Redesign your architecture with high-fidelity stone mapping and Cinematic 4K walkthroughs.
               </p>
 
               <div 
