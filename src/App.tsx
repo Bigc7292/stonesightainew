@@ -25,7 +25,8 @@ import {
   LogOut,
   Shield,
   Code2,
-  User as UserIcon
+  User as UserIcon,
+  Clock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
@@ -36,6 +37,7 @@ import { useAuth } from './auth/AuthContext';
 import { LoginPage } from './auth/LoginPage';
 import { saveGeneration } from './services/generationService';
 import { extractAndStorePatterns } from './services/aiMemoryService';
+import { GenerationGallery } from './components/GenerationGallery';
 
 // --- Components ---
 
@@ -57,8 +59,10 @@ const RoleBadge = ({ role }: { role: string }) => {
 const Header = () => {
   const { user, logout } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
 
   return (
+    <>
     <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5 px-8 py-4 flex justify-between items-center">
       <div className="flex items-center gap-4">
         <img src="/logo.jpg" alt="StoneSight Logo" className="w-12 h-12" />
@@ -72,8 +76,12 @@ const Header = () => {
         </div>
       </div>
       <div className="flex items-center gap-6">
-        <button className="p-2 text-gray-400 hover:text-gold-500 transition-colors">
-          <Search className="w-5 h-5" />
+        <button 
+          onClick={() => setShowHistory(true)}
+          className="flex items-center gap-2 px-4 py-2 bg-dark-800/50 hover:bg-gold-500/10 text-gray-400 hover:text-gold-400 border border-white/5 hover:border-gold-500/30 rounded-xl transition-all group"
+        >
+          <Clock className="w-4 h-4" />
+          <span className="text-xs font-medium uppercase tracking-widest hidden sm:inline">History</span>
         </button>
         <button className="p-2 text-gray-400 hover:text-gold-500 transition-colors">
           <Filter className="w-5 h-5" />
@@ -120,6 +128,13 @@ const Header = () => {
         </div>
       </div>
     </header>
+
+    <AnimatePresence>
+      {showHistory && (
+        <GenerationGallery onClose={() => setShowHistory(false)} />
+      )}
+    </AnimatePresence>
+    </>
   );
 };
 
@@ -251,25 +266,29 @@ function StoneSightApp() {
       setResultImage(editedBase64);
       setIsProcessing(false);
 
+      let recordId: string | null = null;
+
       // Track generation in Supabase (non-blocking)
       if (user) {
         const startTime = Date.now();
         saveGeneration({
           userId: user.id,
           generationType: 'image',
+          inputImageUrl: uploadedImage,
           inputPrompt: `Apply ${selectedStone.name} to kitchen surfaces`,
           inputParameters: {
             stoneName: selectedStone.name,
             stoneCategory: selectedStone.category,
             stoneTone: selectedStone.tone,
           },
-          outputUrl: editedBase64.substring(0, 200),
+          outputUrl: editedBase64,
           outputMetadata: { stoneId: selectedStone.id },
           processingTimeMs: Date.now() - startTime,
           modelUsed: 'gemini-2.5-flash-image',
           tags: [selectedStone.category, selectedStone.tone, selectedStone.name],
         }).then(result => {
           if (result.data) {
+            recordId = result.data.id;
             extractAndStorePatterns({
               id: result.data.id,
               generation_type: 'image',
@@ -313,7 +332,7 @@ function StoneSightApp() {
             });
 
             while (!operation.done) {
-              await new Promise(resolve => setTimeout(resolve, 3000));
+              await new Promise(resolve => setTimeout(resolve, 2000));
               operation = await videoAi.operations.getVideosOperation({ operation: operation });
             }
 
@@ -379,6 +398,20 @@ function StoneSightApp() {
             return null;
           })
         ]);
+
+        // Save videos to Supabase once ready
+        if (recordId && (clockwiseUrl || counterUrl)) {
+          saveGeneration({
+            userId: user.id,
+            generationType: 'video', // Keep type for tracking Or we could use an 'update' function
+            outputUrl: clockwiseUrl || counterUrl || '',
+            outputMetadata: { 
+              clockwise: clockwiseUrl, 
+              counter: counterUrl,
+              parentGenerationId: recordId 
+            },
+          });
+        }
 
       } catch (videoError) {
         console.error('Video generation process failed:', videoError);
@@ -1057,10 +1090,14 @@ function StoneSightApp() {
                   animate={{ scale: 1, opacity: 1 }}
                   className="w-full h-full max-w-6xl rounded-[32px] overflow-hidden shadow-premium border border-white/10 bg-dark-900 flex items-center justify-center"
                 >
-                  <BeforeAfterSlider 
-                    beforeImage={uploadedImage!} 
-                    afterImage={resultImage!} 
-                  />
+                  <div className="w-full h-full flex items-center justify-center p-4">
+                    <img 
+                      src={resultImage!} 
+                      alt="Full Visualization" 
+                      className="max-w-full max-h-full object-contain rounded-2xl shadow-xl border border-white/5" 
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
                 </motion.div>
                 
                 <div className="mt-8 text-center max-w-2xl">
