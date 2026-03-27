@@ -34,6 +34,8 @@ import { Stone, StoneCategory, StoneTone } from './types';
 import { STONE_DATABASE } from './stones';
 import { useAuth } from './auth/AuthContext';
 import { LoginPage } from './auth/LoginPage';
+import { saveGeneration } from './services/generationService';
+import { extractAndStorePatterns } from './services/aiMemoryService';
 
 // --- Components ---
 
@@ -41,7 +43,7 @@ const RoleBadge = ({ role }: { role: string }) => {
   const config = {
     admin: { icon: <Shield className="w-3 h-3" />, label: 'Admin', classes: 'border-amber-500/30 text-amber-400 bg-amber-500/10' },
     dev: { icon: <Code2 className="w-3 h-3" />, label: 'Dev', classes: 'border-emerald-500/30 text-emerald-400 bg-emerald-500/10' },
-    visitor: { icon: <UserIcon className="w-3 h-3" />, label: 'Visitor', classes: 'border-blue-500/30 text-blue-400 bg-blue-500/10' },
+    user: { icon: <UserIcon className="w-3 h-3" />, label: 'User', classes: 'border-blue-500/30 text-blue-400 bg-blue-500/10' },
   }[role] || { icon: null, label: role, classes: 'border-gray-500/30 text-gray-400 bg-gray-500/10' };
 
   return (
@@ -147,6 +149,7 @@ const StepIndicator = ({ currentStep }: { currentStep: number }) => {
 };
 
 function StoneSightApp() {
+  const { user } = useAuth();
   const [step, setStep] = useState(0);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [selectedStone, setSelectedStone] = useState<Stone | null>(null);
@@ -247,6 +250,41 @@ function StoneSightApp() {
       if (!editedBase64) throw new Error('Failed to generate image');
       setResultImage(editedBase64);
       setIsProcessing(false);
+
+      // Track generation in Supabase (non-blocking)
+      if (user) {
+        const startTime = Date.now();
+        saveGeneration({
+          userId: user.id,
+          generationType: 'image',
+          inputPrompt: `Apply ${selectedStone.name} to kitchen surfaces`,
+          inputParameters: {
+            stoneName: selectedStone.name,
+            stoneCategory: selectedStone.category,
+            stoneTone: selectedStone.tone,
+          },
+          outputUrl: editedBase64.substring(0, 200),
+          outputMetadata: { stoneId: selectedStone.id },
+          processingTimeMs: Date.now() - startTime,
+          modelUsed: 'gemini-2.5-flash-image',
+          tags: [selectedStone.category, selectedStone.tone, selectedStone.name],
+        }).then(result => {
+          if (result.data) {
+            extractAndStorePatterns({
+              id: result.data.id,
+              generation_type: 'image',
+              input_parameters: {
+                stoneName: selectedStone.name,
+                stoneCategory: selectedStone.category,
+                stoneTone: selectedStone.tone,
+              },
+              processing_time_ms: result.data.processing_time_ms,
+              model_used: 'gemini-2.5-flash-image',
+              tags: [selectedStone.category, selectedStone.tone, selectedStone.name],
+            }).catch(console.error);
+          }
+        }).catch(console.error);
+      }
 
       // 2. Generate Videos in background
       setIsGeneratingVideos(true);
