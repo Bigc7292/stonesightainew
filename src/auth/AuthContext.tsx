@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { User, AuthState, LoginCredentials, SignupCredentials, UserRole } from './types';
-import { LOCAL_ACCOUNTS } from './users';
 import { signIn as supabaseSignIn, signUp as supabaseSignUp, signOut as supabaseSignOut, getOrCreateProfile, onAuthStateChange } from '../services/supabaseAuth';
+import { getUserGenerations } from '../services/generationService';
 
 interface AuthContextType extends AuthState {
   login: (credentials: LoginCredentials) => Promise<{ success: boolean; error?: string }>;
@@ -9,7 +9,8 @@ interface AuthContextType extends AuthState {
   logout: () => void;
   hasRole: (role: UserRole) => boolean;
   isAdmin: boolean;
-  isDev: boolean;
+  generations: Generation[]; // Added for state persistence
+  setGenerations: (gens: Generation[]) => void; // Added for state persistence
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -19,117 +20,127 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     user: null,
     isAuthenticated: false,
     isLoading: true,
+    generations: [],
   });
-  const [isLocalSession, setIsLocalSession] = useState(false);
 
-  // On mount, check for existing Supabase session
+  // Initialize auth state
   useEffect(() => {
-    const { data: { subscription } } = onAuthStateChange(async (event, session) => {
-      if (session?.user && !isLocalSession) {
-        const meta = session.user.user_metadata;
-        const profileResult = await getOrCreateProfile(
-          session.user.id,
-          meta?.full_name || session.user.email || 'User',
-          'user'
-        );
-        const role = (profileResult.data?.role as UserRole) || 'user';
-
-        setState({
-          user: {
-            id: session.user.id,
-            email: session.user.email || '',
-            name: meta?.full_name || session.user.email || 'User',
-            role,
-          },
-          isAuthenticated: true,
-          isLoading: false,
-        });
-      } else if (!isLocalSession) {
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        initializeAuthSession(session);
+      } else {
         setState(prev => ({ ...prev, isLoading: false }));
       }
     });
 
-    return () => subscription.unsubscribe();
-  }, [isLocalSession]);
-
-  const login = useCallback(async (credentials: LoginCredentials) => {
-    const { email, password } = credentials;
-    const normalizedEmail = email.toLowerCase().trim();
-
-    // Check local privileged accounts FIRST
-    const localEntry = LOCAL_ACCOUNTS[normalizedEmail];
-    if (localEntry) {
-      if (localEntry.password !== password) {
-        return { success: false, error: 'Incorrect password' };
+    // Listen for auth changes
+    const { data: { subscription } } = onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        await initializeAuthSession(session);
+      } else {
+        setState(prev => ({ ...prev, isLoading: false, generations: [] }));
       }
-      setIsLocalSession(true);
-      setState({ user: localEntry.user, isAuthenticated: true, isLoading: false });
-      return { success: true };
-    }
-
-    // Fall back to Supabase Auth
-    const { data, error } = await supabaseSignIn(normalizedEmail, password);
-    if (error) {
-      return { success: false, error: error.message };
-    }
-
-    const supaUser = data.user;
-    if (!supaUser) {
-      return { success: false, error: 'Login failed' };
-    }
-
-    // Enforce email verification
-    if (!supaUser.email_confirmed_at) {
-      await supabaseSignOut();
-      return { success: false, error: 'Please verify your email first. Check your inbox for a confirmation link.' };
-    }
-
-    const meta = supaUser.user_metadata;
-    const profileResult = await getOrCreateProfile(
-      supaUser.id,
-      meta?.full_name || supaUser.email || 'User',
-      'user'
-    );
-    const role = (profileResult.data?.role as UserRole) || 'user';
-
-    setState({
-      user: {
-        id: supaUser.id,
-        email: supaUser.email || '',
-        name: meta?.full_name || supaUser.email || 'User',
-        role,
-      },
-      isAuthenticated: true,
-      isLoading: false,
     });
 
-    return { success: true };
+    return () => subscription.unsubscribe();
   }, []);
 
-  const signup = useCallback(async (credentials: SignupCredentials) => {
-    const { email, password, name } = credentials;
-    const normalizedEmail = email.toLowerCase().trim();
+  // Helper function to initialize auth session
+  const initializeAuthSession = async (session: any) => {
+    try {
+      const meta = session.user.user_metadata;
+      const profileResult = await getOrCreateProfile(
+        session.user.id,
+        meta?.full_name || session.user.email || 'User',
+        'user'
+      );
+      const role = (profileResult.data?.role as UserRole) || 'user';
 
-    // Don't allow signup with local account emails
-    if (LOCAL_ACCOUNTS[normalizedEmail]) {
-      return { success: false, error: 'This email is reserved. Please use a different email.' };
+      setState({
+        user: {
+          id: session.user.id,
+          email: session.user.email || '',
+          name: meta?.full_name || session.user.email || 'User',
+          role,
+        },
+        isAuthenticated: true,
+        isLoading: false,
+      });
+      
+      // Load user generations when authenticated
+      if (session.user.id) {
+        getUserGenerations(session.user.id).then(({ data, error }) => {
+          if (!error && data) {
+            setState(prev => ({ ...prev, generations: data }));
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error initializing auth session:', error);
+      setState(prev => ({ ...prev, isLoading: false }));
     }
+  };
 
-    const { error } = await supabaseSignUp(normalizedEmail, password, name);
-    if (error) {
-      return { success: false, error: error.message };
-    }
+   const login = useCallback(async (credentials: LoginCredentials) => {
+     const { email, password } = credentials;
+     const normalizedEmail = email.toLowerCase().trim();
 
-    return { success: true };
-  }, []);
+     // Supabase Auth only
+     const { data, error } = await supabaseSignIn(normalizedEmail, password);
+     if (error) {
+       return { success: false, error: error.message };
+     }
 
-  const logout = useCallback(async () => {
-    if (!isLocalSession) {
-      await supabaseSignOut();
-    }
-    setIsLocalSession(false);
-    setState({ user: null, isAuthenticated: false, isLoading: false });
-  }, [isLocalSession]);
+     const supaUser = data.user;
+     if (!supaUser) {
+       return { success: false, error: 'Login failed' };
+     }
+
+     // Enforce email verification
+     if (!supaUser.email_confirmed_at) {
+       await supabaseSignOut();
+       return { success: false, error: 'Please verify your email first. Check your inbox for a confirmation link.' };
+     }
+
+     const meta = supaUser.user_metadata;
+     const profileResult = await getOrCreateProfile(
+       supaUser.id,
+       meta?.full_name || supaUser.email || 'User',
+       'user'
+     );
+     const role = (profileResult.data?.role as UserRole) || 'user';
+
+     setState({
+       user: {
+         id: supaUser.id,
+         email: supaUser.email || '',
+         name: meta?.full_name || supaUser.email || 'User',
+         role,
+       },
+       isAuthenticated: true,
+       isLoading: false,
+     });
+
+     return { success: true };
+   }, []);
+
+   const signup = useCallback(async (credentials: SignupCredentials) => {
+     const { email, password, name } = credentials;
+     const normalizedEmail = email.toLowerCase().trim();
+
+     const { error } = await supabaseSignUp(normalizedEmail, password, name);
+     if (error) {
+       return { success: false, error: error.message };
+     }
+
+     return { success: true };
+   }, []);
+
+   const logout = useCallback(async () => {
+     await supabaseSignOut();
+     setState({ user: null, isAuthenticated: false, isLoading: false });
+   }, []);
 
   const hasRole = useCallback(
     (role: UserRole) => {
@@ -142,21 +153,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     [state.user]
   );
 
-  return (
-    <AuthContext.Provider
-      value={{
-        ...state,
-        login,
-        signup,
-        logout,
-        hasRole,
-        isAdmin: state.user?.role === 'admin',
-        isDev: state.user?.role === 'dev' || state.user?.role === 'admin',
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+    return (
+      <AuthContext.Provider
+        value={{
+          ...state,
+          login,
+          signup,
+          logout,
+          hasRole,
+          isAdmin: state.user?.role === 'admin',
+          generations: state.generations,
+          setGenerations: (gens) => setState(prev => ({ ...prev, generations: gens })),
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+    );
 }
 
 export function useAuth() {

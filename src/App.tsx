@@ -29,7 +29,6 @@ import {
   Clock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { GoogleGenAI } from "@google/genai";
 import { BeforeAfterSlider } from './components/BeforeAfterSlider';
 import { Stone, StoneCategory, StoneTone } from './types';
 import { STONE_DATABASE } from './stones';
@@ -213,58 +212,38 @@ function StoneSightApp() {
     setStep(2);
     setProcessingStatus('Analyzing your kitchen layout...');
 
-    try {
-      // Use process.env.API_KEY if available (selected key), otherwise fallback to GEMINI_API_KEY
-      let currentApiKey = (process.env as any).API_KEY || process.env.GEMINI_API_KEY!;
-      let ai = new GoogleGenAI({ apiKey: currentApiKey });
-      
-      // 1. Generate Edited Image
-      setProcessingStatus('Surgically applying ' + selectedStone.name + '...');
-      
-      let imageResponse: any;
-      try {
-        imageResponse = await ai.models.generateContent({
-          model: 'gemini-2.5-flash-image',
-          contents: {
-            parts: [
-              {
-                inlineData: {
-                  data: uploadedImage.split(',')[1],
-                  mimeType: 'image/png',
-                },
-              },
-              {
-                text: `Perform an exhaustive, photorealistic material replacement. Identify and replace ALL stone-compatible surfaces in the image, including every countertop, the central kitchen island (including vertical waterfall gables), side-ledges, and matching backsplashes, with ${selectedStone.name}. Material Description: ${selectedStone.description}. Ensure the vein pattern flows naturally with monolithic consistency across all identified surfaces. Maintain original ambient lighting, cabinetry textures, and room architecture with 100% fidelity.`,
-              },
-            ],
+     try {
+       // 1. Generate Edited Image via server API
+       setProcessingStatus('Surgically applying ' + selectedStone.name + '...');
+       
+        // Get fresh Supabase session for auth token
+        const { data: { session } } = await supabase.auth.getSession();
+        const accessToken = session?.access_token || '';
+        
+        const imageResponse = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/image/generate`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // Include auth token if available (will be handled by auth middleware on server)
+            'Authorization': `Bearer ${accessToken}`
           },
+          body: JSON.stringify({
+            prompt: `Perform an exhaustive, photorealistic material replacement. Identify and replace ALL stone-compatible surfaces in the image, including every countertop, the central kitchen island (including vertical waterfall gables), side-ledges, and matching backsplashes, with ${selectedStone.name}. Material Description: ${selectedStone.description}. Ensure the vein pattern flows naturally with monolithic consistency across all identified surfaces. Maintain original ambient lighting, cabinetry textures, and room architecture with 100% fidelity.`,
+            image: uploadedImage
+          })
         });
-      } catch (imgErr: any) {
-        if (imgErr.message?.includes("Requested entity was not found") || imgErr.message?.includes("entity not found")) {
-          if ((window as any).aistudio) await (window as any).aistudio.openSelectKey();
-          // Retry once with new key
-          currentApiKey = (process.env as any).API_KEY || process.env.GEMINI_API_KEY!;
-          ai = new GoogleGenAI({ apiKey: currentApiKey });
-          imageResponse = await ai.models.generateContent({
-            model: 'gemini-2.5-flash-image',
-            contents: { parts: [{ inlineData: { data: uploadedImage.split(',')[1], mimeType: 'image/png' } }, { text: `Surgically replace all horizontal countertops and vertical stone faces with ${selectedStone.name}. Material description: ${selectedStone.description}. Ensure the specific veining, color temperature, and surface finish match this description exactly, blending seamlessly into the existing environment\'s lighting.` }] }
-          });
-        } else {
-          throw imgErr;
-        }
-      }
 
-      let editedBase64 = '';
-      for (const part of imageResponse.candidates?.[0]?.content?.parts || []) {
-        if (part.inlineData) {
-          editedBase64 = `data:image/png;base64,${part.inlineData.data}`;
-          break;
-        }
-      }
+       if (!imageResponse.ok) {
+         const errorData = await imageResponse.json();
+         throw new Error(errorData.error || 'Failed to generate image');
+       }
 
-      if (!editedBase64) throw new Error('Failed to generate image');
-      setResultImage(editedBase64);
-      setIsProcessing(false);
+       const imageResult = await imageResponse.json();
+       const editedBase64 = imageResult.image;
+       
+       if (!editedBase64) throw new Error('Failed to generate image');
+       setResultImage(editedBase64);
+       setIsProcessing(false);
 
       let recordId: string | null = null;
 
@@ -305,120 +284,91 @@ function StoneSightApp() {
         }).catch(console.error);
       }
 
-      // 2. Generate Videos in background
-      setIsGeneratingVideos(true);
-      setProcessingStatus('Creating cinematic walkthroughs...');
-      
-      const generateVideo = async (prompt: string, type: 'clockwise' | 'anti-clockwise') => {
-        let retries = 3;
-        while (retries >= 0) {
-          const videoApiKey = (process.env as any).API_KEY || process.env.GEMINI_API_KEY!;
-          const videoAi = new GoogleGenAI({ apiKey: videoApiKey });
-
-          try {
-            setProcessingStatus(`Generating ${type} walkthrough...`);
-            let operation = await videoAi.models.generateVideos({
-              model: 'veo-3.1-generate-preview',
-              prompt: prompt,
-              image: {
-                imageBytes: editedBase64.split(',')[1],
-                mimeType: 'image/png',
-              },
-              config: {
-                numberOfVideos: 1,
-                resolution: '1080p',
-                aspectRatio: '16:9'
-              }
-            });
-
-            while (!operation.done) {
-              await new Promise(resolve => setTimeout(resolve, 2000));
-              operation = await videoAi.operations.getVideosOperation({ operation: operation });
-            }
-
-            const downloadLink = operation.response?.generatedVideos?.[0]?.video?.uri;
-            if (!downloadLink) throw new Error('Video generation failed: No download link received');
-            
-            const videoResponse = await fetch(downloadLink, {
-              method: 'GET',
-              headers: {
-                'x-goog-api-key': videoApiKey,
-              },
-            });
-
-            if (!videoResponse.ok) {
-              const errorText = await videoResponse.text();
-              if (errorText.includes("Requested entity was not found")) {
-                if ((window as any).aistudio) await (window as any).aistudio.openSelectKey();
-              }
-              throw new Error(`Failed to fetch video: ${videoResponse.status} ${videoResponse.statusText}`);
-            }
-
-            const blob = await videoResponse.blob();
-            return URL.createObjectURL(blob);
-          } catch (err: any) {
-            console.error(`Video generation attempt failed for ${type}:`, err);
-            const is500 = err.status === 500 || err.code === 500 || (err.message && err.message.includes('500'));
-            if (is500 && retries > 0) {
-              retries--;
-              setProcessingStatus(`Retrying ${type} walkthrough (${3 - retries}/3)...`);
-              await new Promise(r => setTimeout(r, 10000));
-              continue;
-            }
-            if (err.message?.includes("Requested entity was not found") || err.message?.includes("entity not found")) {
-              if ((window as any).aistudio) await (window as any).aistudio.openSelectKey();
-            }
-            throw err;
-          }
-        }
-        throw new Error(`${type} video generation failed after retries`);
-      };
-
-      try {
-        // Run them in parallel for speed
-        setProcessingStatus('Generating cinematic walkthroughs in parallel...');
-        
-        const clockwisePromise = generateVideo(`Cinematic 11-second architectural interior video. Starting from a fixed center point, the camera trucks right and performs a sweeping 180-degree arc around the kitchen island. Maintain smooth parallax movement to emphasize the depth of the room. Focus sharply on the ${selectedStone.name} grain and surface reflections. 4k resolution, fluid gimbal-style movement, no flickering.`, 'clockwise');
-        
-        const counterPromise = generateVideo(`Cinematic 11-second architectural interior video. Starting from a fixed center point, the camera trucks left and performs a sweeping 180-degree arc around the kitchen island. Maintain smooth parallax movement to emphasize the depth of the room. Focus sharply on the ${selectedStone.name} grain and surface reflections. 4k resolution, fluid gimbal-style movement, no flickering.`, 'anti-clockwise');
-
-        const [clockwiseUrl, counterUrl] = await Promise.all([
-          clockwisePromise.then(url => {
-            setResultVideos((prev: any) => ({ ...(prev || {}), clockwise: url }));
-            return url;
-          }).catch(e => {
-            console.error('Clockwise video failed:', e);
-            return null;
-          }),
-          counterPromise.then(url => {
-            setResultVideos((prev: any) => ({ ...(prev || {}), counter: url }));
-            return url;
-          }).catch(e => {
-            console.error('Counter-clockwise video failed:', e);
-            return null;
-          })
-        ]);
-
-        // Save videos to Supabase once ready
-        if (recordId && (clockwiseUrl || counterUrl)) {
-          saveGeneration({
-            userId: user.id,
-            generationType: 'video', // Keep type for tracking Or we could use an 'update' function
-            outputUrl: clockwiseUrl || counterUrl || '',
-            outputMetadata: { 
-              clockwise: clockwiseUrl, 
-              counter: counterUrl,
-              parentGenerationId: recordId 
+       // 2. Generate Videos via server API
+       setIsGeneratingVideos(true);
+       setProcessingStatus('Creating cinematic walkthroughs...');
+       
+       try {
+         // Run them in parallel for speed
+         setProcessingStatus('Generating cinematic walkthroughs in parallel...');
+         
+         // Extract base64 data (remove data:image/png;base64, prefix if present)
+         const imageBase64 = editedBase64.split(',')[1] || editedBase64;
+         
+          const clockwisePromise = fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/video/generate`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              // Include auth token if available (will be handled by auth middleware on server)
+              'Authorization': `Bearer ${accessToken}`
             },
+            body: JSON.stringify({
+              prompt: `Cinematic 11-second architectural interior video. Starting from a fixed center point, the camera trucks right and performs a sweeping 180-degree arc around the kitchen island. Maintain smooth parallax movement to emphasize the depth of the room. Focus sharply on the ${selectedStone.name} grain and surface reflections. 4k resolution, fluid gimbal-style movement, no flickering.`,
+              image: imageBase64
+            })
           });
-        }
+         
+           const counterPromise = fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/video/generate`, {
+             method: 'POST',
+             headers: {
+               'Content-Type': 'application/json',
+               // Include auth token if available (will be handled by auth middleware on server)
+               'Authorization': `Bearer ${accessToken}`
+             },
+             body: JSON.stringify({
+               prompt: `Cinematic 11-second architectural interior video. Starting from a fixed center point, the camera trucks left and performs a sweeping 180-degree arc around the kitchen island. Maintain smooth parallax movement to emphasize the depth of the room. Focus sharply on the ${selectedStone.name} grain and surface reflections. 4k resolution, fluid gimbal-style movement, no flickering.`,
+               image: imageBase64
+             })
+           });
 
-      } catch (videoError) {
-        console.error('Video generation process failed:', videoError);
-      } finally {
-        setIsGeneratingVideos(false);
-        setProcessingStatus('Visualization complete.');
-      }
+         const [clockwiseResponse, counterResponse] = await Promise.all([
+           clockwisePromise,
+           counterPromise
+         ]);
+
+         let clockwiseUrl = null;
+         let counterUrl = null;
+
+         // Process clockwise video
+         if (clockwiseResponse.ok) {
+           const clockwiseResult = await clockwiseResponse.json();
+           clockwiseUrl = clockwiseResult.video;
+           setResultVideos((prev: any) => ({ ...(prev || {}), clockwise: clockwiseUrl }));
+         } else {
+           const errorData = await clockwiseResponse.json();
+           console.error('Clockwise video failed:', errorData.error || 'Unknown error');
+         }
+
+         // Process counter-clockwise video
+         if (counterResponse.ok) {
+           const counterResult = await counterResponse.json();
+           counterUrl = counterResult.video;
+           setResultVideos((prev: any) => ({ ...(prev || {}), counter: counterUrl }));
+         } else {
+           const errorData = await counterResponse.json();
+           console.error('Counter-clockwise video failed:', errorData.error || 'Unknown error');
+         }
+
+         // Save videos to Supabase once ready
+         if (recordId && (clockwiseUrl || counterUrl)) {
+           saveGeneration({
+             userId: user.id,
+             generationType: 'video', // Keep type for tracking Or we could use an 'update' function
+             outputUrl: clockwiseUrl || counterUrl || '',
+             outputMetadata: { 
+               clockwise: clockwiseUrl, 
+               counter: counterUrl,
+               parentGenerationId: recordId 
+             },
+           });
+         }
+
+       } catch (videoError) {
+         console.error('Video generation process failed:', videoError);
+       } finally {
+         setIsGeneratingVideos(false);
+         setProcessingStatus('Visualization complete.');
+       }
     } catch (error) {
       console.error('Visualization failed:', error);
       setProcessingStatus('An error occurred. Please try again.');

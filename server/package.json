@@ -1,0 +1,26 @@
+{
+  "name": "stonesight-server",
+  "version": "1.0.0",
+  "description": "Backend server for StoneSight AI visualization platform",
+  "main": "server.ts",
+  "scripts": {
+    "start": "tsx server.ts",
+    "dev": "tsx watch server.ts",
+    "build": "tsc",
+    "serve": "node dist/server.js"
+  },
+  "dependencies": {
+    "@google/genai": "^1.44.0",
+    "@supabase/supabase-js": "^2.98.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.25",
+    "@types/node": "^20.14.2",
+    "tsx": "^4.15.0",
+    "typescript": "^5.4.5"
+  }
+}

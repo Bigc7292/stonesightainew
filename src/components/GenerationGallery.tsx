@@ -1,29 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { getUserGenerations } from '../services/generationService';
 import { useAuth } from '../auth/AuthContext';
 import { Loader2, Download, Trash2, Maximize2, X, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export const GenerationGallery: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const { user } = useAuth();
-  const [generations, setGenerations] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { user, generations } = useAuth();
+  const [loading, setLoading] = useState(!user); // Loading if no user yet
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  useEffect(() => {
+  // Set loading state when user changes
+  React.useEffect(() => {
     if (user) {
-      fetchGenerations();
+      setLoading(false);
     }
   }, [user]);
-
-  const fetchGenerations = async () => {
-    setLoading(true);
-    const { data, error } = await getUserGenerations(user!.id);
-    if (data) {
-      setGenerations(data);
-    }
-    setLoading(false);
-  };
 
   return (
     <motion.div 
