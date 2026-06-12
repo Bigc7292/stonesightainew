@@ -1,26 +1,46 @@
 import { GoogleGenAI } from "@google/genai";
+import fs from "fs";
+import path from "path";
+import axios from "axios";
+import dotenv from "dotenv";
+
+// Force reload environment variables
+dotenv.config({ path: path.join(__dirname, '..', '.env'), override: true });
+
+const API_KEY = process.env.NEW_VEO_KEY || process.env.GEMINI_API_KEY || "";
+const VIDEOS_DIR = path.join(__dirname, "..", "..", "public", "videos");
+
+if (!fs.existsSync(VIDEOS_DIR)) {
+  fs.mkdirSync(VIDEOS_DIR, { recursive: true });
+}
+
+if (!API_KEY) {
+  console.error("***********************************************");
+  console.error("CRITICAL ERROR: API KEY NOT FOUND!");
+  console.error("Ensure your .env file has: NEW_VEO_KEY=your_key");
+  console.error("***********************************************");
+  throw new Error("Missing API Key. Server reset required.");
+}
+
+console.log(`[Diagnostic] Using Key starting with: ${API_KEY.substring(0, 5)}...`);
 
 /**
  * Generate an image using Google's Gemini 2.5 Flash Image model
- * @param genAI - Initialized GoogleGenAI instance
- * @param prompt - Text prompt for image generation
- * @param imageBase64 - Base64 encoded image data (without data:image/png;base64, prefix)
- * @returns Promise resolving to base64 encoded generated image
  */
 export async function generateImage(
   genAI: GoogleGenAI,
   prompt: string,
-  imageBase64: string
+  imageBase64: string,
 ): Promise<string> {
   try {
     const result = await genAI.models.generateContent({
-      model: 'gemini-2.5-flash-image',
+      model: "gemini-2.5-flash-image",
       contents: {
         parts: [
           {
             inlineData: {
               data: imageBase64,
-              mimeType: 'image/png',
+              mimeType: "image/png",
             },
           },
           {
@@ -30,108 +50,88 @@ export async function generateImage(
       },
     });
 
-    // Extract the generated image data
     for (const part of result.candidates?.[0]?.content?.parts || []) {
       if (part.inlineData) {
         return `data:image/png;base64,${part.inlineData.data}`;
       }
     }
 
-    throw new Error('No image data in response');
+    throw new Error("No image data in response");
   } catch (error) {
-    console.error('Error generating image:', error);
+    console.error("Error generating image:", error);
     throw error;
   }
 }
 
 /**
- * Generate a video using Google's Veo 3.1 model
- * @param genAI - Initialized GoogleGenAI instance
- * @param prompt - Text prompt for video generation
- * @param imageBase64 - Base64 encoded image data (without data:image/png;base64, prefix)
- * @returns Promise resolving to video URL (blob URL)
+ * Generate a video using Google's Veo model
+ * Uses axios for download to bypass SDK URI parsing bug
  */
 export async function generateVideo(
   genAI: GoogleGenAI,
   prompt: string,
-  imageBase64: string
+  imageBase64: string,
 ): Promise<string> {
-  let retries = 3;
-  
-  while (retries >= 0) {
-    try {
-      // Start video generation operation
-      const operation = await genAI.models.generateVideos({
-        model: 'veo-3.1-generate-preview',
+  try {
+    console.log(`[Veo] Starting video generation...`);
+
+    let operation = await genAI.models.generateVideos({
+      model: "veo-2.0-generate-001",
+      source: {
         prompt: prompt,
         image: {
           imageBytes: imageBase64,
-          mimeType: 'image/png',
+          mimeType: "image/png",
         },
-        config: {
-          numberOfVideos: 1,
-          resolution: '1080p',
-          aspectRatio: '16:9'
-        }
+      },
+      config: {
+        numberOfVideos: 1,
+        aspectRatio: "16:9",
+      },
+    });
+
+    console.log(`[Veo] Operation started, polling for completion...`);
+
+    while (!operation.done) {
+      await new Promise((resolve) => setTimeout(resolve, 10000));
+      operation = await genAI.operations.getVideosOperation({
+        operation: operation,
       });
-
-      // Poll for completion
-      while (!operation.done) {
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        // In a real implementation, you would call genAI.operations.getVideosOperation here
-        // For now, we'll simulate waiting
-        // operation = await genAI.operations.getVideosOperation({ operation: operation });
-      }
-
-      // Get the video URI
-      const downloadLink = operation.response?.generatedVideos?.[0]?.video?.uri;
-      if (!downloadLink) {
-        throw new Error('Video generation failed: No download link received');
-      }
-
-      // Fetch the video data
-      const videoResponse = await fetch(downloadLink, {
-        method: 'GET',
-        headers: {
-          'x-goog-api-key': process.env.GEMINI_API_KEY!,
-        },
-      });
-
-      if (!videoResponse.ok) {
-        const errorText = await videoResponse.text();
-        if (errorText.includes("Requested entity was not found")) {
-          // This might be a key issue, but we'll retry with same key for now
-          // In production, you might want to rotate keys or handle this differently
-        }
-        throw new Error(`Failed to fetch video: ${videoResponse.status} ${videoResponse.statusText}`);
-      }
-
-      // Convert blob to URL
-      const blob = await videoResponse.blob();
-      return URL.createObjectURL(blob);
-    } catch (err: any) {
-      console.error(`Video generation attempt failed:`, err);
-      
-      // Check if it's a retryable error (500 or similar)
-      const is500 = err.status === 500 || err.code === 500 || 
-                   (err.message && err.message.includes('500'));
-                   
-      if (is500 && retries > 0) {
-        retries--;
-        // Wait before retry
-        await new Promise(r => setTimeout(r, 10000));
-        continue;
-      }
-      
-      // If it's an auth/entity error, we could try to refresh keys, but for now we'll throw
-      if (err.message?.includes("Requested entity was not found") || 
-          err.message?.includes("entity not found")) {
-        // In a real app, you might have key rotation logic here
-      }
-      
-      throw err;
+      console.log(`[Veo] Operation status: ${operation.done ? "done" : "in progress..."}`);
     }
+
+    const videoUri = operation.response?.generatedVideos?.[0]?.video?.uri;
+    if (!videoUri) {
+      throw new Error("No video URI in response");
+    }
+
+    console.log(`[Veo] Raw video URI: ${videoUri}`);
+
+    // Extract file name from URI (e.g., "files/abc123:download" -> "abc123")
+    const fileNameMatch = videoUri.match(/files\/([^:]+)/);
+    if (!fileNameMatch) {
+      throw new Error("Could not extract file name from URI");
+    }
+    const googleFileName = fileNameMatch[1];
+
+    // Download using axios to bypass SDK parsing bug
+    const downloadUrl = `https://generativelanguage.googleapis.com/v1beta/files/${googleFileName}:download?alt=media&key=${API_KEY}`;
+    console.log(`[Veo] Downloading video via axios...`);
+
+    const videoResponse = await axios.get(downloadUrl, {
+      responseType: "arraybuffer",
+    });
+
+    // Save to local public folder
+    const localFileName = `veo_${Date.now()}_${Math.random().toString(36).substring(7)}.mp4`;
+    const filePath = path.join(VIDEOS_DIR, localFileName);
+    fs.writeFileSync(filePath, Buffer.from(videoResponse.data));
+
+    const localUrl = `/videos/${localFileName}`;
+    console.log(`[Veo] Video saved locally: ${localUrl}, size: ${(videoResponse.data.length / 1024 / 1024).toFixed(1)}MB`);
+    return localUrl;
+  } catch (err: any) {
+    console.error(`[Veo] Video generation failed:`, err.message || err);
+    throw err;
   }
-  
-  throw new Error('Video generation failed after retries');
 }

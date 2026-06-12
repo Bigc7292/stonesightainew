@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../auth/AuthContext';
-import { Loader2, Download, Trash2, Maximize2, X, Clock } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../auth/AuthContext";
+import { Loader2, Download, Trash2, Maximize2, X, Clock } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
-export const GenerationGallery: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+export const GenerationGallery: React.FC<{ onClose: () => void }> = ({
+  onClose,
+}) => {
   const { user, generations } = useAuth();
   const [loading, setLoading] = useState(!user); // Loading if no user yet
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -16,7 +18,7 @@ export const GenerationGallery: React.FC<{ onClose: () => void }> = ({ onClose }
   }, [user]);
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -28,11 +30,15 @@ export const GenerationGallery: React.FC<{ onClose: () => void }> = ({ onClose }
             <Clock className="w-6 h-6 text-gold-400" />
           </div>
           <div>
-            <h2 className="text-3xl font-display font-medium text-white">Your Visualization History</h2>
-            <p className="text-gray-500 text-sm">Review and revisit your previous stone mappings</p>
+            <h2 className="text-3xl font-display font-medium text-white">
+              Your Visualization History
+            </h2>
+            <p className="text-gray-500 text-sm">
+              Review and revisit your previous stone mappings
+            </p>
           </div>
         </div>
-        <button 
+        <button
           onClick={onClose}
           className="p-3 bg-dark-800/50 hover:bg-dark-700 text-gray-400 hover:text-white border border-white/5 rounded-full transition-all"
         >
@@ -50,26 +56,30 @@ export const GenerationGallery: React.FC<{ onClose: () => void }> = ({ onClose }
             <div className="w-20 h-20 rounded-full bg-dark-800 flex items-center justify-center mb-6">
               <Download className="w-8 h-8 text-gray-600" />
             </div>
-            <h3 className="text-xl font-medium text-gray-300">No generations yet</h3>
-            <p className="text-gray-500 mt-2">Start a visualization to see your history here.</p>
+            <h3 className="text-xl font-medium text-gray-300">
+              No generations yet
+            </h3>
+            <p className="text-gray-500 mt-2">
+              Start a visualization to see your history here.
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {generations.map((gen) => (
-              <motion.div 
+              <motion.div
                 key={gen.id}
                 whileHover={{ y: -5 }}
                 className="group relative bg-dark-800/50 rounded-3xl overflow-hidden border border-white/5 hover:border-gold-500/30 transition-all shadow-premium"
               >
                 <div className="aspect-[4/5] relative">
-                  <img 
-                    src={gen.output_url} 
-                    alt={gen.input_prompt} 
+                  <img
+                    src={gen.output_url}
+                    alt={gen.input_prompt}
                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
                     referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-dark-900/90 via-transparent to-transparent" />
-                  
+
                   <div className="absolute top-4 left-4">
                     <span className="px-2.5 py-1 bg-dark-900/80 backdrop-blur-md rounded-lg text-[9px] font-medium uppercase tracking-widest text-gray-400 border border-white/10">
                       {new Date(gen.created_at).toLocaleDateString()}
@@ -77,10 +87,13 @@ export const GenerationGallery: React.FC<{ onClose: () => void }> = ({ onClose }
                   </div>
 
                   <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                    <p className="text-xs font-medium text-white truncate max-w-[60%]">{gen.input_parameters?.stoneName || 'Stone Mapping'}</p>
+                    <p className="text-xs font-medium text-white truncate max-w-[60%]">
+                      {(gen.input_parameters as Record<string, any>)
+                        ?.stoneName || "Stone Mapping"}
+                    </p>
                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button 
-                         onClick={() => setSelectedImage(gen.output_url)}
+                      <button
+                        onClick={() => setSelectedImage(gen.output_url)}
                         className="p-2 bg-gold-500/10 text-gold-400 rounded-lg border border-gold-500/20 hover:bg-gold-500 text-[10px] hover:text-dark-900 transition-all"
                       >
                         <Maximize2 className="w-3.5 h-3.5" />
@@ -96,7 +109,7 @@ export const GenerationGallery: React.FC<{ onClose: () => void }> = ({ onClose }
 
       <AnimatePresence>
         {selectedImage && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -106,28 +119,35 @@ export const GenerationGallery: React.FC<{ onClose: () => void }> = ({ onClose }
             <div className="relative max-w-6xl w-full h-full flex flex-col items-center justify-center gap-4">
               <div className="flex gap-4 w-full h-[80%]">
                 <div className="flex-1 flex flex-col gap-2">
-                  <span className="text-[10px] uppercase tracking-widest text-gray-400 font-medium">Original Upload</span>
-                  <img 
-                    src={generations.find(g => g.output_url === selectedImage)?.input_image_url || ''} 
-                    alt="Original" 
+                  <span className="text-[10px] uppercase tracking-widest text-gray-400 font-medium">
+                    Original Upload
+                  </span>
+                  <img
+                    src={
+                      generations.find((g) => g.output_url === selectedImage)
+                        ?.input_image_url || ""
+                    }
+                    alt="Original"
                     className="w-full h-full object-contain rounded-2xl shadow-xl border border-white/5"
                     referrerPolicy="no-referrer"
                   />
                 </div>
                 <div className="flex-1 flex flex-col gap-2">
-                   <span className="text-[10px] uppercase tracking-widest text-gold-400 font-medium">Visualization</span>
-                   <img 
-                    src={selectedImage} 
-                    alt="Selected" 
+                  <span className="text-[10px] uppercase tracking-widest text-gold-400 font-medium">
+                    Visualization
+                  </span>
+                  <img
+                    src={selectedImage}
+                    alt="Selected"
                     className="w-full h-full object-contain rounded-2xl shadow-xl border border-white/5"
                     referrerPolicy="no-referrer"
                   />
                 </div>
               </div>
               <div className="flex gap-4">
-                 <button 
+                <button
                   onClick={() => {
-                    const link = document.createElement('a');
+                    const link = document.createElement("a");
                     link.href = selectedImage;
                     link.download = `stonesight-export.png`;
                     link.click();
@@ -137,7 +157,7 @@ export const GenerationGallery: React.FC<{ onClose: () => void }> = ({ onClose }
                   <Download className="w-4 h-4" /> Download Visualization
                 </button>
               </div>
-              <button 
+              <button
                 onClick={() => setSelectedImage(null)}
                 className="absolute -top-4 -right-4 p-4 text-gray-400 hover:text-white transition-colors"
               >
