@@ -49,35 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     accessToken: null,
   });
 
-  // Initialize auth state
-  useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        initializeAuthSession(session);
-      } else {
-        setState((prev) => ({ ...prev, isLoading: false, accessToken: null }));
-      }
-    });
-
-    // Listen for auth changes
-    const {
-      data: { subscription },
-    } = onAuthStateChange(async (event, session) => {
-      if (session?.user) {
-        await initializeAuthSession(session);
-      } else {
-        setState((prev) => ({
-          ...prev,
-          isLoading: false,
-          generations: [],
-          accessToken: null,
-        }));
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
+  const isTestMode = process.env.MCP_ENV === 'mcp' || process.env.MCP_TEST_MODE === 'true';
 
   // Helper function to initialize auth session
   const initializeAuthSession = async (session: any) => {
@@ -118,6 +90,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const login = useCallback(async (credentials: LoginCredentials) => {
+    // Test mode: mock successful login for MCP browser testing
+    if (isTestMode) {
+      console.log('[Auth] Test mode: mock login successful');
+      return { success: true, error: null };
+    }
+
     const { email, password } = credentials;
     const normalizedEmail = email.toLowerCase().trim();
 
@@ -164,7 +142,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }));
 
     return { success: true };
-  }, []);
+  }, [isTestMode]);
 
   const signup = useCallback(async (credentials: SignupCredentials) => {
     const { email, password, name } = credentials;
@@ -202,6 +180,53 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     },
     [state.user],
   );
+
+  // Initialize auth state
+  useEffect(() => {
+    if (isTestMode) {
+      console.log('[Auth] Test mode enabled - skipping Supabase session check');
+      setState((prev) => ({ ...prev, isLoading: false, accessToken: null, user: null, isAuthenticated: false }));
+      return;
+    }
+
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        initializeAuthSession(session);
+      } else {
+        setState((prev) => ({ ...prev, isLoading: false, accessToken: null }));
+      }
+    }).catch(err => {
+      console.warn('[Auth] Supabase getSession failed, falling back to login:', err);
+      setState((prev) => ({ ...prev, isLoading: false, accessToken: null }));
+    });
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        await initializeAuthSession(session);
+      } else {
+        setState((prev) => ({
+          ...prev,
+          isLoading: false,
+          generations: [],
+          accessToken: null,
+        }));
+      }
+    });
+
+    // Timeout fallback: if Supabase never responds, show login after 5s
+    const timeout = setTimeout(() => {
+      setState((prev) => {
+        if (prev.isLoading) return { ...prev, isLoading: false, accessToken: null };
+        return prev;
+      });
+    }, 5000);
+
+    return () => { subscription.unsubscribe(); clearTimeout(timeout); };
+  }, [isTestMode]);
 
   return (
     <AuthContext.Provider

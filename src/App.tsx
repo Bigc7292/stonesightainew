@@ -530,8 +530,11 @@ function StoneSightApp() {
               </p>
 
               <div
-                onClick={() => fileInputRef.current?.click()}
-                className="w-full max-w-md aspect-video border border-white/10 rounded-[24px] flex flex-col items-center justify-center gap-4 cursor-pointer hover:border-gold-500/50 hover:bg-white/5 transition-all group mb-12 bg-dark-800/50 backdrop-blur-sm shadow-premium"
+                onClick={() => {
+                  console.log('[Upload] Click detected');
+                  fileInputRef.current?.click();
+                }}
+                className="w-full max-w-md aspect-video border border-white/10 rounded-[24px] flex flex-col items-center justify-center gap-4 cursor-pointer hover:border-gold-500/50 hover:bg-white/5 transition-all group mb-12 bg-dark-800/50 backdrop-blur-sm shadow-premium relative z-10"
               >
                 <div className="w-16 h-16 rounded-full bg-dark-700 flex items-center justify-center group-hover:bg-gold-500/20 group-hover:text-gold-400 transition-colors text-gray-400 border border-white/5 group-hover:border-gold-500/30">
                   <Upload className="w-6 h-6" />
@@ -550,7 +553,7 @@ function StoneSightApp() {
                 type="file"
                 ref={fileInputRef}
                 onChange={handleFileUpload}
-                className="hidden"
+                className="sr-only"
                 accept="image/*"
               />
 
