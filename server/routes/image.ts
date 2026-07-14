@@ -8,6 +8,7 @@ dotenv.config({ path: path.resolve(__dirname, "..", ".env"), override: true });
 const router = Router();
 
 const NVIDIA_API_KEY = process.env.NVIDIA_API_KEY || "";
+const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN || "";
 const NVIDIA_IMAGE_MODEL = "black-forest-labs/flux.1-kontext-dev";
 const FLUX_ENDPOINT =
   process.env.NVIDIA_IMAGE_URL ||
@@ -113,6 +114,70 @@ async function generateImageWithNvidiaKontext(
   return { localPath: `/images/${localFileName}`, dataUrl };
 }
 
+async function generateImageWithReplicate(
+  prompt: string,
+  imageDataUrl: string,
+  params: Record<string, any> = {},
+): Promise<{ localPath: string; dataUrl: string }> {
+  if (!REPLICATE_API_TOKEN) {
+    throw new Error("REPLICATE_API_TOKEN not configured");
+  }
+
+  const response = await fetch("https://api.replicate.com/v1/predictions", {
+    method: "POST",
+    headers: {
+      Authorization: `Token ${REPLICATE_API_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      version: "black-forest-labs/flux-kontext-dev",
+      input: {
+        prompt,
+        image: imageDataUrl,
+        aspect_ratio: "match_input_image",
+        num_inference_steps: params.num_steps ?? 28,
+        guidance_scale: params.cfg_scale ?? 5.0,
+        seed: params.seed !== undefined ? Number(params.seed) : Math.floor(Math.random() * 1000000),
+        output_format: "png",
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("[IMAGE] Replicate fallback returned error", {
+      status: response.status,
+      details: safeTruncate(errorText),
+    });
+    throw new Error(`Replicate API call failed with status ${response.status}: ${safeTruncate(errorText)}`);
+  }
+
+  const prediction = await response.json();
+
+  if (prediction.status === "succeeded" && prediction.output) {
+    const outputUrl = Array.isArray(prediction.output) ? prediction.output[0] : prediction.output;
+    const imageResponse = await fetch(outputUrl);
+    const imageBuffer = await imageResponse.buffer();
+    const base64 = imageBuffer.toString("base64");
+    const dataUrl = `data:image/png;base64,${base64}`;
+
+    const IMAGES_DIR = path.join(__dirname, "..", "..", "public", "images");
+    if (!fs.existsSync(IMAGES_DIR)) {
+      fs.mkdirSync(IMAGES_DIR, { recursive: true });
+    }
+
+    const localFileName = `replaced_${Date.now()}_${Math.random().toString(36).substring(7)}.png`;
+    const filePath = path.join(IMAGES_DIR, localFileName);
+    fs.writeFileSync(filePath, imageBuffer);
+
+    console.log(`[IMAGE] Replicate image saved locally: /images/${localFileName}`);
+
+    return { localPath: `/images/${localFileName}`, dataUrl };
+  }
+
+  throw new Error(`Replicate prediction did not complete: ${prediction.status}`);
+}
+
 router.post("/generate", async (req: Request, res: Response) => {
   try {
     const { prompt, image, ...params } = req.body;
@@ -124,15 +189,33 @@ router.post("/generate", async (req: Request, res: Response) => {
       });
     }
 
-    const imageBase64 = image.includes(",") ? image.split(",")[1] : image;
+    const imageDataUrl = image.includes(",") ? image : `data:image/jpeg;base64,${image}`;
 
-    const { localPath, dataUrl } = await generateImageWithNvidiaKontext(prompt, imageBase64, params);
+    let localPath: string;
+    let dataUrl: string;
+    let usedModel = NVIDIA_IMAGE_MODEL;
+
+    try {
+      const imageBase64 = image.includes(",") ? image.split(",")[1] : image;
+      ({ localPath, dataUrl } = await generateImageWithNvidiaKontext(prompt, imageBase64, params));
+    } catch (nvidiaError: any) {
+      console.warn("[IMAGE] NVIDIA Kontext failed, falling back to Replicate", {
+        message: nvidiaError?.message,
+      });
+
+      if (!REPLICATE_API_TOKEN) {
+        throw new Error("NVIDIA Kontext failed and no REPLICATE_API_TOKEN fallback is configured.");
+      }
+
+      usedModel = "replicate:black-forest-labs/flux-kontext-dev";
+      ({ localPath, dataUrl } = await generateImageWithReplicate(prompt, imageDataUrl, params));
+    }
 
     return res.status(200).json({
       success: true,
       image: dataUrl,
       localPath,
-      model: NVIDIA_IMAGE_MODEL,
+      model: usedModel,
       timestamp: new Date().toISOString(),
     });
   } catch (error: any) {
