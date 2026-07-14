@@ -11,15 +11,37 @@ The image generation pipeline uses NVIDIA's **FLUX.1 Kontext** model for high-fi
 | Default Base URL | `https://integrate.api.nvidia.com/v1` |
 | Env Override | `NVIDIA_IMAGE_URL` |
 
-## 2. Request Payload
+## 2. Image Upload & Example ID
 
-The backend constructs a Kontext-compatible payload that includes the original kitchen photo and explicit img2img instructions:
+NVIDIA FLUX Kontext requires uploaded images to be registered as examples before generation. The backend performs a two-step flow:
+
+1. **Upload**: `POST ${EXAMPLES_UPLOAD_ENDPOINT}` with the image as `multipart/form-data`
+2. **Generate**: `POST ${FLUX_ENDPOINT}` with `example_id` instead of inline base64
+
+### Upload Request
+```
+POST https://ai.api.nvidia.com/v1/genai/examples
+Authorization: Bearer ${NVIDIA_API_KEY}
+Content-Type: multipart/form-data
+
+file: <binary image>
+```
+
+### Upload Response
+```json
+{
+  "example_id": "abc123..."
+}
+```
+
+## 3. Request Payload
+
+The backend constructs a Kontext-compatible payload that references the uploaded example by ID:
 
 ```json
 {
   "prompt": "Surgically replace all countertops with Brown Emperador Marble...",
-  "image": "<base64-encoded-uploaded-photo>",
-  "mode": "img2img",
+  "example_id": "abc123...",
   "height": 1024,
   "width": 1024,
   "steps": 28,
@@ -29,8 +51,7 @@ The backend constructs a Kontext-compatible payload that includes the original k
 ```
 
 ### Key Fields
-- **`image`**: The original user-uploaded photo as a base64 data URL (data URI prefix stripped before sending)
-- **`mode`**: Fixed to `"img2img"` to trigger in-painting/editing behavior
+- **`example_id`**: The ID returned from the examples upload endpoint
 - **`prompt`**: Detailed material replacement instructions including stone name, description, veining, and lighting preservation directives
 - **`steps`**: Inference steps (default 28)
 - **`cfg_scale`**: Guidance scale (default 5.0)
@@ -50,9 +71,10 @@ The backend normalizes both into a `data:image/png;base64,...` data URL for the 
 3. Frontend sends `POST /api/image/generate` with:
    - `prompt`: Detailed replacement instructions
    - `image`: Base64 data URL of the uploaded photo
-4. Backend calls FLUX.1 Kontext with the original photo embedded in the payload
-5. Frontend receives the edited image and displays it in the Before/After slider
-6. Both clockwise and counter-clockwise video walkthroughs are then generated from the edited image
+4. Backend uploads the image to NVIDIA's examples endpoint and receives an `example_id`
+5. Backend calls FLUX.1 Kontext with the `example_id` embedded in the payload
+6. Frontend receives the edited image and displays it in the Before/After slider
+7. Both clockwise and counter-clockwise video walkthroughs are then generated from the edited image
 
 ## 5. Environment Variables
 
@@ -67,7 +89,7 @@ The backend normalizes both into a `data:image/png;base64,...` data URL for the 
 | Aspect | Previous (FLUX.1-dev) | Current (FLUX.1 Kontext) |
 |--------|----------------------|--------------------------|
 | Model | `black-forest-labs/flux.1-dev` | `black-forest-labs/flux.1-kontext-dev` |
-| Mode | `base` (text-to-image) | `img2img` (image-to-image) |
-| Input Image | Ignored/discarded | Integrated into payload as `image` |
+| Mode | `base` (text-to-image) | img2img via example upload |
+| Input Image | Ignored/discarded | Uploaded as example, referenced by `example_id` |
 | Output Behavior | Generates new image from scratch | Edits existing photo in-place |
 | Use Case | General text-to-image | Photorealistic material replacement |
