@@ -22,3 +22,8 @@ node_modules/
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+# Generated runtime assets
+public/images/*.jpg
+public/images/*.png
+public/videos/*
