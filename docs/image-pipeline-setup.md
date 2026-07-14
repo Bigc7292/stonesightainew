@@ -64,32 +64,44 @@ NVIDIA FLUX Kontext returns edited images in one of two formats:
 
 The backend normalizes both into a `data:image/png;base64,...` data URL for the client and persists a copy to `public/images/replaced_<timestamp>.png`.
 
-## 4. Frontend Flow
+## 4. Fallback Flow
 
 1. User uploads a kitchen photo on the home screen
 2. User selects a target stone material from the collection
 3. Frontend sends `POST /api/image/generate` with:
    - `prompt`: Detailed replacement instructions
    - `image`: Base64 data URL of the uploaded photo
-4. Backend uploads the image to NVIDIA's examples endpoint and receives an `example_id`
-5. Backend calls FLUX.1 Kontext with the `example_id` embedded in the payload
+4. Backend first attempts NVIDIA FLUX.1 Kontext with the image embedded in the payload
+5. If NVIDIA fails, backend automatically falls back to Replicate serverless with the same image
 6. Frontend receives the edited image and displays it in the Before/After slider
 7. Both clockwise and counter-clockwise video walkthroughs are then generated from the edited image
 
-## 5. Environment Variables
+## 5. Fallback Pipeline
+
+If the primary NVIDIA FLUX Kontext endpoint fails, the backend automatically falls back to **Replicate serverless** using `black-forest-labs/flux-kontext-dev`. This ensures material replacement remains available even when the NVIDIA hosted API is unavailable or rejects the request format.
+
+| Priority | Provider | Endpoint / Model | Notes |
+|----------|----------|------------------|-------|
+| 1 | NVIDIA NIM | `${FLUX_ENDPOINT}` | Primary; may require specific payload formats |
+| 2 | Replicate | `black-forest-labs/flux-kontext-dev` | Serverless fallback; accepts `image` as data URL |
+| 3 | Error | — | Returns 500 if neither provider is configured or available |
+
+## 6. Environment Variables
 
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `NVIDIA_API_KEY` | Yes | Authentication for NVIDIA NIM/GenAI endpoints |
+| `REPLICATE_API_TOKEN` | No | Fallback authentication for Replicate serverless |
 | `NVIDIA_BASE_URL` | No | Override for NVIDIA API base URL (default: `https://integrate.api.nvidia.com/v1`) |
 | `NVIDIA_IMAGE_URL` | No | Full override for the image generation endpoint |
 
-## 6. Transition Notes
+## 7. Transition Notes
 
 | Aspect | Previous (FLUX.1-dev) | Current (FLUX.1 Kontext) |
 |--------|----------------------|--------------------------|
 | Model | `black-forest-labs/flux.1-dev` | `black-forest-labs/flux.1-kontext-dev` |
-| Mode | `base` (text-to-image) | img2img via example upload |
-| Input Image | Ignored/discarded | Uploaded as example, referenced by `example_id` |
+| Mode | `base` (text-to-image) | img2img via direct image payload |
+| Input Image | Ignored/discarded | Passed as `image` field in payload |
 | Output Behavior | Generates new image from scratch | Edits existing photo in-place |
+| Fallback | None | Replicate serverless |
 | Use Case | General text-to-image | Photorealistic material replacement |
