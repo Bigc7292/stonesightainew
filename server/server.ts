@@ -53,8 +53,9 @@ app.use(express.urlencoded({
   parameterLimit: 100000 
 }));
 
-// SERVE GENERATED VIDEOS FROM PUBLIC STATIC DIRECTORY
+// SERVE GENERATED VIDEOS AND IMAGES FROM PUBLIC STATIC DIRECTORY
 app.use('/videos', express.static(path.join(__dirname, 'public', 'videos')));
+app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 
 // REQUEST CONTEXT ENHANCEMENT
 app.use((req: any, res, next) => {

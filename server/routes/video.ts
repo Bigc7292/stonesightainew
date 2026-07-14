@@ -79,6 +79,14 @@ router.post('/generate', async (req: Request, res: Response): Promise<void> => {
         parsedError = errorText;
       }
 
+      console.error("[VIDEO] NVIDIA Cosmos request failed", {
+        endpoint: COSMOS_API_URL,
+        model: imageUrl ? "nvidia/cosmos-3-super/image-to-video" : "nvidia/cosmos-3-super/text-to-video",
+        status: response.status,
+        statusText: response.statusText,
+        details: errorText.slice(0, 600),
+      });
+
       res.status(response.status).json({
         success: false,
         error: 'The cloud inference engine returned an error response.',
@@ -105,6 +113,11 @@ router.post('/generate', async (req: Request, res: Response): Promise<void> => {
 
   } catch (error: any) {
     // 7. Catch-all safety block for handling transport, timeout, or parsing exceptions
+    console.error("[VIDEO] /generate failed", {
+      endpoint: COSMOS_API_URL,
+      message: error?.message,
+      stack: error?.stack,
+    });
     res.status(500).json({
       success: false,
       error: 'An unexpected internal server error occurred while processing the video route.',

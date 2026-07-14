@@ -9,21 +9,15 @@ dotenv.config({ path: path.resolve(__dirname, "..", ".env"), override: true });
 const router = Router();
 
 /**
- * NVIDIA FLUX.1-dev image generation with conditional routing.
- *
- * - Enterprise/local containers expose the OpenAI-compatible
- *   /v1/infer namespace.
- * - Public serverless catalog maps to /v1/images/generations.
+ * NVIDIA FLUX.1-dev image generation via the hosted NIM GenAI endpoint.
+ * The OpenAI-compatible /v1/images/generations serverless route is not
+ * provisioned for this API key, so we use the dedicated GenAI endpoint.
  */
-const NVIDIA_BASE_URL = process.env.NVIDIA_BASE_URL || "https://integrate.api.nvidia.com/v1";
 const NVIDIA_API_KEY = process.env.NVIDIA_API_KEY || "";
-const NVIDIA_IMAGE_MODEL = "nvidia/flux.1-dev";
-
-// Conditional routing per infrastructure testing specs.
-const isLocalNim = (process.env.NVIDIA_BASE_URL || "").includes("localhost");
-const targetUrl = isLocalNim
-  ? `${NVIDIA_BASE_URL}/infer`
-  : `${NVIDIA_BASE_URL}/images/generations`;
+const NVIDIA_IMAGE_MODEL = "black-forest-labs/flux.1-dev";
+const FLUX_ENDPOINT =
+  process.env.NVIDIA_IMAGE_URL ||
+  "https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.1-dev";
 
 function validateApiKey(): string {
   if (!NVIDIA_API_KEY) {
@@ -33,38 +27,35 @@ function validateApiKey(): string {
 }
 
 /**
+ * Safely stringify + truncate a value for logging so error output stays
+ * readable and never dumps secrets or a multi-MB base64 image payload.
+ */
+function safeTruncate(value: unknown, max = 600): string {
+  try {
+    const s = typeof value === "string" ? value : JSON.stringify(value);
+    return s.length > max ? s.slice(0, max) + "…" : s;
+  } catch {
+    return "(unserializable)";
+  }
+}
+
+/**
  * Build the request payload conditionally based on the target endpoint.
  * Serverless uses the OpenAI-compatible schema; local NIM uses the /infer schema.
  */
-function buildPayload(prompt: string, imageBase64: string, params: Record<string, any>) {
-  const normalizedImage = imageBase64.startsWith("data:")
-    ? imageBase64
-    : `data:image/jpeg;base64,${imageBase64}`;
-
-  // Common fields pass through from the user's incoming image parameters.
-  const passthrough = {
-    width: params.width ?? 1024,
+function buildPayload(prompt: string, params: Record<string, any>) {
+  // NVIDIA NIM FLUX.1-dev request shape. Base mode is text-to-image;
+  // height/width are fixed at 1024 for this model.
+  return {
+    model: NVIDIA_IMAGE_MODEL,
+    prompt,
     height: params.height ?? 1024,
-    num_steps: params.num_steps ?? 30,
+    width: params.width ?? 1024,
+    steps: params.num_steps ?? 30,
+    cfg_scale: params.cfg_scale ?? 5,
     seed: params.seed ?? 42,
+    mode: "base",
   };
-
-  // OpenAI-compatible schema (serverless) vs NIM /infer schema (local).
-  const schema = isLocalNim
-    ? {
-        model: NVIDIA_IMAGE_MODEL,
-        prompt,
-        image: normalizedImage,
-        ...passthrough,
-      }
-    : {
-        model: NVIDIA_IMAGE_MODEL,
-        prompt,
-        image: normalizedImage,
-        ...passthrough,
-      };
-
-  return schema;
 }
 
 /**
@@ -76,37 +67,52 @@ async function generateImageWithNvidia(
   params: Record<string, any> = {},
 ): Promise<string> {
   const apiKey = validateApiKey();
-  const payload = buildPayload(prompt, imageBase64, params);
+  const payload = buildPayload(prompt, params);
 
-  const response = await axios.post(targetUrl, payload, {
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    timeout: 120000,
-  });
+  let response;
+  try {
+    response = await axios.post(FLUX_ENDPOINT, payload, {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      timeout: 120000,
+    });
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      console.error("[FLUX] NVIDIA request failed", {
+        endpoint: FLUX_ENDPOINT,
+        model: NVIDIA_IMAGE_MODEL,
+        status: err.response?.status,
+        statusText: err.response?.statusText,
+        response: err.response?.data ? safeTruncate(err.response.data) : "(no response body)",
+      });
+    } else {
+      console.error("[FLUX] Unexpected error during NVIDIA request", err);
+    }
+    throw err;
+  }
 
   const data = response.data;
 
-  // Extract raw base64 data return string (data:image/...;base64,...).
-  let rawBase64: string | undefined;
-  if (data?.data?.[0]?.b64_json) {
-    rawBase64 = data.data[0].b64_json;
-  } else if (data?.data?.[0]?.url) {
-    const imageResponse = await axios.get(data.data[0].url, {
-      responseType: "arraybuffer",
-      headers: { Authorization: `Bearer ${apiKey}` },
-    });
-    rawBase64 = `data:image/png;base64,${Buffer.from(imageResponse.data).toString("base64")}`;
-  }
+  // NVIDIA NIM FLUX returns { artifacts: [ { base64: "<jpeg>" } ] }
+  const rawBase64: string | undefined = data?.artifacts?.[0]?.base64;
 
   if (!rawBase64) {
+    console.error("[FLUX] Unexpected NVIDIA response structure", {
+      endpoint: FLUX_ENDPOINT,
+      model: NVIDIA_IMAGE_MODEL,
+      keys: Object.keys(data ?? {}),
+      sample: safeTruncate(data),
+    });
     throw new Error("Invalid NVIDIA response structure");
   }
 
-  // Normalize to data URL if needed.
-  const dataUrl = rawBase64.startsWith("data:") ? rawBase64 : `data:image/png;base64,${rawBase64}`;
+  // Normalize to a data URL if needed (artifact is raw JPEG base64).
+  const dataUrl = rawBase64.startsWith("data:")
+    ? rawBase64
+    : `data:image/jpeg;base64,${rawBase64}`;
 
   // Write asset to local public images folder.
   const IMAGES_DIR = path.join(__dirname, "..", "..", "public", "images");
@@ -114,9 +120,9 @@ async function generateImageWithNvidia(
     fs.mkdirSync(IMAGES_DIR, { recursive: true });
   }
 
-  const localFileName = `flux_${Date.now()}_${Math.random().toString(36).substring(7)}.png`;
+  const localFileName = `flux_${Date.now()}_${Math.random().toString(36).substring(7)}.jpg`;
   const filePath = path.join(IMAGES_DIR, localFileName);
-  const buffer = Buffer.from(dataUrl.replace(/^data:image\/png;base64,/, ""), "base64");
+  const buffer = Buffer.from(dataUrl.replace(/^data:image\/jpeg;base64,/, ""), "base64");
   fs.writeFileSync(filePath, buffer);
 
   console.log(`[FLUX] Image saved locally: /images/${localFileName}`);
@@ -146,13 +152,20 @@ router.post("/generate", async (req: Request, res: Response) => {
       model: NVIDIA_IMAGE_MODEL,
       timestamp: new Date().toISOString(),
     });
-  } catch (error) {
-    console.error("Image generation error:", error);
+  } catch (error: any) {
+    console.error("[IMAGE] /generate failed", {
+      endpoint: FLUX_ENDPOINT,
+      model: NVIDIA_IMAGE_MODEL,
+      message: error?.message,
+      status: error?.response?.status,
+      statusText: error?.response?.statusText,
+      response: error?.response?.data ? safeTruncate(error.response.data) : undefined,
+    });
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
     return res.status(500).json({
       error: "Failed to generate image via NVIDIA FLUX pipeline",
       details: errorMessage,
-      endpoint: targetUrl,
+      endpoint: FLUX_ENDPOINT,
     });
   }
 });
