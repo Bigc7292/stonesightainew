@@ -267,6 +267,18 @@ function StoneSightApp() {
       // Use token from context to avoid Lock broken errors
       const accessToken = contextToken || "";
 
+      /*
+        =========================================
+        RECOVERED GEMINI IMG2IMG PROMPT REFERENCE
+        (Preserved for future migrations / flux.1-kontext-dev implementation)
+
+        "Surgically replace all horizontal countertops and vertical stone faces with ${selectedStone.name}.
+         Material description: ${selectedStone.description}. Ensure the specific veining, color
+         temperature, and surface finish match this description exactly, blending seamlessly into
+         the existing environment's lighting."
+        =========================================
+      */
+
       const imageResponse = await fetch(
         `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/image/generate`,
         {

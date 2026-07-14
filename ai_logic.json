@@ -1,0 +1,32 @@
+{
+  "project": "Stone Sight AI",
+  "engine": "Cosmos-3-Super",
+  "motion_logic": {
+    "clockwise_arc": {
+      "camera_movement": "truck_right_and_pan_left",
+      "rotation_angle": 180,
+      "focal_target": "kitchen_island",
+      "dynamics": {
+        "duration_seconds": 11,
+        "style": "cinematic_slow_motion",
+        "movement_behavior": "smooth_parallax",
+        "stabilization": "fluid_gimbal",
+        "lighting_fidelity": "surface_reflections_and_specular_highlights"
+      },
+      "prompt_template": "Cinematic 11-second architectural interior video. Starting from a fixed center point, the camera trucks right and performs a sweeping 180-degree arc around the kitchen island. Maintain smooth parallax movement to emphasize the depth of the room. Focus sharply on the {stone_name} grain and surface reflections. 4k resolution, fluid gimbal-style movement, no flickering."
+    },
+    "counter_clockwise_arc": {
+      "camera_movement": "truck_left_and_pan_right",
+      "rotation_angle": -180,
+      "focal_target": "kitchen_island",
+      "dynamics": {
+        "duration_seconds": 11,
+        "style": "cinematic_slow_motion",
+        "movement_behavior": "smooth_parallax",
+        "stabilization": "fluid_gimbal",
+        "lighting_fidelity": "surface_reflections_and_specular_highlights"
+      },
+      "prompt_template": "Cinematic 11-second architectural interior video. Starting from a fixed center point, the camera trucks left and performs a sweeping 180-degree arc around the kitchen island. Maintain smooth parallax movement to emphasize the depth of the room. Focus sharply on the {stone_name} grain and surface reflections. 4k resolution, fluid gimbal-style movement, no flickering."
+    }
+  }
+}
