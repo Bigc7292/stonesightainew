@@ -49,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     accessToken: null,
   });
 
-  const isTestMode = process.env.MCP_ENV === 'mcp' || process.env.MCP_TEST_MODE === 'true';
+  const isTestMode = import.meta.env.MCP_ENV === 'mcp' || import.meta.env.MCP_TEST_MODE === 'true';
 
   // Helper function to initialize auth session
   const initializeAuthSession = async (session: any) => {
