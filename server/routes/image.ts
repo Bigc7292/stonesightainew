@@ -39,7 +39,8 @@ async function uploadImageExample(apiKey: string, base64DataUrl: string): Promis
   const mimeType = match[1];
   const base64 = match[2];
   const buffer = Buffer.from(base64, "base64");
-  body.append("file", buffer, `input.${mimeType.split("/")[1] || "png"}`);
+  const blob = new Blob([buffer], { type: mimeType });
+  body.append("file", blob, `input.${mimeType.split("/")[1] || "png"}`);
 
   const response = await fetch(EXAMPLES_UPLOAD_ENDPOINT, {
     method: "POST",
