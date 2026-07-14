@@ -12,7 +12,6 @@ const NVIDIA_IMAGE_MODEL = "black-forest-labs/flux.1-kontext-dev";
 const FLUX_ENDPOINT =
   process.env.NVIDIA_IMAGE_URL ||
   "https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.1-kontext-dev";
-const EXAMPLES_UPLOAD_ENDPOINT = "https://ai.api.nvidia.com/v1/genai/examples";
 
 function validateApiKey(): string {
   if (!NVIDIA_API_KEY) {
@@ -30,45 +29,6 @@ function safeTruncate(value: unknown, max = 600): string {
   }
 }
 
-async function uploadImageExample(apiKey: string, base64DataUrl: string): Promise<string> {
-  const body = new FormData();
-  const match = base64DataUrl.match(/^data:([^;]+);base64,(.+)$/);
-  if (!match) {
-    throw new Error("Invalid image data URL format");
-  }
-  const mimeType = match[1];
-  const base64 = match[2];
-  const buffer = Buffer.from(base64, "base64");
-  const blob = new Blob([buffer], { type: mimeType });
-  body.append("file", blob, `input.${mimeType.split("/")[1] || "png"}`);
-
-  const response = await fetch(EXAMPLES_UPLOAD_ENDPOINT, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body,
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.error("[IMAGE] Example upload failed", {
-      endpoint: EXAMPLES_UPLOAD_ENDPOINT,
-      status: response.status,
-      details: safeTruncate(errorText),
-    });
-    throw new Error(`Image upload failed with status ${response.status}: ${safeTruncate(errorText)}`);
-  }
-
-  const data = await response.json();
-  const exampleId = data?.example_id || data?.id;
-  if (!exampleId) {
-    console.error("[IMAGE] Unexpected upload response", { keys: Object.keys(data ?? {}), sample: safeTruncate(data) });
-    throw new Error("Missing example_id in upload response");
-  }
-  return exampleId;
-}
-
 /**
  * Generate an image with NVIDIA FLUX.1 Kontext, persist locally, and return both
  * the local path (for persistence) and the base64 data URL (for the client).
@@ -80,13 +40,12 @@ async function generateImageWithNvidiaKontext(
 ): Promise<{ localPath: string; dataUrl: string }> {
   const apiKey = validateApiKey();
 
-  const exampleId = await uploadImageExample(apiKey, imageBase64);
+  const imageData = imageBase64.includes(",") ? imageBase64.split(",")[1] : imageBase64;
 
   const payload: Record<string, any> = {
     prompt,
-    example_id: exampleId,
-    height: params.height ?? 1024,
-    width: params.width ?? 1024,
+    image: imageData,
+    aspect_ratio: "match_input_image",
     steps: params.num_steps ?? 28,
     cfg_scale: params.cfg_scale ?? 5.0,
     seed: params.seed !== undefined ? Number(params.seed) : Math.floor(Math.random() * 1000000),
@@ -165,7 +124,7 @@ router.post("/generate", async (req: Request, res: Response) => {
       });
     }
 
-    const imageBase64 = image.includes(",") ? image : `data:image/jpeg;base64,${image}`;
+    const imageBase64 = image.includes(",") ? image.split(",")[1] : image;
 
     const { localPath, dataUrl } = await generateImageWithNvidiaKontext(prompt, imageBase64, params);
 
