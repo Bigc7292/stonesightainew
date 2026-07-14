@@ -46,8 +46,10 @@ function safeTruncate(value: unknown, max = 600): string {
 function buildPayload(prompt: string, params: Record<string, any>) {
   // NVIDIA NIM FLUX.1-dev request shape. Base mode is text-to-image;
   // height/width are fixed at 1024 for this model.
+  // NOTE: do NOT include `model` in the body — the hosted GenAI endpoint
+  // takes the model from the URL path and returns 422 (extra_forbidden)
+  // if `model` is present in the payload.
   return {
-    model: NVIDIA_IMAGE_MODEL,
     prompt,
     height: params.height ?? 1024,
     width: params.width ?? 1024,
@@ -59,13 +61,14 @@ function buildPayload(prompt: string, params: Record<string, any>) {
 }
 
 /**
- * Generate an image with NVIDIA FLUX.1-dev, persist locally, and return the path.
+ * Generate an image with NVIDIA FLUX.1-dev, persist locally, and return both
+ * the local path (for persistence) and the base64 data URL (for the client).
  */
 async function generateImageWithNvidia(
   prompt: string,
   imageBase64: string,
   params: Record<string, any> = {},
-): Promise<string> {
+): Promise<{ localPath: string; dataUrl: string }> {
   const apiKey = validateApiKey();
   const payload = buildPayload(prompt, params);
 
@@ -127,8 +130,8 @@ async function generateImageWithNvidia(
 
   console.log(`[FLUX] Image saved locally: /images/${localFileName}`);
 
-  // Return the path string cleanly.
-  return `/images/${localFileName}`;
+  // Return both the persisted path and the base64 data URL the client expects.
+  return { localPath: `/images/${localFileName}`, dataUrl };
 }
 
 router.post("/generate", async (req: Request, res: Response) => {
@@ -144,10 +147,11 @@ router.post("/generate", async (req: Request, res: Response) => {
 
     const imageBase64 = image.split(",")[1] || image;
 
-    const localPath = await generateImageWithNvidia(prompt, imageBase64, params);
+    const { localPath, dataUrl } = await generateImageWithNvidia(prompt, imageBase64, params);
 
     return res.status(200).json({
       success: true,
+      image: dataUrl,
       localPath,
       model: NVIDIA_IMAGE_MODEL,
       timestamp: new Date().toISOString(),
@@ -201,7 +205,7 @@ router.post("/batch", async (req: Request, res: Response) => {
     const results = await Promise.all(
       variations.map(async (variation: string, index: number) => {
         try {
-          const localPath = await generateImageWithNvidia(
+          const { localPath } = await generateImageWithNvidia(
             `${prompt} - ${variation}`,
             image,
           );
