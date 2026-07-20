@@ -27,6 +27,8 @@ import {
   Code2,
   User as UserIcon,
   Clock,
+  Box,
+  Sparkles,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { BeforeAfterSlider } from "./components/BeforeAfterSlider";
@@ -34,10 +36,11 @@ import { Stone, StoneCategory, StoneTone } from "./types";
 import { STONE_DATABASE } from "./stones";
 import { useAuth } from "./auth/AuthContext";
 import { LoginPage } from "./auth/LoginPage";
-import { saveGeneration } from "./services/generationService";
+import { saveGeneration, generate3DModel, get3DModels } from "./services/generationService";
 import { extractAndStorePatterns } from "./services/aiMemoryService";
 import { GenerationGallery } from "./components/GenerationGallery";
 import { supabase } from "./lib/supabase";
+import { SplatViewer3D } from "./components/SplatViewer3D";
 
 // --- Components ---
 
@@ -221,6 +224,16 @@ function StoneSightApp() {
   const [isGeneratingVideos, setIsGeneratingVideos] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
+  // 3D Generation State
+  const [isGenerating3D, setIsGenerating3D] = useState(false);
+  const [isPolling3D, setIsPolling3D] = useState(false);
+  const [resultSplat, setResultSplat] = useState<string | null>(null);
+  const [splatFormat, setSplatFormat] = useState<'ply' | 'glb'>('ply');
+  const [splatTaskId, setSplatTaskId] = useState<string | null>(null);
+  const [splatProgress, setSplatProgress] = useState(0);
+  const [splatError, setSplatError] = useState<string | null>(null);
+  const [showSplatViewer, setShowSplatViewer] = useState(false);
+
   const [stones, setStones] = useState<Stone[]>(STONE_DATABASE);
 
   // Filter States
@@ -242,9 +255,155 @@ function StoneSightApp() {
     }
   };
 
+  // 3D Generation Function
+  const generate3DScene = async () => {
+    if (!resultImage || !selectedStone || !user) return;
+
+    setIsGenerating3D(true);
+    setIsPolling3D(true);
+    setSplatError(null);
+    setSplatProgress(0);
+    setResultSplat(null);
+    setSplatTaskId(null);
+
+    const accessToken = contextToken || "";
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/3d/generate`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            imageUrl: resultImage,
+            prompt: `Generate high-quality 3D Gaussian Splat of kitchen with ${selectedStone.name} countertops`,
+            userId: user.id,
+            stoneName: selectedStone.name,
+            stoneId: selectedStone.id,
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      // Handle 401 Unauthorized - invalid API key
+      if (!response.ok && result.details?.includes("TRIPO_API_KEY_INVALID")) {
+        throw new Error(
+          "Tripo v2 API key is invalid. The current key has 'tcli_' prefix (CLI key).\n" +
+          "Get a valid v2 API key from https://platform.tripo3d.ai (no 'tcli_' prefix).\n" +
+          "Update TRIPO_API_KEY in server/.env and restart server."
+        );
+      }
+
+      if (!result.success) {
+        throw new Error(result.details || result.error || "3D generation failed");
+      }
+
+      if (result.data?.taskId) {
+        setSplatTaskId(result.data.taskId);
+        setSplatFormat(result.data.format || 'ply');
+        poll3DStatus(result.data.taskId);
+      } else if (result.data?.modelUrl) {
+        setResultSplat(result.data.modelUrl);
+        setSplatFormat(result.data.format || 'ply');
+        setIsGenerating3D(false);
+        setIsPolling3D(false);
+      }
+    } catch (error) {
+      console.error("3D generation failed:", error);
+      setSplatError(error instanceof Error ? error.message : "3D generation failed");
+      setIsGenerating3D(false);
+      setIsPolling3D(false);
+    }
+  };
+
+  // Poll 3D generation status
+  const poll3DStatus = async (taskId: string) => {
+    const accessToken = contextToken || "";
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+    const pollInterval = setInterval(async () => {
+      try {
+        const response = await fetch(`${apiUrl}/api/3d/status/${taskId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        // Handle 401 Unauthorized
+        if (response.status === 401) {
+          clearInterval(pollInterval);
+          setIsPolling3D(false);
+          setIsGenerating3D(false);
+          setSplatError(
+            "Tripo 3D API key is invalid or missing. Please add a valid TRIPO_API_KEY to your .env file. " +
+            "Get your API key from https://developers.tripo3d.ai"
+          );
+          return;
+        }
+
+        const result = await response.json();
+
+        if (result.success && result.data) {
+          setSplatProgress(result.data.progress || 0);
+
+          if (result.data.status === "success") {
+            clearInterval(pollInterval);
+            setIsPolling3D(false);
+            setIsGenerating3D(false);
+            
+            if (result.data.output?.ply || result.data.output?.glb) {
+              // The model should already be uploaded to Supabase by the backend
+              // We'll need to fetch the actual URL from the backend
+              // For now, we'll trigger a re-fetch or use the task result
+              setResultSplat(result.data.output.ply || result.data.output.glb);
+              setSplatFormat(result.data.output.ply ? 'ply' : 'glb');
+            }
+          } else if (result.data.status === "failed") {
+            clearInterval(pollInterval);
+            setIsPolling3D(false);
+            setIsGenerating3D(false);
+            setSplatError(result.data.error || "3D generation failed");
+          }
+        }
+      } catch (error) {
+        console.error("Polling error:", error);
+      }
+    }, 3000);
+
+    // Cleanup after max attempts (5 minutes)
+    setTimeout(() => {
+      clearInterval(pollInterval);
+      if (isPolling3D) {
+        setIsPolling3D(false);
+        setIsGenerating3D(false);
+        setSplatError("3D generation timed out. Check History later.");
+      }
+    }, 300000);
+  };
+
+  // Reset 3D state when starting new visualization
+  const reset3DState = () => {
+    setIsGenerating3D(false);
+    setIsPolling3D(false);
+    setResultSplat(null);
+    setSplatTaskId(null);
+    setSplatProgress(0);
+    setSplatError(null);
+    setShowSplatViewer(false);
+  };
+
   const startVisualization = async () => {
     if (!uploadedImage || !selectedStone) return;
 
+    // Reset 3D state for new visualization
+    reset3DState();
+    
     // Check for API key selection if using Veo
     if (
       (window as any).aistudio &&
@@ -266,18 +425,6 @@ function StoneSightApp() {
 
       // Use token from context to avoid Lock broken errors
       const accessToken = contextToken || "";
-
-      /*
-        =========================================
-        RECOVERED GEMINI IMG2IMG PROMPT REFERENCE
-        (Preserved for future migrations / flux.1-kontext-dev implementation)
-
-        "Surgically replace all horizontal countertops and vertical stone faces with ${selectedStone.name}.
-         Material description: ${selectedStone.description}. Ensure the specific veining, color
-         temperature, and surface finish match this description exactly, blending seamlessly into
-         the existing environment's lighting."
-        =========================================
-      */
 
       const imageResponse = await fetch(
         `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/image/generate`,
@@ -325,7 +472,7 @@ function StoneSightApp() {
           outputUrl: editedBase64,
           outputMetadata: { stoneId: selectedStone.id },
           processingTimeMs: Date.now() - startTime,
-          modelUsed: "gemini-2.5-flash-image",
+          modelUsed: "nvidia-flux.1-kontext-dev",
           tags: [
             selectedStone.category,
             selectedStone.tone,
@@ -344,7 +491,7 @@ function StoneSightApp() {
                   stoneTone: selectedStone.tone,
                 },
                 processing_time_ms: result.data.processing_time_ms,
-                model_used: "gemini-2.5-flash-image",
+                model_used: "nvidia-flux.1-kontext-dev",
                 tags: [
                   selectedStone.category,
                   selectedStone.tone,
@@ -411,7 +558,7 @@ function StoneSightApp() {
         // Process clockwise video
         if (clockwiseResponse.ok) {
           const clockwiseResult = await clockwiseResponse.json();
-          clockwiseUrl = clockwiseResult.video;
+          clockwiseUrl = clockwiseResult.data?.videoUrl;
           if (clockwiseUrl?.startsWith("pending_operation:")) {
             isPending = true;
           } else {
@@ -433,7 +580,7 @@ function StoneSightApp() {
         // Process counter-clockwise video
         if (counterResponse.ok) {
           const counterResult = await counterResponse.json();
-          counterUrl = counterResult.video;
+          counterUrl = counterResult.data?.videoUrl;
           if (counterUrl?.startsWith("pending_operation:")) {
             isPending = true;
           } else {
@@ -1071,7 +1218,7 @@ function StoneSightApp() {
                           {!resultImage ? "Processing" : "Ready"}
                         </span>
                       </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                         <button
                           onClick={() => setIsFullscreen(true)}
                           disabled={!resultImage}
@@ -1126,6 +1273,22 @@ function StoneSightApp() {
                             {isGeneratingVideos
                               ? "Generating..."
                               : "Save Videos"}
+                          </span>
+                        </button>
+                        <button
+                          onClick={generate3DScene}
+                          disabled={!resultImage || isGenerating3D || isGeneratingVideos || isProcessing}
+                          className={`p-4 rounded-2xl bg-gradient-to-br from-gold-500 to-gold-400 text-dark-900 hover:scale-[1.02] active:scale-[0.98] flex sm:flex-col items-center justify-center gap-3 sm:gap-2 group border border-gold-500/50 shadow-gold-glow disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none transition-all ${
+                            isGenerating3D ? "animate-pulse" : ""
+                          }`}
+                        >
+                          {isGenerating3D ? (
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                          ) : (
+                            <Box className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                          )}
+                          <span className="text-[10px] font-medium uppercase tracking-widest">
+                            {isGenerating3D ? "Generating..." : "Generate 3D"}
                           </span>
                         </button>
                       </div>
@@ -1235,6 +1398,106 @@ function StoneSightApp() {
               </div>
             </motion.div>
           )}
+
+          {resultSplat && (
+            <motion.div
+              key="step-3d"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="w-full"
+            >
+              <StepIndicator currentStep={3} />
+              
+              <div className="space-y-8">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                  <div>
+                    <h2 className="text-3xl font-display font-medium text-gray-100 mb-2">
+                      Interactive 3D Scene
+                    </h2>
+                    <p className="text-gray-400 flex items-center gap-2 text-sm">
+                      <span className="w-2 h-2 rounded-full bg-gold-500" />
+                      {selectedStone?.name} · Gaussian Splat · {splatFormat.toUpperCase()}
+                    </p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+                    <button
+                      onClick={() => setShowSplatViewer(true)}
+                      disabled={!resultSplat}
+                      className="w-full sm:w-auto px-8 py-3 rounded-xl font-medium text-sm tracking-wide flex items-center justify-center gap-2 bg-gradient-gold text-dark-900 shadow-gold-glow hover:scale-[1.03] active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none"
+                    >
+                      <Maximize2 className="w-4 h-4" /> Explore in 3D
+                    </button>
+                    <button
+                      onClick={() => {
+                        const link = document.createElement("a");
+                        link.href = resultSplat!;
+                        link.download = `3d-${selectedStone?.name.toLowerCase().replace(/\s+/g, "-")}.${splatFormat}`;
+                        link.click();
+                      }}
+                      disabled={!resultSplat}
+                      className="w-full sm:w-auto px-6 py-3 rounded-xl bg-dark-700/50 text-gray-300 font-medium text-sm border border-white/10 hover:bg-dark-600 hover:text-white transition-colors flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      <Download className="w-4 h-4" /> Save 3D Model
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-xs font-medium uppercase tracking-widest text-gray-400 flex items-center gap-2">
+                    <Box className="w-4 h-4 text-gold-500" /> 3D Gaussian Splat
+                  </h3>
+                  <div className="aspect-video rounded-[24px] overflow-hidden bg-dark-900 relative group border border-white/5 shadow-premium">
+                    <SplatViewer3D
+                      splatUrl={resultSplat}
+                      className="w-full h-full"
+                      onLoad={() => console.log("3D viewer loaded")}
+                      onError={(e) => console.error("3D viewer error:", e)}
+                    />
+                    {isGenerating3D && (
+                      <div className="absolute inset-0 bg-dark-900/80 backdrop-blur-md flex flex-col items-center justify-center p-4 text-center z-10">
+                        <Loader2 className="w-10 h-10 animate-spin text-gold-500 mb-4" />
+                        <p className="text-lg font-medium text-gold-400 mb-2">Generating 3D Scene...</p>
+                        <p className="text-sm text-gray-400">
+                          {splatProgress > 0 ? `${splatProgress}% complete` : "Initializing..."}
+                        </p>
+                        <div className="w-64 h-2 bg-dark-700 rounded-full mt-4 overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-gold rounded-full transition-all duration-300"
+                            style={{ width: `${splatProgress}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {splatError && (
+                      <div className="absolute inset-0 bg-dark-900/90 backdrop-blur-md flex flex-col items-center justify-center p-4 text-center text-red-400 z-10">
+                        <svg className="w-12 h-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <h4 className="text-lg font-medium mb-2">3D Generation Failed</h4>
+                        <p className="text-sm text-gray-400 mb-4 max-w-md text-center">{splatError}</p>
+                        <button
+                          onClick={generate3DScene}
+                          disabled={isGenerating3D}
+                          className="px-4 py-2 bg-gold-500 text-dark-900 rounded-lg font-medium text-sm hover:bg-gold-400 transition-colors"
+                        >
+                          Retry
+                        </button>
+                      </div>
+                    )}
+                    <button
+                      onClick={() => setShowSplatViewer(true)}
+                      disabled={!resultSplat}
+                      className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 bg-dark-900/80 backdrop-blur-md rounded-xl text-gray-300 hover:bg-gold-500/20 hover:text-gold-400 transition-all shadow-sm sm:opacity-0 sm:group-hover:opacity-100 border border-white/10 hover:border-gold-500/30 disabled:opacity-0"
+                      title="Open Fullscreen 3D Viewer"
+                    >
+                      <Maximize2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
 
         {/* Fullscreen Modal */}
@@ -1295,6 +1558,84 @@ function StoneSightApp() {
                       <BeforeAfterSlider
                         beforeImage={uploadedImage!}
                         afterImage={resultImage!}
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+
+                <div className="mt-8 text-center max-w-2xl">
+                  <p className="text-gray-400 text-sm leading-relaxed font-light">
+                    {selectedStone?.description}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Fullscreen 3D Viewer Modal */}
+        <AnimatePresence>
+          {showSplatViewer && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] bg-dark-900/98 backdrop-blur-xl flex items-center justify-center p-6 md:p-12"
+            >
+              <div className="relative w-full h-full flex flex-col items-center justify-center">
+                <div className="absolute top-0 left-0 right-0 flex flex-col sm:flex-row sm:items-center justify-between p-4 z-10 gap-4">
+                  <div className="flex items-center gap-4">
+                    <img
+                      src="/logo.jpg"
+                      alt="StoneSight Logo"
+                      className="w-8 h-8"
+                    />
+                    <h3 className="text-gray-100 font-display font-medium tracking-tight truncate">
+                      {selectedStone?.name} 3D Interactive Scene
+                    </h3>
+                    <span className="px-2 py-1 bg-gold-500/10 text-gold-400 text-[10px] font-medium uppercase tracking-widest rounded-md border border-gold-500/20">
+                      {splatFormat.toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
+                    <button
+                      onClick={() => {
+                        const link = document.createElement("a");
+                        link.href = resultSplat!;
+                        link.download = `3d-${selectedStone?.name.toLowerCase().replace(/\s+/g, "-")}.${splatFormat}`;
+                        link.click();
+                      }}
+                      className="p-3 bg-dark-800/50 hover:bg-dark-700 text-gold-400 border border-white/5 hover:border-gold-500/30 rounded-full transition-all flex items-center justify-center gap-2 px-6 flex-1 sm:flex-none"
+                    >
+                      <Download className="w-5 h-5" />
+                      <span className="text-[10px] font-medium uppercase tracking-widest hidden sm:inline">
+                        Save 3D Model
+                      </span>
+                      <span className="text-[10px] font-medium uppercase tracking-widest sm:hidden">
+                        Download
+                      </span>
+                    </button>
+                    <button
+                      onClick={() => setShowSplatViewer(false)}
+                      className="p-3 bg-dark-800/50 hover:bg-dark-700 text-gray-400 hover:text-white border border-white/5 rounded-full transition-all shrink-0"
+                    >
+                      <X className="w-6 h-6" />
+                    </button>
+                  </div>
+                </div>
+
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="w-full h-[85vh] max-w-7xl rounded-[32px] overflow-hidden shadow-premium border border-white/10 bg-dark-900 flex items-center justify-center"
+                >
+                  <div className="w-full h-full flex items-center justify-center p-4 md:p-12">
+                    <div className="w-full h-full relative">
+                      <SplatViewer3D
+                        splatUrl={resultSplat}
+                        className="w-full h-full"
+                        onLoad={() => console.log("3D viewer loaded")}
+                        onError={(e) => console.error("3D viewer error:", e)}
                       />
                     </div>
                   </div>

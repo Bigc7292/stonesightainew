@@ -8,12 +8,11 @@ export default defineConfig(({mode}) => {
   return {
     plugins: [react({ fastRefresh: false }), tailwindcss()],
     define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
       'process.env.SUPABASE_URL': JSON.stringify(env.VITE_SUPABASE_URL),
       'process.env.SUPABASE_ANON_KEY': JSON.stringify(env.VITE_SUPABASE_ANON_KEY),
       'process.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL || 'http://localhost:5000'),
-      'process.env.MCP_ENV': JSON.stringify(process.env.MCP_ENV || ''),
-      'process.env.MCP_TEST_MODE': JSON.stringify(process.env.MCP_TEST_MODE || ''),
+      'import.meta.env.MCP_ENV': JSON.stringify(process.env.MCP_ENV || ''),
+      'import.meta.env.MCP_TEST_MODE': JSON.stringify(process.env.MCP_TEST_MODE || ''),
     },
     resolve: {
       alias: {

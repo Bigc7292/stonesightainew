@@ -3,25 +3,22 @@ import axios from 'axios';
 const MOCK_CONFIG = {
   base64Image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
   cosmosEndpoint: process.env.COSMOS_INFERENCE_URL || 'http://localhost:8000/v1/infer',
-  physics: {
-    gravity: 9.8,
-    friction: 0.15,
-    elasticity: 0.75
-  }
+  prompt: 'Cinematic 11-second architectural interior video. Smooth camera movement around a modern kitchen.',
+  negativePrompt: 'blurry, low quality, artifacts, distorted, unrealistic movement',
 };
 
 async function runPipelineTest() {
-  console.log('=== STARTING STONE SIGHT AI: COSMOS 3 INTEGRATION TEST ===');
+  console.log('=== STARTING STONE SIGHT AI: COSMOS3 GENERATOR INTEGRATION TEST ===');
   console.log(`Target Endpoint: ${MOCK_CONFIG.cosmosEndpoint}`);
   
   const payload = {
-    image: MOCK_CONFIG.base64Image, 
     model: 'nvidia/cosmos3-generator',
-    video_params: {
-      gravity: MOCK_CONFIG.physics.gravity,
-      friction: MOCK_CONFIG.physics.friction,
-      elasticity: MOCK_CONFIG.physics.elasticity
-    }
+    prompt: MOCK_CONFIG.prompt,
+    image: MOCK_CONFIG.base64Image,
+    negative_prompt: MOCK_CONFIG.negativePrompt,
+    seed: 42,
+    guidance_scale: 6.0,
+    num_inference_steps: 28,
   };
   
   try {
@@ -35,7 +32,7 @@ async function runPipelineTest() {
 
     console.log(`Status Code Received: ${response.status}`);
     
-    if (response.data && (response.data.b64_video || response.data.artifacts)) {
+    if (response.data && (response.data.outputs?.[0] || response.data.b64_video || response.data.artifacts)) {
       console.log('✓ SUCCESS! Video generation response contains valid video data artifacts.');
     } else {
       console.log('⚠ WARNING: Connection succeeded but response format was unexpected.');

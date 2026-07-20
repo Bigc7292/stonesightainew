@@ -93,6 +93,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Test mode: mock successful login for MCP browser testing
     if (isTestMode) {
       console.log('[Auth] Test mode: mock login successful');
+      setState((prev) => ({
+        ...prev,
+        user: {
+          id: 'test-user-id',
+          email: credentials.email,
+          name: credentials.email,
+          role: 'user',
+        },
+        isAuthenticated: true,
+        isLoading: false,
+        accessToken: 'mock-test-token',
+      }));
       return { success: true, error: null };
     }
 

@@ -11,6 +11,11 @@ export async function authenticate(
   next: NextFunction,
 ) {
   try {
+    if (process.env.MCP_TEST_MODE === 'true') {
+      (req as any).user = { id: 'test-user', email: 'test@stonesight.ai' };
+      return next();
+    }
+
     // Use VITE_ prefixed keys from .env if the standard ones aren't set
     const supabaseUrl =
       process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;

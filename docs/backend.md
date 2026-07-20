@@ -48,11 +48,6 @@ Server-side (`.env` at project root — **never commit this file**):
 | `NVIDIA_API_KEY` | ✅ | `nvapi-…` key from build.nvidia.com. Fatal if absent. |
 | `NVIDIA_IMAGE_URL` | ❌ | Override for the FLUX endpoint. Defaults to the hosted NIM URL below. |
 | `PORT` | ❌ | `5000` |
-| `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` | ✅ (for auth) | Also consumed by `server/middleware/auth.ts` to verify tokens. |
-| `SUPABASE_URL` / `SUPABASE_ANON_KEY` | ❌ | Fallbacks if the `VITE_`-prefixed vars aren't set. |
-
-> ⚠️ `.env.example` still lists `GEMINI_API_KEY` for historical reasons. The
-> backend no longer uses Gemini — ignore it.
 
 ---
 
@@ -108,9 +103,8 @@ follow-up work.
 
 ## Video generation — `POST /api/video/generate`
 
-**Upstream model:** `nvidia/cosmos-3-super` (image-to-video or text-to-video).
-**Endpoint:** `https://api.nvcf.nvidia.com/v1/infer/nvidia/cosmos-3-super`
-(see `COSMOS_API_URL` in `server/routes/video.ts`).
+**Upstream model:** `nvidia/cosmos3-generator` (image-to-video when `image` is provided, else text-to-video).
+**Endpoint:** local NIM container via `COSMOS_INFERENCE_URL` (must contain `localhost`) or NVIDIA-hosted fallback.
 
 ### Request body
 ```json
