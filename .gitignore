@@ -27,3 +27,5 @@ Thumbs.db
 public/images/*.jpg
 public/images/*.png
 public/videos/*
+
+.mcp.json
