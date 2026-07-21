@@ -436,7 +436,7 @@ function StoneSightApp() {
             Authorization: `Bearer ${accessToken}`,
           },
           body: JSON.stringify({
-            prompt: `Perform an exhaustive, photorealistic material replacement. Identify and replace ALL stone-compatible surfaces in the image, including every countertop, the central kitchen island (including vertical waterfall gables), side-ledges, and matching backsplashes, with ${selectedStone.name}. Material Description: ${selectedStone.description}. Ensure the vein pattern flows naturally with monolithic consistency across all identified surfaces. Maintain original ambient lighting, cabinetry textures, and room architecture with 100% fidelity.`,
+            prompt: \`Perform a strict material swap that replaces ONLY the stone surfaces (countertop, island top, side-ledges, backsplash) in the kitchen with ${selectedStone.name}. Material Description: ${selectedStone.description}. Ensure the vein pattern flows naturally across all replaced surfaces while maintaining original ambient lighting, shadows, and reflections. Do not modify any non-stone elements - windows, sink, cabinets, flooring, appliances, walls, ceiling, fixtures, or any other non-stone objects must remain exactly as they appear, preserving lighting and reflections. Negative instruction: Do not alter, remove, or add any non-stone geometry or texture.\`,
             image: uploadedImage,
           }),
         },
@@ -1088,7 +1088,7 @@ function StoneSightApp() {
                     <button
                       onClick={() => setStep(1)}
                       disabled={isProcessing || isGeneratingVideos}
-                      className="w-full sm:w-auto px-8 py-3 rounded-xl border font-medium text-sm transition-all flex items-center justify-center gap-2 bg-gradient-to-r from-gold-500 to-gold-400 text-dark-900 shadow-gold-glow hover:scale-[1.03] active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none"
+                      className={`w-full sm:w-auto px-8 py-3 rounded-xl border font-medium text-sm transition-all flex items-center justify-center gap-2 bg-gradient-to-r from-gold-500 to-gold-400 text-dark-900 shadow-gold-glow hover:scale-[1.03] active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none`}
                     >
                       <RefreshCcw className="w-4 h-4" /> Try Another Stone
                     </button>
@@ -1424,7 +1424,7 @@ function StoneSightApp() {
                     <button
                       onClick={() => setShowSplatViewer(true)}
                       disabled={!resultSplat}
-                      className="w-full sm:w-auto px-8 py-3 rounded-xl font-medium text-sm tracking-wide flex items-center justify-center gap-2 bg-gradient-gold text-dark-900 shadow-gold-glow hover:scale-[1.03] active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none"
+                      className={`w-full sm:w-auto px-8 py-3 rounded-xl font-medium text-sm tracking-wide flex items-center justify-center gap-2 bg-gradient-gold text-dark-900 shadow-gold-glow hover:scale-[1.03] active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none`}
                     >
                       <Maximize2 className="w-4 h-4" /> Explore in 3D
                     </button>
@@ -1685,3 +1685,8 @@ export default function App() {
 
   return <StoneSightApp />;
 }
+
+
+
+
+
