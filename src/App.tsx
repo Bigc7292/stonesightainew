@@ -436,7 +436,7 @@ function StoneSightApp() {
             Authorization: `Bearer ${accessToken}`,
           },
           body: JSON.stringify({
-            prompt: \`Perform a strict material swap that replaces ONLY the stone surfaces (countertop, island top, side-ledges, backsplash) in the kitchen with ${selectedStone.name}. Material Description: ${selectedStone.description}. Ensure the vein pattern flows naturally across all replaced surfaces while maintaining original ambient lighting, shadows, and reflections. Do not modify any non-stone elements - windows, sink, cabinets, flooring, appliances, walls, ceiling, fixtures, or any other non-stone objects must remain exactly as they appear, preserving lighting and reflections. Negative instruction: Do not alter, remove, or add any non-stone geometry or texture.\`,
+            prompt: `Perform a strict material swap that replaces ONLY the stone surfaces (countertop, island top, side-ledges, backsplash) in the kitchen with ${selectedStone.name}. Material Description: ${selectedStone.description}. Ensure the vein pattern flows naturally across all replaced surfaces while maintaining original ambient lighting, shadows, and reflections. Do not modify any non-stone elements - windows, sink, cabinets, flooring, appliances, walls, ceiling, fixtures, or any other non-stone objects must remain exactly as they appear, preserving lighting and reflections. Negative instruction: Do not alter, remove, or add any non-stone geometry or texture.`,
             image: uploadedImage,
           }),
         },
