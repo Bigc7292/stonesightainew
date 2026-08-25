@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import dotenv from "dotenv";
 import path from "path";
+import fs from "fs";
 import { createClient } from "@supabase/supabase-js";
 
 dotenv.config({ path: path.resolve(__dirname, "..", "..", ".env"), override: true });
@@ -10,10 +11,16 @@ const router = Router();
 const TRIPO_API_KEY = process.env.TRIPO_API_KEY || "";
 const TRIPO_API_URL = process.env.TRIPO_API_URL || "https://openapi.tripo3d.ai/v3";
 
-const SUPABASE_URL = process.env.SUPABASE_URL || "";
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_ANON_KEY || "";
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "";
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || "";
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+function getSupabaseClient() {
+  if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+    return null;
+  }
+
+  return createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+}
 
 interface TripoTaskResponse {
   code: number;
@@ -67,13 +74,24 @@ async function uploadToSupabaseStorage(
   fileName: string,
   contentType: string
 ): Promise<string> {
+  const supabaseClient = getSupabaseClient();
+
+  if (!supabaseClient) {
+    const modelDir = path.join(__dirname, "..", "..", "public", "3d");
+    fs.mkdirSync(modelDir, { recursive: true });
+    const targetPath = path.join(modelDir, fileName);
+    fs.writeFileSync(targetPath, fileBuffer);
+    console.warn("[3D] Supabase not configured; stored generated model locally at /3d/" + fileName);
+    return `/3d/${fileName}`;
+  }
+
   const bucketName = "3d-scenes";
   
-  const { data: buckets } = await supabase.storage.listBuckets();
+  const { data: buckets } = await supabaseClient.storage.listBuckets();
   const bucketExists = buckets?.some(b => b.name === bucketName);
   
   if (!bucketExists) {
-    const { error: createError } = await supabase.storage.createBucket(bucketName, {
+    const { error: createError } = await supabaseClient.storage.createBucket(bucketName, {
       public: true,
       fileSizeLimit: 104857600,
     });
@@ -83,7 +101,7 @@ async function uploadToSupabaseStorage(
     }
   }
 
-  const { data, error } = await supabase.storage
+  const { data, error } = await supabaseClient.storage
     .from(bucketName)
     .upload(fileName, fileBuffer, {
       contentType,
@@ -95,7 +113,7 @@ async function uploadToSupabaseStorage(
     throw new Error(`Failed to upload to Supabase: ${error.message}`);
   }
 
-  const { data: publicUrlData } = supabase.storage
+  const { data: publicUrlData } = supabaseClient.storage
     .from(bucketName)
     .getPublicUrl(data.path);
 
@@ -286,9 +304,10 @@ router.post("/generate", async (req: Request, res: Response) => {
     });
 
     let recordId: string | null = null;
-    if (userId) {
+    const supabaseClient = getSupabaseClient();
+    if (userId && supabaseClient) {
       try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
           .from("generations")
           .insert({
             user_id: userId,

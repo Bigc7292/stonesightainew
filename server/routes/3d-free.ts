@@ -10,10 +10,16 @@ dotenv.config({ path: path.resolve(__dirname, "..", "..", ".env"), override: tru
 
 const router = Router();
 
-const SUPABASE_URL = process.env.SUPABASE_URL || "";
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_ANON_KEY || "";
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "";
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || "";
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+function getSupabaseClient() {
+  if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+    return null;
+  }
+
+  return createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+}
 
 // Multer config for file uploads
 const upload = multer({ dest: "uploads/", limits: { fileSize: 100 * 1024 * 1024 } });
@@ -86,9 +92,10 @@ router.post("/generate-free", upload.single("plyFile"), async (req: Request, res
 
     // Save generation record
     let recordId: string | null = null;
-    if (userId) {
+    const supabaseClient = getSupabaseClient();
+    if (userId && supabaseClient) {
       try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
           .from("generations")
           .insert({
             user_id: userId,

@@ -16,6 +16,12 @@ const FAL_API_URL = "https://queue.fal.run";
 
 // PATH A: Local/Tunneled NIM - set COSMOS_INFERENCE_URL in .env
 const COSMOS_INFERENCE_URL = process.env.COSMOS_INFERENCE_URL || "";
+const IS_TEST_MODE = process.env.MCP_TEST_MODE === "true";
+
+function generateMockVideoResponse(prompt: string): { videoUrl: string; seed: number } {
+  const mockVideoUrl = `pending_operation:test-mode:${encodeURIComponent(prompt.slice(0, 80))}`;
+  return { videoUrl: mockVideoUrl, seed: 12345 };
+}
 
 // NVIDIA Cosmos models (only available via local NIM container)
 const NVIDIA_COSMOS_MODELS = {
@@ -291,6 +297,23 @@ router.post("/generate", async (req: Request, res: Response): Promise<void> => {
     const usedModel = isCosmosModel 
       ? NVIDIA_COSMOS_MODELS[modelKey as NvidiaCosmosModelKey] 
       : FAL_VIDEO_MODELS[modelKey as FalVideoModelKey];
+
+    if (IS_TEST_MODE && !FAL_API_KEY && !NVIDIA_API_KEY && !COSMOS_INFERENCE_URL) {
+      console.warn("[VIDEO] MCP_TEST_MODE enabled without video credentials; returning mock video status.");
+      const mockResponse = generateMockVideoResponse(prompt);
+      res.status(200).json({
+        success: true,
+        message: "Video generation queued in local test mode.",
+        data: {
+          id: null,
+          videoUrl: mockResponse.videoUrl,
+          seed: mockResponse.seed,
+          status: "queued",
+          model: usedModel,
+        },
+      });
+      return;
+    }
 
     // PATH A: fal.ai (Primary - cloud API)
     if (isFalModel) {

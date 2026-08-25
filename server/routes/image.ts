@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
+import sharp from "sharp";
 
 dotenv.config({ path: path.resolve(__dirname, "..", "..", ".env"), override: true });
 
@@ -27,9 +28,64 @@ const DEFAULT_MODEL: NvidiaModelKey = "flux.1-dev";
 
 // PATH A (Primary): Local/Tunneled NIM - set FLUX_INFERENCE_URL in .env
 const FLUX_INFERENCE_URL = process.env.FLUX_INFERENCE_URL || "";
+const IS_TEST_MODE = process.env.MCP_TEST_MODE === "true";
+
+function hasRealCredential(value?: string): boolean {
+  if (!value) return false;
+  const normalized = value.trim().toLowerCase();
+  if (!normalized) return false;
+
+  return ![
+    "dummy",
+    "dummy-nvidia-key",
+    "dummy-tripo-key",
+    "dummy-fal-key",
+    "dummy-anon-key",
+    "your-api-key",
+    "your-project",
+    "example",
+    "placeholder",
+    "changeme",
+    "test-key",
+  ].some((placeholder) => normalized.includes(placeholder));
+}
+
+async function generateMockImage(prompt: string, sourceImage?: string): Promise<{ localPath: string; dataUrl: string }> {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="#1b1713"/>
+          <stop offset="50%" stop-color="#41505a"/>
+          <stop offset="100%" stop-color="#171718"/>
+        </linearGradient>
+        <linearGradient id="stone" x1="0" x2="1">
+          <stop offset="0%" stop-color="#9d8b73"/>
+          <stop offset="50%" stop-color="#d7c7b0"/>
+          <stop offset="100%" stop-color="#7b6f5e"/>
+        </linearGradient>
+      </defs>
+      <rect width="1024" height="1024" fill="url(#bg)"/>
+      <rect x="100" y="160" width="824" height="680" rx="32" fill="url(#stone)" opacity="0.88"/>
+      <path d="M180 290C300 220 410 240 520 220C660 195 760 240 860 280L840 710C720 760 610 760 520 730C420 700 310 720 200 760Z" fill="none" stroke="#f4e6d2" stroke-width="18" opacity="0.65"/>
+      <path d="M235 410C360 340 500 360 660 405C745 430 800 455 845 500" fill="none" stroke="#e7d8bf" stroke-width="12" opacity="0.6"/>
+      <path d="M210 540C355 585 470 570 620 610C710 635 790 625 840 590" fill="none" stroke="#bca88d" stroke-width="10" opacity="0.65"/>
+      <path d="M150 820H870" stroke="#f2d69f" stroke-width="10" opacity="0.3"/>
+      <text x="512" y="120" text-anchor="middle" font-size="38" font-family="Arial, sans-serif" fill="#f5d9a5" letter-spacing="2">STONE SIGHT TEST RENDER</text>
+      <text x="512" y="904" text-anchor="middle" font-size="28" font-family="Arial, sans-serif" fill="#f0ece8" opacity="0.75">${(prompt || "stone material swap").slice(0, 90)}</text>
+    </svg>
+  `;
+
+  const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
+  const dataUrl = `data:image/png;base64,${pngBuffer.toString("base64")}`;
+  return saveGeneratedImage(dataUrl);
+}
 
 function validateApiKey(): string {
-  if (!NVIDIA_API_KEY) {
+  if (!NVIDIA_API_KEY || !hasRealCredential(NVIDIA_API_KEY)) {
+    if (IS_TEST_MODE) {
+      return "";
+    }
     throw new Error("NVIDIA_API_KEY not configured in environment");
   }
   return NVIDIA_API_KEY;
@@ -290,6 +346,19 @@ router.post("/generate", async (req: Request, res: Response) => {
 
     const imageDataUrl = image?.includes(",") ? image : image ? `data:image/jpeg;base64,${image}` : undefined;
     const imageBase64 = image?.includes(",") ? image.split(",")[1] : image;
+
+    if (IS_TEST_MODE && !hasRealCredential(NVIDIA_API_KEY) && !FLUX_INFERENCE_URL) {
+      console.warn("[IMAGE] MCP_TEST_MODE enabled without a real NVIDIA API key; using local mock render.");
+      const mockOutput = await generateMockImage(prompt, imageDataUrl);
+      return res.status(200).json({
+        success: true,
+        image: mockOutput.dataUrl,
+        localPath: mockOutput.localPath,
+        model: NVIDIA_MODELS[modelKey],
+        timestamp: new Date().toISOString(),
+        mock: true,
+      });
+    }
 
     let localPath: string;
     let dataUrl: string;

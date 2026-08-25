@@ -22,11 +22,40 @@ console.log(`[DIAGNOSTIC] API Keys Check: ${JSON.stringify({
 console.log("========================================");
 
 // 3. CORE SERVICES INITIALIZATION
-const API_KEY = process.env.NVIDIA_API_KEY || process.env.NEW_VEO_KEY;
+function hasRealCredential(value?: string): boolean {
+  if (!value) return false;
+  const normalized = value.trim().toLowerCase();
+  if (!normalized) return false;
 
-if (!API_KEY) {
+  return ![
+    "dummy",
+    "dummy-nvidia-key",
+    "dummy-tripo-key",
+    "dummy-fal-key",
+    "dummy-anon-key",
+    "your-api-key",
+    "your-project",
+    "example",
+    "placeholder",
+    "changeme",
+    "test-key",
+  ].some((placeholder) => normalized.includes(placeholder));
+}
+
+const API_KEY = hasRealCredential(process.env.NVIDIA_API_KEY)
+  ? process.env.NVIDIA_API_KEY
+  : hasRealCredential(process.env.NEW_VEO_KEY)
+    ? process.env.NEW_VEO_KEY
+    : "";
+const isLocalTestMode = process.env.MCP_TEST_MODE === "true";
+
+if (!API_KEY && !isLocalTestMode) {
   console.error("CRITICAL FAILURE: NVIDIA_API_KEY missing in environment (.env)");
   process.exit(1);
+}
+
+if (!API_KEY && isLocalTestMode) {
+  console.warn("[SERVER] MCP_TEST_MODE enabled; continuing without a real NVIDIA_API_KEY for local smoke testing.");
 }
 
 // SERVER INFRASTRUCTURE
