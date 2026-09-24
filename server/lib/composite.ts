@@ -6,10 +6,11 @@
  *    pixels (and sometimes return a slightly different size). The edit is
  *    resized to the original and a similarity transform (scale + shift) is
  *    found by maximising gradient-magnitude correlation, coarse to fine.
-^ * 2. Mask: Claude's grounded stone polygons, plus any photo region that the
- *    editor clearly changed INTO the chosen stone (it changed a lot and its
- *    new colour matches the swatch) — this recovers surfaces the analysis
- *    missed without letting through unwanted edits elsewhere.
+ * 2. Mask: Claude's grounded countertop polygons, plus nearby pixels the
+ *    editor clearly changed INTO the chosen stone (it changed a lot, its new
+ *    colour matches the swatch, and it continues one of those countertops) —
+ *    this recovers counter parts an outline missed, without letting through
+ *    unwanted edits such as a re-stoned backsplash, wall or cabinet front.
  * 3. Blend: feathered mask, original pixels everywhere else.
  */
 import sharp from "sharp";
@@ -261,6 +262,14 @@ export async function compositeStoneEdit(
   // Only trust "the editor turned this into stone" when the area is plausible.
   const changedFraction = change.reduce((acc, v) => acc + v, 0) / change.length;
   if (changedFraction > 0.35) change.fill(0);
+  // Surgical countertop replacement: extra stone is only accepted where it
+  // continues one of Claude's countertops (the part of a counter an outline
+  // missed), never as a separate new surface such as a backsplash or wall.
+  const near = new Uint8Array(sw * sh);
+  for (let y = 0; y < sh; y++)
+    for (let x = 0; x < sw; x++) near[y * sw + x] = mask[Math.floor((y / sh) * h) * w + Math.floor((x / sw) * w)] > 0 ? 1 : 0;
+  const reach = morph(near, sw, sh, Math.max(2, Math.round(Math.max(sw, sh) * 0.02)), "max");
+  for (let i = 0; i < change.length; i++) if (!reach[i]) change[i] = 0;
   const changeImg = await sharp(Buffer.from(change.map((v) => v * 255)), { raw: { width: sw, height: sh, channels: 1 } })
     .blur(1.2)
     .resize(w, h, { fit: "fill", kernel: "linear" })

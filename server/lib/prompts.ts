@@ -27,7 +27,7 @@ Your analysis drives three renderers, so geometric accuracy matters more than pr
 
 Coordinates: every point is normalised to the ORIGINAL photo — x from 0 (left edge) to 1 (right edge), y from 0 (top edge) to 1 (bottom edge). Use the grid photo to read positions to about ±0.01. Points may fall slightly outside 0–1 when a corner is cut off by the frame; extrapolate them along the visible edges.
 
-Stone surfaces — list every surface that is, or would naturally be, made of stone: countertops, island tops, waterfall sides, visible front edges of slabs, backsplashes that are stone (not tiles), vanity tops, table tops, fireplace surrounds, shower walls. Do NOT include cabinets, doors, appliances, sinks, tiles, glass, or furniture upholstery.
+Countertop surfaces — StoneSight performs SURGICAL COUNTERTOP REPLACEMENT: only the existing countertop slabs change. List every existing countertop surface: kitchen worktops, island tops, peninsula and breakfast-bar tops, and vanity tops — plus, only where the photo already shows them as part of the same slab, their visible front edges and waterfall ends. A waterfall end exists only if the photo already shows a stone panel running down to the floor; a cabinet-fronted or wood-panelled island side is NOT a waterfall. Do NOT include backsplashes (tiled or stone), walls, wall cladding, shower walls or floors, fireplace surrounds, floors, cabinets, doors, appliances, sinks, hobs, glass or upholstery.
 For each surface:
 - quad: the 4 corners of the full plane of the surface in perimeter order, as if nothing stood on it. For a horizontal top, go around the slab; edge 0→1 is the long side. For a vertical face, give top-left, top-right, bottom-right, bottom-left.
 - polygon: the visible outline of the stone only, excluding sinks, hobs, taps and objects resting on it (6–24 points).
@@ -40,7 +40,7 @@ Back wall: the floor and ceiling corners of the farthest wall facing the camera.
 
 Colours: representative #rrggbb for walls, floor, ceiling and cabinet fronts.
 
-edit_instruction: one paragraph for the photoreal image editor (a Gemini image model that also sees the swatch, or FLUX.1 Kontext, which sees only the room photo). List EVERY stone surface to change by where it is in the photo (e.g. "the long island top running from the left foreground to the back right, its left waterfall end facing the camera, the back counter under the window, the backsplash between counter and wall cabinets"), including thin visible slab edges. Describe the chosen stone concretely (base colour, veining colour/direction/scale, finish) so the editor gets it right even without the swatch. Name the neighbouring things that are NOT stone and must stay exactly as they are (for example cabinet fronts below the counter, the sink and tap, appliances, stools, tiles, floor), and say that the camera, framing and everything else stay identical. Never ask for new objects or a different surface shape.
+edit_instruction: one paragraph for the photoreal image editor (a Gemini image model that also sees the swatch, or FLUX.1 Kontext, which sees only the room photo). Begin with "Surgically replace only the countertop surfaces:" and name each countertop by where it is in the photo (e.g. "the long island top running from the left foreground to the back right, including its thin front edge and the waterfall end facing the camera", "the counter under the window left of the hob"). Describe the chosen stone concretely (base colour, veining colour/direction/scale, finish) so the editor gets it right even without the swatch. Then name the neighbouring things that must stay exactly as they are, saying what each one is in this photo — the backsplash (e.g. "the white subway-tile backsplash"), the walls, the cabinet fronts and island side panels, the sink, tap and hob, appliances, stools and floor — and state that each countertop keeps its exact shape, thickness and edge profile and that the camera, framing and everything else stay identical. Never ask for new objects, new waterfall panels or a different countertop shape.
 
 video_prompt: one paragraph for the NVIDIA Cosmos image-to-video model. The video starts from this exact photo (already showing the new stone) and must be a first-person walkthrough at human eye level (~1.6 m): steady handheld-gimbal motion, the viewer slowly looks left, then right across the room, then takes a few steps toward the main stone surface while the camera gently tilts down to show its grain and reflections. Ask for natural light, realistic parallax and physically consistent geometry. State that no people, text or new objects appear and the room layout, cabinets and stone pattern stay identical throughout.`;
 
@@ -70,23 +70,25 @@ export function sceneAnalysisUserPrompt(stone: StoneInfo): string {
 }
 
 /**
- * Prompt for the generative image editor (Gemini image models). Builds on the
- * prompts that produced the best results in the original Gemini version of
- * StoneSight ("exhaustive, photorealistic material replacement … monolithic
- * consistency … 100% fidelity") and adds Claude's surface-by-surface
- * instruction plus explicit do-not-change rules (rules.md §3).
+ * Prompt for the generative image editor (Gemini image models). Built on the
+ * original StoneSight prompt that produced the best results with Gemini —
+ * "Surgically replace countertops with <stone>. Material description: … Ensure
+ * the veining, color, and finish match this description exactly." — plus
+ * Claude's countertop-by-countertop instruction and explicit limits so the
+ * edit never spreads to backsplashes, walls, cabinets or new waterfall panels
+ * (rules.md §3).
  */
 export function stoneEditPrompt(stone: StoneInfo, claudeInstruction: string, hasSwatch: boolean): string {
   return [
-    `Perform an exhaustive, photorealistic material replacement in Image 1: install ${stone.name}${stone.category ? ` (${stone.category})` : ""} on every stone surface.`,
-    hasSwatch
-      ? "Image 2 shows the exact stone: match its base colour, veining colour, vein width, scale and direction, and its finish precisely."
-      : "",
+    `Surgically replace the countertops in Image 1 with ${stone.name}${stone.category ? ` (${stone.category})` : ""}. Only the existing countertop slabs change; nothing else in the photo changes.`,
     stone.description ? `Material description: ${stone.description}` : "",
-    claudeInstruction ? `Surfaces to change (from a precise analysis of this photo): ${claudeInstruction}` : "",
-    "Install it like real fabricated slabs: veining flows continuously across each slab with monolithic consistency, wraps over edges and down waterfall ends (book-matched at mitred corners), shows the true slab thickness on visible edges, and takes on the room's existing light, shadows and reflections — polished surfaces reflect the lights and nearby objects as the original did.",
-    "Change ONLY the stone material. Keep everything else exactly as in Image 1, with 100% fidelity: the same camera position, framing, perspective, crop and aspect ratio; the same cabinets, doors, handles, appliances, sink, taps, hob, stools, walls, tiles, floor, ceiling, lights, windows, plants, objects and people; the same lighting and colour grading. Do not add, remove, move or restyle anything. Objects standing on the stone stay in place on top of it.",
-    "Return only the edited photograph.",
+    hasSwatch
+      ? "Image 2 is a sample of this exact stone. Ensure the veining, color, and finish match it exactly: the same base colour, vein colour, vein width, scale and direction."
+      : "Ensure the veining, color, and finish match this description exactly.",
+    claudeInstruction ? `Countertops to change (from a precise analysis of this photo): ${claudeInstruction}` : "",
+    "Keep every countertop's exact shape, outline, thickness and edge profile, and keep the stone strictly inside the existing countertop area. Do not extend it onto the backsplash, walls, tiles, cabinet fronts, island side panels, floor or appliances, and do not add waterfall ends, extra slabs or any new objects.",
+    "Blend it into the photo's existing lighting: the veining flows naturally across each slab and over its visible edge, with the same highlights, shadows and reflections the original counters had. Objects on the counters stay in place on top of the new stone.",
+    "Everything else stays identical with 100% fidelity: camera position, framing, crop, perspective and aspect ratio; cabinets, doors, handles, appliances, sink, tap, hob, stools, backsplash, walls, floor, ceiling, lights, windows, decor and colour grading. Return only the edited photograph.",
   ]
     .filter(Boolean)
     .join("\n");
@@ -98,10 +100,10 @@ export function stoneEditPrompt(stone: StoneInfo, claudeInstruction: string, has
  */
 export function fallbackEditInstruction(stone: StoneInfo): string {
   return [
-    `Replace only the stone surfaces in this photo — countertops, island top, waterfall sides, slab edges, stone backsplash and vanity tops — with ${stone.name}${stone.category ? ` ${stone.category.toLowerCase()}` : ""}.`,
+    `Surgically replace only the countertops in this photo — worktops, island top, vanity top and their visible slab edges (and a waterfall end only where one already exists) — with ${stone.name}${stone.category ? ` ${stone.category.toLowerCase()}` : ""}.`,
     stone.description ? `The new stone looks like this: ${stone.description}` : "",
     "Keep the veining natural and continuous across each slab, with realistic polished reflections that match the existing lighting.",
-    "Do not change anything else: keep the exact camera angle, framing and perspective, the room layout, cabinets, doors, handles, appliances, sink, taps, walls, tiles, floor, ceiling, lights, windows, objects, shadows and reflections exactly as they are.",
+    "Do not change anything else: keep the exact camera angle, framing and perspective, the room layout, backsplash, cabinets, island side panels, doors, handles, appliances, sink, taps, walls, tiles, floor, ceiling, lights, windows, objects, shadows and reflections exactly as they are.",
     "Do not add, remove or move any object.",
   ]
     .filter(Boolean)

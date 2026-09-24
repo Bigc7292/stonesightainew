@@ -201,7 +201,8 @@ test("Gemini edit sees the swatch, and only the stone is composited back into th
     const text = content.filter((c: any) => c.type === "text").map((c: any) => c.text).join("\n");
     assert.match(text, /Dekton Trilium/);
     assert.match(text, /Replace the island top\./);
-    assert.match(text, /Change ONLY the stone material/);
+    assert.match(text, /Surgically replace the countertops/);
+    assert.match(text, /do not add waterfall ends/);
     assert.deepEqual(seen.gemini.modalities, ["image", "text"]);
 
     // Result: original size; stone taken from the edit; unwanted ceiling edit discarded.
