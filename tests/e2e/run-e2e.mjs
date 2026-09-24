@@ -160,12 +160,17 @@ async function runFlow(browser, scenario) {
   await page.waitForTimeout(1800);
   const p0 = await pose();
   await view.focus();
-  await page.keyboard.down("w");
-  await page.waitForTimeout(900);
-  await page.keyboard.up("w");
-  await page.keyboard.down("q");
-  await page.waitForTimeout(1000);
-  await page.keyboard.up("q");
+  // Hold each key until the effect is observed (or 8 s pass). Frame rate under
+  // software WebGL varies wildly, so a fixed hold time makes the check flaky.
+  const holdUntil = async (key, done) => {
+    await page.keyboard.down(key);
+    const end = Date.now() + 8000;
+    while (Date.now() < end && !done(await pose())) await page.waitForTimeout(100);
+    await page.keyboard.up(key);
+  };
+  await holdUntil("w", (p) => Math.hypot(p.x - p0.x, p.z - p0.z) > 0.35);
+  const pw = await pose();
+  await holdUntil("q", (p) => Math.abs(p.yaw - pw.yaw) > 0.3);
   const p1 = await pose();
   const moved = Math.hypot(p1.x - p0.x, p1.z - p0.z);
   check(`[${scenario.name}] keyboard walking moves the viewer`, moved > 0.3, `${moved.toFixed(2)} m`);
