@@ -28,4 +28,7 @@ public/images/*.jpg
 public/images/*.png
 public/videos/*
 
-.mcp.json
+.mcp.jsontests/e2e/output/
+
+# Logs
+*.log
