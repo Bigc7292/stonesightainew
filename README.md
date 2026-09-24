@@ -10,11 +10,13 @@ The customer uploads a photo of the space (kitchen, bathroom, …), picks a ston
 
 | # | Output | How it is made |
 |---|--------|----------------|
-| 1 | **Static image** of the room with the new stone, with a before/after slider | Claude maps every stone surface → NVIDIA FLUX.1 Kontext edits the photo → the edit is composited back into the untouched original so only the stone changes. Without NVIDIA, the StoneSight renderer paints the swatch onto Claude's surface map in perspective. |
+| 1 | **Static image** of the room with the new stone, with a before/after slider | Claude maps every countertop → a Gemini image model (or an NVIDIA FLUX.1 Kontext NIM) surgically replaces the countertops, seeing the real stone swatch → the edit is aligned to the original photo and only the new countertops are composited back, so the rest of the room is pixel-identical. Without an image editor, the StoneSight renderer paints the swatch onto Claude's surface map in perspective. |
 | 2 | **First-person walkthrough video** at human eye level (look left, look right, walk up to the stone) | NVIDIA Cosmos image-to-video with Claude's camera-motion prompt. Without Cosmos, the video is filmed in the browser along the same path through the 3D room (exactly 12 s, MP4/WebM). |
 | 3 | **Interactive 3D walkthrough** — click, look around, walk with W/A/S/D, jump to each corner | The room is reconstructed in 3D from Claude's geometry (camera, walls, counter tops, waterfalls) and textured by projecting the generated image with visibility; stone slabs use the real swatch with a polished sheen. |
 
-**AI providers: Anthropic Claude and NVIDIA only.** No other AI services are used.
+**AI providers:** Anthropic Claude (analysis, prompts, masks), Gemini image models through an OpenAI-compatible gateway such as OneProvider (photoreal countertop edit), and NVIDIA NIMs (optional Kontext / Cosmos). The full project record — status, costs, prompts, evaluation, deployment and next steps — is in **[docs/PROJECT_HANDOVER.md](docs/PROJECT_HANDOVER.md)**.
+
+![Surgical countertop replacement on test photos](docs/images/results-before-after.jpg)
 
 ## Quick start
 
@@ -75,7 +77,7 @@ npm run check:providers
 
 ```
 shared/scene.ts            Scene contract shared by server and browser (+ sanitiser)
-server/                    Express API (Claude + NVIDIA), see docs/backend.md
+server/                    Express API (Claude + Gemini image + NVIDIA), see docs/backend.md
   lib/analyzers.ts         Claude vision (structured outputs) / NVIDIA VLM scene analysis
   lib/segments.ts          Set-of-mark grounding: photo regions → exact stone outlines
   lib/imageEditor.ts       NVIDIA FLUX.1 Kontext (self-hosted NIM, hosted NVCF)

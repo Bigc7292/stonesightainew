@@ -5,10 +5,13 @@
  * `.env`. Values that already exist in `process.env` always win, so real
  * deployment environment variables are never overridden by a stray file.
  *
- * Only two AI providers are supported, by design:
- *   - Anthropic Claude  → scene analysis + prompt planning (vision)
- *   - NVIDIA NIM        → pixel generation (FLUX.1 Kontext image edit, Cosmos video),
- *                         and optionally a hosted VLM for scene analysis
+ * AI providers:
+ *   - Anthropic Claude  → scene analysis + prompt planning (vision), direct or
+ *                         through an Anthropic-compatible gateway (CLAUDE_BASE_URL)
+ *   - Gemini image      → photoreal countertop edit via an OpenAI-compatible
+ *                         gateway (IMAGE_EDIT_*), e.g. OneProvider
+ *   - NVIDIA NIM        → optional FLUX.1 Kontext image edit, Cosmos video and a
+ *                         hosted VLM fallback for scene analysis
  *
  * Config is read through functions (not module constants) so tests and
  * long-running processes always see the current environment.

@@ -1,0 +1,1039 @@
+{
+ "photo": "08",
+ "model": "claude-opus-5",
+ "analysis_seconds": 182.717,
+ "first_pass": {
+  "room_type": "kitchen",
+  "summary": "Traditional kitchen with dark speckled granite countertops on L-shaped perimeter counters and a central rectangular island.",
+  "camera": {
+   "horizontal_fov_deg": 70,
+   "eye_height_m": 1.5,
+   "pitch_deg": -12
+  },
+  "back_wall": {
+   "floor_left": {
+    "x": 0.08,
+    "y": 0.92
+   },
+   "floor_right": {
+    "x": 0.95,
+    "y": 0.88
+   },
+   "ceiling_left": {
+    "x": 0.1,
+    "y": 0.1
+   },
+   "ceiling_right": {
+    "x": 0.88,
+    "y": 0.08
+   }
+  },
+  "room_estimate": {
+   "width_m": 4.5,
+   "depth_m": 4,
+   "ceiling_height_m": 2.7,
+   "space_behind_camera_m": 1
+  },
+  "colors": {
+   "walls": "#e8e5dc",
+   "floor": "#6b3c2e",
+   "ceiling": "#f5f5f0",
+   "cabinets": "#8b4726"
+  },
+  "surfaces": [
+   {
+    "id": "island_top",
+    "label": "Island top",
+    "kind": "island",
+    "orientation": "horizontal",
+    "height_m": 0.92,
+    "quad": [
+     {
+      "x": 0.17,
+      "y": 0.7
+     },
+     {
+      "x": 0.87,
+      "y": 0.75
+     },
+     {
+      "x": 0.72,
+      "y": 0.46
+     },
+     {
+      "x": 0.29,
+      "y": 0.44
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.17,
+      "y": 0.7
+     },
+     {
+      "x": 0.87,
+      "y": 0.75
+     },
+     {
+      "x": 0.72,
+      "y": 0.46
+     },
+     {
+      "x": 0.29,
+      "y": 0.44
+     }
+    ],
+    "length_m": 2.4,
+    "depth_m": 1.2,
+    "thickness_m": 0.04
+   },
+   {
+    "id": "island_front_edge",
+    "label": "Island front edge",
+    "kind": "countertop_edge",
+    "orientation": "vertical",
+    "height_m": 0.88,
+    "quad": [
+     {
+      "x": 0.17,
+      "y": 0.7
+     },
+     {
+      "x": 0.87,
+      "y": 0.75
+     },
+     {
+      "x": 0.87,
+      "y": 0.78
+     },
+     {
+      "x": 0.17,
+      "y": 0.73
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.17,
+      "y": 0.7
+     },
+     {
+      "x": 0.87,
+      "y": 0.75
+     },
+     {
+      "x": 0.87,
+      "y": 0.78
+     },
+     {
+      "x": 0.17,
+      "y": 0.73
+     }
+    ],
+    "length_m": 2.4,
+    "depth_m": 0.04,
+    "thickness_m": 0.04
+   },
+   {
+    "id": "left_counter",
+    "label": "Left perimeter counter",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.9,
+    "quad": [
+     {
+      "x": 0.04,
+      "y": 0.52
+     },
+     {
+      "x": 0.24,
+      "y": 0.48
+     },
+     {
+      "x": 0.12,
+      "y": 0.35
+     },
+     {
+      "x": 0.02,
+      "y": 0.36
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.04,
+      "y": 0.52
+     },
+     {
+      "x": 0.08,
+      "y": 0.51
+     },
+     {
+      "x": 0.08,
+      "y": 0.44
+     },
+     {
+      "x": 0.06,
+      "y": 0.42
+     },
+     {
+      "x": 0.16,
+      "y": 0.42
+     },
+     {
+      "x": 0.18,
+      "y": 0.44
+     },
+     {
+      "x": 0.18,
+      "y": 0.5
+     },
+     {
+      "x": 0.24,
+      "y": 0.48
+     },
+     {
+      "x": 0.12,
+      "y": 0.35
+     },
+     {
+      "x": 0.02,
+      "y": 0.36
+     }
+    ],
+    "length_m": 2.5,
+    "depth_m": 0.65,
+    "thickness_m": 0.04
+   },
+   {
+    "id": "back_counter",
+    "label": "Back perimeter counter",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.9,
+    "quad": [
+     {
+      "x": 0.24,
+      "y": 0.48
+     },
+     {
+      "x": 0.88,
+      "y": 0.52
+     },
+     {
+      "x": 0.84,
+      "y": 0.36
+     },
+     {
+      "x": 0.12,
+      "y": 0.35
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.24,
+      "y": 0.48
+     },
+     {
+      "x": 0.39,
+      "y": 0.49
+     },
+     {
+      "x": 0.39,
+      "y": 0.41
+     },
+     {
+      "x": 0.54,
+      "y": 0.41
+     },
+     {
+      "x": 0.54,
+      "y": 0.49
+     },
+     {
+      "x": 0.88,
+      "y": 0.52
+     },
+     {
+      "x": 0.84,
+      "y": 0.36
+     },
+     {
+      "x": 0.12,
+      "y": 0.35
+     }
+    ],
+    "length_m": 3.2,
+    "depth_m": 0.65,
+    "thickness_m": 0.04
+   }
+  ],
+  "edit_instruction": "Surgically replace only the countertop surfaces: the large rectangular island top in the center foreground running from left to right, including its thin front edge facing the camera; the L-shaped perimeter counter along the left wall with the stainless steel sink, continuing along the back wall behind the gas range, and extending to the right under the large window. Replace all these surfaces with Dekton Trilium, which features a deep charcoal grey base with subtle mottled texture and light ash grey undertones, overlaid with prominent crisp white veining in bold diagonal strikes creating a dramatic marble effect with a smooth polished finish. Keep the following exactly as they are: the plain white painted walls and backsplash area, the rich dark cherry-wood cabinet fronts on all base and upper cabinets and the island, the stainless steel undermount sink and gooseneck faucet on the left counter, the black gas range with stainless trim in the center back, the stainless steel dishwasher on the left, all cabinet hardware and knobs, the reddish-brown hardwood floor, and both windows. Each countertop must maintain its exact shape, thickness, edge profile, and all cutouts for sink and appliances. The camera angle, framing, lighting and all other elements remain identical.",
+  "video_prompt": "First-person walkthrough starting from this exact frame showing the newly installed Dekton Trilium countertops with deep charcoal base and dramatic white veining. Camera begins at 1.6m eye level near the left corner of the kitchen using smooth handheld gimbal motion. Slowly pan left to reveal the perimeter counter with sink and dishwasher, then pan right across the kitchen taking in the gas range, back counter, and window area. Next, move forward steadily toward the central island, approaching it from the front while the camera gently tilts downward to showcase the rich charcoal surface with its bold white veining pattern and subtle reflections from the natural window light. Throughout the movement, maintain realistic parallax with the dark cherry cabinets in the foreground and background, physically consistent geometry as the viewer moves through the space, and natural daylight from the windows. The cherry wood cabinets, white walls, reddish hardwood floor, stainless appliances, and all architectural elements remain exactly as shown. No people, text overlays, or new objects appear. The Dekton Trilium surface pattern and complete room layout stay perfectly consistent frame to frame."
+ },
+ "grounding": {
+  "assignments": [
+   {
+    "surface_id": "island_top",
+    "regions": [
+     38,
+     46,
+     49,
+     52,
+     56
+    ]
+   },
+   {
+    "surface_id": "island_front_edge",
+    "regions": [
+     43,
+     51,
+     54
+    ]
+   },
+   {
+    "surface_id": "left_counter",
+    "regions": [
+     29,
+     31,
+     32,
+     40,
+     41,
+     44
+    ]
+   },
+   {
+    "surface_id": "back_counter",
+    "regions": [
+     28
+    ]
+   }
+  ]
+ },
+ "regions": 56,
+ "final_scene": {
+  "room_type": "kitchen",
+  "summary": "Traditional kitchen with dark speckled granite countertops on L-shaped perimeter counters and a central rectangular island.",
+  "camera": {
+   "horizontal_fov_deg": 70,
+   "eye_height_m": 1.5,
+   "pitch_deg": -12
+  },
+  "back_wall": {
+   "floor_left": {
+    "x": 0.08,
+    "y": 0.92
+   },
+   "floor_right": {
+    "x": 0.95,
+    "y": 0.88
+   },
+   "ceiling_left": {
+    "x": 0.1,
+    "y": 0.1
+   },
+   "ceiling_right": {
+    "x": 0.88,
+    "y": 0.08
+   }
+  },
+  "room_estimate": {
+   "width_m": 4.5,
+   "depth_m": 4,
+   "ceiling_height_m": 2.7,
+   "space_behind_camera_m": 1
+  },
+  "colors": {
+   "walls": "#e8e5dc",
+   "floor": "#6b3c2e",
+   "ceiling": "#f5f5f0",
+   "cabinets": "#8b4726"
+  },
+  "surfaces": [
+   {
+    "id": "island_top",
+    "label": "Island top",
+    "kind": "island",
+    "orientation": "horizontal",
+    "height_m": 0.92,
+    "quad": [
+     {
+      "x": 0.2392857142857143,
+      "y": 0.6612903225806451
+     },
+     {
+      "x": 0.655952380952381,
+      "y": 0.9014336917562724
+     },
+     {
+      "x": 0.736904761904762,
+      "y": 0.557347670250896
+     },
+     {
+      "x": 0.5083333333333333,
+      "y": 0.4283154121863799
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.5083333333333333,
+      "y": 0.4283154121863799
+     },
+     {
+      "x": 0.6178571428571429,
+      "y": 0.449820788530466
+     },
+     {
+      "x": 0.6226190476190476,
+      "y": 0.525089605734767
+     },
+     {
+      "x": 0.736904761904762,
+      "y": 0.557347670250896
+     },
+     {
+      "x": 0.725,
+      "y": 0.7508960573476703
+     },
+     {
+      "x": 0.7392857142857143,
+      "y": 0.7580645161290323
+     },
+     {
+      "x": 0.7392857142857143,
+      "y": 0.7724014336917563
+     },
+     {
+      "x": 0.655952380952381,
+      "y": 0.9014336917562724
+     },
+     {
+      "x": 0.6369047619047619,
+      "y": 0.8978494623655914
+     },
+     {
+      "x": 0.6226190476190476,
+      "y": 0.8835125448028673
+     },
+     {
+      "x": 0.6035714285714285,
+      "y": 0.8799283154121864
+     },
+     {
+      "x": 0.6011904761904762,
+      "y": 0.8727598566308243
+     },
+     {
+      "x": 0.5535714285714286,
+      "y": 0.8512544802867383
+     },
+     {
+      "x": 0.5511904761904762,
+      "y": 0.8440860215053764
+     },
+     {
+      "x": 0.444047619047619,
+      "y": 0.7867383512544803
+     },
+     {
+      "x": 0.3202380952380952,
+      "y": 0.7078853046594982
+     },
+     {
+      "x": 0.30357142857142855,
+      "y": 0.7078853046594982
+     },
+     {
+      "x": 0.2988095238095238,
+      "y": 0.6971326164874552
+     },
+     {
+      "x": 0.24404761904761904,
+      "y": 0.6720430107526881
+     },
+     {
+      "x": 0.2392857142857143,
+      "y": 0.6612903225806451
+     },
+     {
+      "x": 0.24166666666666667,
+      "y": 0.6433691756272402
+     },
+     {
+      "x": 0.2892857142857143,
+      "y": 0.6218637992831542
+     },
+     {
+      "x": 0.3273809523809524,
+      "y": 0.5931899641577061
+     },
+     {
+      "x": 0.35595238095238096,
+      "y": 0.5860215053763441
+     },
+     {
+      "x": 0.3678571428571429,
+      "y": 0.5716845878136201
+     },
+     {
+      "x": 0.3869047619047619,
+      "y": 0.568100358422939
+     },
+     {
+      "x": 0.39404761904761904,
+      "y": 0.557347670250896
+     },
+     {
+      "x": 0.43214285714285716,
+      "y": 0.5394265232974911
+     },
+     {
+      "x": 0.4511904761904762,
+      "y": 0.521505376344086
+     },
+     {
+      "x": 0.4654761904761905,
+      "y": 0.521505376344086
+     },
+     {
+      "x": 0.4869047619047619,
+      "y": 0.503584229390681
+     },
+     {
+      "x": 0.49642857142857144,
+      "y": 0.503584229390681
+     },
+     {
+      "x": 0.5011904761904762,
+      "y": 0.43548387096774194
+     }
+    ],
+    "length_m": 2.4,
+    "depth_m": 1.2,
+    "thickness_m": 0.04
+   },
+   {
+    "id": "island_front_edge",
+    "label": "Island front edge",
+    "kind": "countertop_edge",
+    "orientation": "vertical",
+    "height_m": 0.88,
+    "quad": [
+     {
+      "x": 0.30833333333333335,
+      "y": 0.7258064516129032
+     },
+     {
+      "x": 0.6678571428571428,
+      "y": 0.9121863799283154
+     },
+     {
+      "x": 0.6678571428571428,
+      "y": 0.9982078853046595
+     },
+     {
+      "x": 0.3273809523809524,
+      "y": 0.9982078853046595
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.30833333333333335,
+      "y": 0.7258064516129032
+     },
+     {
+      "x": 0.32261904761904764,
+      "y": 0.7258064516129032
+     },
+     {
+      "x": 0.3416666666666667,
+      "y": 0.7401433691756273
+     },
+     {
+      "x": 0.3488095238095238,
+      "y": 0.7401433691756273
+     },
+     {
+      "x": 0.3535714285714286,
+      "y": 0.7508960573476703
+     },
+     {
+      "x": 0.36547619047619045,
+      "y": 0.7508960573476703
+     },
+     {
+      "x": 0.37023809523809526,
+      "y": 0.7580645161290323
+     },
+     {
+      "x": 0.3773809523809524,
+      "y": 0.7580645161290323
+     },
+     {
+      "x": 0.3821428571428571,
+      "y": 0.7652329749103942
+     },
+     {
+      "x": 0.4369047619047619,
+      "y": 0.7939068100358423
+     },
+     {
+      "x": 0.45595238095238094,
+      "y": 0.8118279569892473
+     },
+     {
+      "x": 0.4630952380952381,
+      "y": 0.8118279569892473
+     },
+     {
+      "x": 0.4845238095238095,
+      "y": 0.8225806451612904
+     },
+     {
+      "x": 0.49404761904761907,
+      "y": 0.8333333333333334
+     },
+     {
+      "x": 0.5083333333333333,
+      "y": 0.8369175627240143
+     },
+     {
+      "x": 0.5154761904761904,
+      "y": 0.8476702508960573
+     },
+     {
+      "x": 0.525,
+      "y": 0.8476702508960573
+     },
+     {
+      "x": 0.5297619047619048,
+      "y": 0.8620071684587813
+     },
+     {
+      "x": 0.544047619047619,
+      "y": 0.8584229390681004
+     },
+     {
+      "x": 0.5988095238095238,
+      "y": 0.8906810035842294
+     },
+     {
+      "x": 0.6059523809523809,
+      "y": 0.9014336917562724
+     },
+     {
+      "x": 0.6178571428571429,
+      "y": 0.9014336917562724
+     },
+     {
+      "x": 0.6321428571428571,
+      "y": 0.9121863799283154
+     },
+     {
+      "x": 0.6678571428571428,
+      "y": 0.9121863799283154
+     },
+     {
+      "x": 0.6678571428571428,
+      "y": 0.9982078853046595
+     },
+     {
+      "x": 0.3273809523809524,
+      "y": 0.9982078853046595
+     },
+     {
+      "x": 0.32261904761904764,
+      "y": 0.9910394265232975
+     },
+     {
+      "x": 0.31547619047619047,
+      "y": 0.8476702508960573
+     },
+     {
+      "x": 0.30833333333333335,
+      "y": 0.8082437275985663
+     }
+    ],
+    "length_m": 2.4,
+    "depth_m": 0.04,
+    "thickness_m": 0.04
+   },
+   {
+    "id": "left_counter",
+    "label": "Left perimeter counter",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.9,
+    "quad": [
+     {
+      "x": 0.225,
+      "y": 0.45698924731182794
+     },
+     {
+      "x": 0.42738095238095236,
+      "y": 0.3996415770609319
+     },
+     {
+      "x": 0.44166666666666665,
+      "y": 0.3602150537634409
+     },
+     {
+      "x": 0.2130952380952381,
+      "y": 0.2992831541218638
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.2130952380952381,
+      "y": 0.2992831541218638
+     },
+     {
+      "x": 0.2226190476190476,
+      "y": 0.2992831541218638
+     },
+     {
+      "x": 0.225,
+      "y": 0.3100358422939068
+     },
+     {
+      "x": 0.22738095238095238,
+      "y": 0.35304659498207885
+     },
+     {
+      "x": 0.2226190476190476,
+      "y": 0.3602150537634409
+     },
+     {
+      "x": 0.22976190476190475,
+      "y": 0.4032258064516129
+     },
+     {
+      "x": 0.23452380952380952,
+      "y": 0.4032258064516129
+     },
+     {
+      "x": 0.2369047619047619,
+      "y": 0.3960573476702509
+     },
+     {
+      "x": 0.25357142857142856,
+      "y": 0.3960573476702509
+     },
+     {
+      "x": 0.25595238095238093,
+      "y": 0.3781362007168459
+     },
+     {
+      "x": 0.2702380952380952,
+      "y": 0.3781362007168459
+     },
+     {
+      "x": 0.2773809523809524,
+      "y": 0.3888888888888889
+     },
+     {
+      "x": 0.28214285714285714,
+      "y": 0.3888888888888889
+     },
+     {
+      "x": 0.28214285714285714,
+      "y": 0.3602150537634409
+     },
+     {
+      "x": 0.325,
+      "y": 0.36379928315412186
+     },
+     {
+      "x": 0.325,
+      "y": 0.3817204301075269
+     },
+     {
+      "x": 0.32976190476190476,
+      "y": 0.3888888888888889
+     },
+     {
+      "x": 0.3464285714285714,
+      "y": 0.3888888888888889
+     },
+     {
+      "x": 0.3821428571428571,
+      "y": 0.37455197132616486
+     },
+     {
+      "x": 0.44166666666666665,
+      "y": 0.3602150537634409
+     },
+     {
+      "x": 0.4369047619047619,
+      "y": 0.3924731182795699
+     },
+     {
+      "x": 0.42738095238095236,
+      "y": 0.3996415770609319
+     },
+     {
+      "x": 0.3892857142857143,
+      "y": 0.4032258064516129
+     },
+     {
+      "x": 0.38452380952380955,
+      "y": 0.41397849462365593
+     },
+     {
+      "x": 0.3726190476190476,
+      "y": 0.41397849462365593
+     },
+     {
+      "x": 0.3416666666666667,
+      "y": 0.4283154121863799
+     },
+     {
+      "x": 0.3202380952380952,
+      "y": 0.43189964157706096
+     },
+     {
+      "x": 0.305952380952381,
+      "y": 0.44265232974910396
+     },
+     {
+      "x": 0.2630952380952381,
+      "y": 0.44623655913978494
+     },
+     {
+      "x": 0.26071428571428573,
+      "y": 0.45340501792114696
+     },
+     {
+      "x": 0.225,
+      "y": 0.45698924731182794
+     },
+     {
+      "x": 0.225,
+      "y": 0.44623655913978494
+     },
+     {
+      "x": 0.21785714285714286,
+      "y": 0.4390681003584229
+     },
+     {
+      "x": 0.22023809523809523,
+      "y": 0.4103942652329749
+     },
+     {
+      "x": 0.2154761904761905,
+      "y": 0.4032258064516129
+     },
+     {
+      "x": 0.19404761904761905,
+      "y": 0.4032258064516129
+     },
+     {
+      "x": 0.19642857142857142,
+      "y": 0.3709677419354839
+     },
+     {
+      "x": 0.2130952380952381,
+      "y": 0.3602150537634409
+     }
+    ],
+    "length_m": 2.5,
+    "depth_m": 0.65,
+    "thickness_m": 0.04
+   },
+   {
+    "id": "back_counter",
+    "label": "Back perimeter counter",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.9,
+    "quad": [
+     {
+      "x": 0.32976190476190476,
+      "y": 0.38530465949820786
+     },
+     {
+      "x": 0.6369047619047619,
+      "y": 0.521505376344086
+     },
+     {
+      "x": 0.6797619047619048,
+      "y": 0.26344086021505375
+     },
+     {
+      "x": 0.3273809523809524,
+      "y": 0.33512544802867383
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.5488095238095239,
+      "y": 0.26344086021505375
+     },
+     {
+      "x": 0.6797619047619048,
+      "y": 0.26344086021505375
+     },
+     {
+      "x": 0.6845238095238095,
+      "y": 0.2777777777777778
+     },
+     {
+      "x": 0.6821428571428572,
+      "y": 0.460573476702509
+     },
+     {
+      "x": 0.6488095238095238,
+      "y": 0.460573476702509
+     },
+     {
+      "x": 0.6392857142857142,
+      "y": 0.449820788530466
+     },
+     {
+      "x": 0.6369047619047619,
+      "y": 0.521505376344086
+     },
+     {
+      "x": 0.6226190476190476,
+      "y": 0.521505376344086
+     },
+     {
+      "x": 0.6226190476190476,
+      "y": 0.460573476702509
+     },
+     {
+      "x": 0.6154761904761905,
+      "y": 0.43189964157706096
+     },
+     {
+      "x": 0.6083333333333333,
+      "y": 0.44265232974910396
+     },
+     {
+      "x": 0.594047619047619,
+      "y": 0.44265232974910396
+     },
+     {
+      "x": 0.5583333333333333,
+      "y": 0.43189964157706096
+     },
+     {
+      "x": 0.5416666666666666,
+      "y": 0.43189964157706096
+     },
+     {
+      "x": 0.5273809523809524,
+      "y": 0.42473118279569894
+     },
+     {
+      "x": 0.4797619047619048,
+      "y": 0.4283154121863799
+     },
+     {
+      "x": 0.4797619047619048,
+      "y": 0.3781362007168459
+     },
+     {
+      "x": 0.4869047619047619,
+      "y": 0.3781362007168459
+     },
+     {
+      "x": 0.48928571428571427,
+      "y": 0.3709677419354839
+     },
+     {
+      "x": 0.5083333333333333,
+      "y": 0.3673835125448029
+     },
+     {
+      "x": 0.513095238095238,
+      "y": 0.3602150537634409
+     },
+     {
+      "x": 0.5107142857142857,
+      "y": 0.35304659498207885
+     },
+     {
+      "x": 0.4607142857142857,
+      "y": 0.34946236559139787
+     },
+     {
+      "x": 0.44642857142857145,
+      "y": 0.35663082437275984
+     },
+     {
+      "x": 0.43214285714285716,
+      "y": 0.35663082437275984
+     },
+     {
+      "x": 0.39404761904761904,
+      "y": 0.3709677419354839
+     },
+     {
+      "x": 0.35833333333333334,
+      "y": 0.3781362007168459
+     },
+     {
+      "x": 0.3464285714285714,
+      "y": 0.38530465949820786
+     },
+     {
+      "x": 0.32976190476190476,
+      "y": 0.38530465949820786
+     },
+     {
+      "x": 0.3273809523809524,
+      "y": 0.3817204301075269
+     },
+     {
+      "x": 0.3273809523809524,
+      "y": 0.33512544802867383
+     },
+     {
+      "x": 0.34404761904761905,
+      "y": 0.33512544802867383
+     },
+     {
+      "x": 0.41309523809523807,
+      "y": 0.31362007168458783
+     },
+     {
+      "x": 0.42738095238095236,
+      "y": 0.31362007168458783
+     },
+     {
+      "x": 0.4511904761904762,
+      "y": 0.30286738351254483
+     },
+     {
+      "x": 0.5416666666666666,
+      "y": 0.30286738351254483
+     },
+     {
+      "x": 0.544047619047619,
+      "y": 0.3100358422939068
+     },
+     {
+      "x": 0.5488095238095239,
+      "y": 0.2992831541218638
+     }
+    ],
+    "length_m": 3.2,
+    "depth_m": 0.65,
+    "thickness_m": 0.04
+   }
+  ],
+  "edit_instruction": "Surgically replace only the countertop surfaces: the large rectangular island top in the center foreground running from left to right, including its thin front edge facing the camera; the L-shaped perimeter counter along the left wall with the stainless steel sink, continuing along the back wall behind the gas range, and extending to the right under the large window. Replace all these surfaces with Dekton Trilium, which features a deep charcoal grey base with subtle mottled texture and light ash grey undertones, overlaid with prominent crisp white veining in bold diagonal strikes creating a dramatic marble effect with a smooth polished finish. Keep the following exactly as they are: the plain white painted walls and backsplash area, the rich dark cherry-wood cabinet fronts on all base and upper cabinets and the island, the stainless steel undermount sink and gooseneck faucet on the left counter, the black gas range with stainless trim in the center back, the stainless steel dishwasher on the left, all cabinet hardware and knobs, the reddish-brown hardwood floor, and both windows. Each countertop must maintain its exact shape, thickness, edge profile, and all cutouts for sink and appliances. The camera angle, framing, lighting and all other elements remain identical.",
+  "video_prompt": "First-person walkthrough starting from this exact frame showing the newly installed Dekton Trilium countertops with deep charcoal base and dramatic white veining. Camera begins at 1.6m eye level near the left corner of the kitchen using smooth handheld gimbal motion. Slowly pan left to reveal the perimeter counter with sink and dishwasher, then pan right across the kitchen taking in the gas range, back counter, and window area. Next, move forward steadily toward the central island, approaching it from the front while the camera gently tilts downward to showcase the rich charcoal surface with its bold white veining pattern and subtle reflections from the natural window light. Throughout the movement, maintain realistic parallax with the dark cherry cabinets in the foreground and background, physically consistent geometry as the viewer moves through the space, and natural daylight from the windows. The cherry wood cabinets, white walls, reddish hardwood floor, stainless appliances, and all architectural elements remain exactly as shown. No people, text overlays, or new objects appear. The Dekton Trilium surface pattern and complete room layout stay perfectly consistent frame to frame."
+ },
+ "edit": {
+  "provider": "gemini-image",
+  "model": "gemini-3.1-flash-image",
+  "secs": 23.144,
+  "alignment": {
+   "scale": 1.004,
+   "tx": 0.002499999999999999,
+   "ty": 0.0009999999999999992,
+   "score": 0.9253576355390537
+  },
+  "editedFraction": 0.28098204608373567
+ }
+}

@@ -1,12 +1,23 @@
-# Image Pipeline — NVIDIA FLUX.1 Kontext + Claude
+# Image Pipeline — Claude + Gemini image (or NVIDIA FLUX.1 Kontext)
 
 The static image is produced in two stages:
 
-1. **Claude** locates every stone surface and writes the edit instruction
+1. **Claude** locates every existing countertop and writes the edit instruction
    (see [claude-scene-analysis.md](claude-scene-analysis.md)).
-2. **NVIDIA FLUX.1 Kontext** edits the customer's photo (true image-to-image),
-   and the browser composites the edit back into the untouched original inside
-   Claude's stone polygons — so only the stone changes.
+2. A photoreal editor surgically replaces the countertops:
+   - **Gemini image models** (default) through an OpenAI-compatible gateway —
+     `IMAGE_EDIT_BASE_URL`, `IMAGE_EDIT_API_KEY`, optional `IMAGE_EDIT_MODELS`
+     (default `gemini-3.1-flash-image,gemini-3-pro-image-preview,gemini-2.5-flash-image`,
+     tried in order with retries on 503/429). Gemini also receives the **stone
+     swatch image**, and the prompt is `stoneEditPrompt` in `server/lib/prompts.ts`.
+   - or **NVIDIA FLUX.1 Kontext** when a self-hosted NIM is set (`FLUX_INFERENCE_URL`,
+     tried first) — details below.
+
+   The server then **aligns** the edit to the original photo and **composites only
+   the new countertops** back (`server/lib/composite.ts`), so the rest of the room
+   is pixel-identical. An edit the editor reframed is retried once, then the app
+   falls back to the local renderer. See [PROJECT_HANDOVER.md](PROJECT_HANDOVER.md)
+   for measured results and the prompt history.
 
 If no NVIDIA image endpoint is reachable, the browser renders the stone itself
 from Claude's surface map (perspective-correct swatch mapping with the photo's

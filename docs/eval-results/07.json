@@ -1,0 +1,853 @@
+{
+ "photo": "07",
+ "model": "claude-opus-5",
+ "analysis_seconds": 53.337,
+ "first_pass": {
+  "room_type": "kitchen",
+  "summary": "A kitchen with an L-shaped perimeter counter and a curved island, both topped with light speckled granite countertops.",
+  "camera": {
+   "horizontal_fov_deg": 70,
+   "eye_height_m": 1.55,
+   "pitch_deg": -5
+  },
+  "back_wall": {
+   "floor_left": {
+    "x": 0,
+    "y": 0.52
+   },
+   "floor_right": {
+    "x": 1,
+    "y": 0.52
+   },
+   "ceiling_left": {
+    "x": 0,
+    "y": 0
+   },
+   "ceiling_right": {
+    "x": 1,
+    "y": 0
+   }
+  },
+  "room_estimate": {
+   "width_m": 5,
+   "depth_m": 4.5,
+   "ceiling_height_m": 2.6,
+   "space_behind_camera_m": 1.5
+  },
+  "colors": {
+   "walls": "#a8b5a0",
+   "floor": "#7d5c48",
+   "ceiling": "#d8dcd0",
+   "cabinets": "#5a3828"
+  },
+  "surfaces": [
+   {
+    "id": "island_top",
+    "label": "Island top",
+    "kind": "island",
+    "orientation": "horizontal",
+    "height_m": 0.92,
+    "quad": [
+     {
+      "x": 0.05,
+      "y": 0.68
+     },
+     {
+      "x": 0.62,
+      "y": 0.52
+     },
+     {
+      "x": 0.75,
+      "y": 0.75
+     },
+     {
+      "x": 0.18,
+      "y": 0.88
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.05,
+      "y": 0.68
+     },
+     {
+      "x": 0.2,
+      "y": 0.62
+     },
+     {
+      "x": 0.38,
+      "y": 0.56
+     },
+     {
+      "x": 0.52,
+      "y": 0.52
+     },
+     {
+      "x": 0.62,
+      "y": 0.52
+     },
+     {
+      "x": 0.72,
+      "y": 0.58
+     },
+     {
+      "x": 0.75,
+      "y": 0.68
+     },
+     {
+      "x": 0.75,
+      "y": 0.75
+     },
+     {
+      "x": 0.7,
+      "y": 0.82
+     },
+     {
+      "x": 0.5,
+      "y": 0.88
+     },
+     {
+      "x": 0.3,
+      "y": 0.88
+     },
+     {
+      "x": 0.18,
+      "y": 0.88
+     }
+    ],
+    "length_m": 2.4,
+    "depth_m": 1.2,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "left_counter_top",
+    "label": "Left perimeter counter",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.91,
+    "quad": [
+     {
+      "x": 0,
+      "y": 0.42
+     },
+     {
+      "x": 0.28,
+      "y": 0.39
+     },
+     {
+      "x": 0.28,
+      "y": 0.52
+     },
+     {
+      "x": 0,
+      "y": 0.52
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0,
+      "y": 0.42
+     },
+     {
+      "x": 0.22,
+      "y": 0.4
+     },
+     {
+      "x": 0.28,
+      "y": 0.39
+     },
+     {
+      "x": 0.28,
+      "y": 0.48
+     },
+     {
+      "x": 0.28,
+      "y": 0.52
+     },
+     {
+      "x": 0,
+      "y": 0.52
+     }
+    ],
+    "length_m": 1.8,
+    "depth_m": 0.65,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "back_counter_top",
+    "label": "Back counter under windows",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.91,
+    "quad": [
+     {
+      "x": 0.28,
+      "y": 0.39
+     },
+     {
+      "x": 0.72,
+      "y": 0.36
+     },
+     {
+      "x": 0.72,
+      "y": 0.48
+     },
+     {
+      "x": 0.28,
+      "y": 0.52
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.28,
+      "y": 0.39
+     },
+     {
+      "x": 0.38,
+      "y": 0.38
+     },
+     {
+      "x": 0.5,
+      "y": 0.37
+     },
+     {
+      "x": 0.62,
+      "y": 0.36
+     },
+     {
+      "x": 0.72,
+      "y": 0.36
+     },
+     {
+      "x": 0.72,
+      "y": 0.43
+     },
+     {
+      "x": 0.72,
+      "y": 0.48
+     },
+     {
+      "x": 0.62,
+      "y": 0.49
+     },
+     {
+      "x": 0.5,
+      "y": 0.5
+     },
+     {
+      "x": 0.38,
+      "y": 0.51
+     },
+     {
+      "x": 0.28,
+      "y": 0.52
+     }
+    ],
+    "length_m": 2.8,
+    "depth_m": 0.65,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "right_counter_top",
+    "label": "Right perimeter counter",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.91,
+    "quad": [
+     {
+      "x": 0.72,
+      "y": 0.36
+     },
+     {
+      "x": 1,
+      "y": 0.35
+     },
+     {
+      "x": 1,
+      "y": 0.52
+     },
+     {
+      "x": 0.72,
+      "y": 0.48
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.72,
+      "y": 0.36
+     },
+     {
+      "x": 0.85,
+      "y": 0.355
+     },
+     {
+      "x": 1,
+      "y": 0.35
+     },
+     {
+      "x": 1,
+      "y": 0.44
+     },
+     {
+      "x": 1,
+      "y": 0.52
+     },
+     {
+      "x": 0.85,
+      "y": 0.5
+     },
+     {
+      "x": 0.72,
+      "y": 0.48
+     }
+    ],
+    "length_m": 1.6,
+    "depth_m": 0.65,
+    "thickness_m": 0.03
+   }
+  ],
+  "edit_instruction": "Surgically replace only the countertop surfaces: the curved island top in the foreground with its rounded front edge, the left perimeter counter along the left wall under the left window, the long back counter running across the back wall under the center and right windows (with the sink cutout visible), and the right perimeter counter extending to the right edge. Apply Dekton Trilium: a deep charcoal grey base with subtle ash grey mottling and prominent crisp white veining striking diagonally across the surface in a bold marble pattern, polished finish with strong reflections. Keep the white subway-tile backsplash, the sage green walls, the dark cherry wood cabinet fronts and island panels, the stainless steel sink and faucet, the black dishwasher front, the stainless steel refrigerator, the wood floor, and all other elements exactly as they are. Each countertop keeps its exact shape, thickness, edge profile, and curves. The camera angle, framing, lighting, and everything else stay identical.",
+  "video_prompt": "First-person walkthrough starting from this exact photo showing the new Dekton Trilium countertops with deep charcoal grey and bold white veining. Steady handheld gimbal movement at human eye level (1.6 m height). The viewer slowly pans left across the left perimeter counter and windows, then smoothly pans right past the back counter and sink to the right side of the kitchen. Then the camera moves forward two steps toward the curved island in the foreground while gently tilting down to reveal the polished surface grain, white veining detail, and natural reflections from the windows. Natural daylight from the windows, realistic parallax as surfaces pass by, physically consistent geometry throughout. No people appear, no text overlays, no new objects. The room layout, cabinet configuration, window placement, and stone veining pattern remain identical throughout the video."
+ },
+ "grounding": {
+  "assignments": [
+   {
+    "surface_id": "island_top",
+    "regions": [
+     36,
+     41,
+     42,
+     43,
+     46,
+     50
+    ]
+   },
+   {
+    "surface_id": "left_counter_top",
+    "regions": [
+     24,
+     28,
+     34
+    ]
+   },
+   {
+    "surface_id": "back_counter_top",
+    "regions": [
+     20,
+     22,
+     27
+    ]
+   },
+   {
+    "surface_id": "right_counter_top",
+    "regions": [
+     31
+    ]
+   }
+  ]
+ },
+ "regions": 52,
+ "final_scene": {
+  "room_type": "kitchen",
+  "summary": "A kitchen with an L-shaped perimeter counter and a curved island, both topped with light speckled granite countertops.",
+  "camera": {
+   "horizontal_fov_deg": 70,
+   "eye_height_m": 1.55,
+   "pitch_deg": -5
+  },
+  "back_wall": {
+   "floor_left": {
+    "x": 0,
+    "y": 0.52
+   },
+   "floor_right": {
+    "x": 1,
+    "y": 0.52
+   },
+   "ceiling_left": {
+    "x": 0,
+    "y": 0
+   },
+   "ceiling_right": {
+    "x": 1,
+    "y": 0
+   }
+  },
+  "room_estimate": {
+   "width_m": 5,
+   "depth_m": 4.5,
+   "ceiling_height_m": 2.6,
+   "space_behind_camera_m": 1.5
+  },
+  "colors": {
+   "walls": "#a8b5a0",
+   "floor": "#7d5c48",
+   "ceiling": "#d8dcd0",
+   "cabinets": "#5a3828"
+  },
+  "surfaces": [
+   {
+    "id": "island_top",
+    "label": "Island top",
+    "kind": "island",
+    "orientation": "horizontal",
+    "height_m": 0.92,
+    "quad": [
+     {
+      "x": 0.0011904761904761906,
+      "y": 0.573015873015873
+     },
+     {
+      "x": 0.49642857142857144,
+      "y": 0.5031746031746032
+     },
+     {
+      "x": 0.775,
+      "y": 0.6396825396825396
+     },
+     {
+      "x": 0.0011904761904761906,
+      "y": 0.9984126984126984
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.4511904761904762,
+      "y": 0.5031746031746032
+     },
+     {
+      "x": 0.4773809523809524,
+      "y": 0.5031746031746032
+     },
+     {
+      "x": 0.4773809523809524,
+      "y": 0.5253968253968254
+     },
+     {
+      "x": 0.49642857142857144,
+      "y": 0.5031746031746032
+     },
+     {
+      "x": 0.544047619047619,
+      "y": 0.5253968253968254
+     },
+     {
+      "x": 0.5797619047619048,
+      "y": 0.5158730158730159
+     },
+     {
+      "x": 0.6464285714285715,
+      "y": 0.5476190476190477
+     },
+     {
+      "x": 0.6535714285714286,
+      "y": 0.5920634920634921
+     },
+     {
+      "x": 0.675,
+      "y": 0.5603174603174603
+     },
+     {
+      "x": 0.7178571428571429,
+      "y": 0.573015873015873
+     },
+     {
+      "x": 0.7202380952380952,
+      "y": 0.5984126984126984
+     },
+     {
+      "x": 0.725,
+      "y": 0.5793650793650794
+     },
+     {
+      "x": 0.7797619047619048,
+      "y": 0.5920634920634921
+     },
+     {
+      "x": 0.775,
+      "y": 0.6396825396825396
+     },
+     {
+      "x": 0.694047619047619,
+      "y": 0.6841269841269841
+     },
+     {
+      "x": 0.6702380952380952,
+      "y": 0.6777777777777778
+     },
+     {
+      "x": 0.5845238095238096,
+      "y": 0.7095238095238096
+     },
+     {
+      "x": 0.375,
+      "y": 0.8269841269841269
+     },
+     {
+      "x": 0.0011904761904761906,
+      "y": 0.9984126984126984
+     },
+     {
+      "x": 0.0011904761904761906,
+      "y": 0.7
+     },
+     {
+      "x": 0.06785714285714285,
+      "y": 0.6841269841269841
+     },
+     {
+      "x": 0.058333333333333334,
+      "y": 0.6587301587301587
+     },
+     {
+      "x": 0.0011904761904761906,
+      "y": 0.6682539682539682
+     },
+     {
+      "x": 0.0011904761904761906,
+      "y": 0.573015873015873
+     },
+     {
+      "x": 0.12976190476190477,
+      "y": 0.5444444444444444
+     },
+     {
+      "x": 0.15357142857142858,
+      "y": 0.6174603174603175
+     },
+     {
+      "x": 0.19642857142857142,
+      "y": 0.6396825396825396
+     },
+     {
+      "x": 0.22976190476190475,
+      "y": 0.6206349206349207
+     },
+     {
+      "x": 0.22738095238095238,
+      "y": 0.5698412698412698
+     },
+     {
+      "x": 0.2702380952380952,
+      "y": 0.573015873015873
+     },
+     {
+      "x": 0.27976190476190477,
+      "y": 0.5571428571428572
+     },
+     {
+      "x": 0.41785714285714287,
+      "y": 0.5158730158730159
+     },
+     {
+      "x": 0.44166666666666665,
+      "y": 0.5253968253968254
+     }
+    ],
+    "length_m": 2.4,
+    "depth_m": 1.2,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "left_counter_top",
+    "label": "Left perimeter counter",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.91,
+    "quad": [
+     {
+      "x": 0.1630952380952381,
+      "y": 0.38571428571428573
+     },
+     {
+      "x": 0.2869047619047619,
+      "y": 0.35714285714285715
+     },
+     {
+      "x": 0.3964285714285714,
+      "y": 0.3888888888888889
+     },
+     {
+      "x": 0.21785714285714286,
+      "y": 0.4174603174603175
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.2869047619047619,
+      "y": 0.35714285714285715
+     },
+     {
+      "x": 0.2988095238095238,
+      "y": 0.35714285714285715
+     },
+     {
+      "x": 0.3011904761904762,
+      "y": 0.36666666666666664
+     },
+     {
+      "x": 0.3892857142857143,
+      "y": 0.3634920634920635
+     },
+     {
+      "x": 0.3964285714285714,
+      "y": 0.36666666666666664
+     },
+     {
+      "x": 0.3964285714285714,
+      "y": 0.3888888888888889
+     },
+     {
+      "x": 0.3011904761904762,
+      "y": 0.39206349206349206
+     },
+     {
+      "x": 0.2988095238095238,
+      "y": 0.3984126984126984
+     },
+     {
+      "x": 0.2630952380952381,
+      "y": 0.3984126984126984
+     },
+     {
+      "x": 0.26071428571428573,
+      "y": 0.40793650793650793
+     },
+     {
+      "x": 0.22023809523809523,
+      "y": 0.40793650793650793
+     },
+     {
+      "x": 0.21785714285714286,
+      "y": 0.4174603174603175
+     },
+     {
+      "x": 0.1630952380952381,
+      "y": 0.4142857142857143
+     },
+     {
+      "x": 0.1630952380952381,
+      "y": 0.38571428571428573
+     },
+     {
+      "x": 0.17261904761904762,
+      "y": 0.38571428571428573
+     },
+     {
+      "x": 0.1773809523809524,
+      "y": 0.37936507936507935
+     },
+     {
+      "x": 0.1988095238095238,
+      "y": 0.37936507936507935
+     },
+     {
+      "x": 0.21071428571428572,
+      "y": 0.373015873015873
+     },
+     {
+      "x": 0.24166666666666667,
+      "y": 0.373015873015873
+     },
+     {
+      "x": 0.24404761904761904,
+      "y": 0.37936507936507935
+     },
+     {
+      "x": 0.25357142857142856,
+      "y": 0.37936507936507935
+     },
+     {
+      "x": 0.25833333333333336,
+      "y": 0.36984126984126986
+     },
+     {
+      "x": 0.2654761904761905,
+      "y": 0.36666666666666664
+     },
+     {
+      "x": 0.28214285714285714,
+      "y": 0.36666666666666664
+     }
+    ],
+    "length_m": 1.8,
+    "depth_m": 0.65,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "back_counter_top",
+    "label": "Back counter under windows",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.91,
+    "quad": [
+     {
+      "x": 0.5321428571428571,
+      "y": 0.1349206349206349
+     },
+     {
+      "x": 0.5583333333333333,
+      "y": 0.14444444444444443
+     },
+     {
+      "x": 0.5583333333333333,
+      "y": 0.28095238095238095
+     },
+     {
+      "x": 0.5154761904761904,
+      "y": 0.2650793650793651
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.5321428571428571,
+      "y": 0.1349206349206349
+     },
+     {
+      "x": 0.5535714285714286,
+      "y": 0.1349206349206349
+     },
+     {
+      "x": 0.5583333333333333,
+      "y": 0.14444444444444443
+     },
+     {
+      "x": 0.5583333333333333,
+      "y": 0.1984126984126984
+     },
+     {
+      "x": 0.5535714285714286,
+      "y": 0.2015873015873016
+     },
+     {
+      "x": 0.5535714285714286,
+      "y": 0.2650793650793651
+     },
+     {
+      "x": 0.5583333333333333,
+      "y": 0.26825396825396824
+     },
+     {
+      "x": 0.5583333333333333,
+      "y": 0.28095238095238095
+     },
+     {
+      "x": 0.5511904761904762,
+      "y": 0.28095238095238095
+     },
+     {
+      "x": 0.5488095238095239,
+      "y": 0.2873015873015873
+     },
+     {
+      "x": 0.5273809523809524,
+      "y": 0.2873015873015873
+     },
+     {
+      "x": 0.5273809523809524,
+      "y": 0.26825396825396824
+     },
+     {
+      "x": 0.5154761904761904,
+      "y": 0.2650793650793651
+     },
+     {
+      "x": 0.5178571428571429,
+      "y": 0.24285714285714285
+     },
+     {
+      "x": 0.5321428571428571,
+      "y": 0.23333333333333334
+     },
+     {
+      "x": 0.5321428571428571,
+      "y": 0.2015873015873016
+     },
+     {
+      "x": 0.5273809523809524,
+      "y": 0.1984126984126984
+     }
+    ],
+    "length_m": 2.8,
+    "depth_m": 0.65,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "right_counter_top",
+    "label": "Right perimeter counter",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.91,
+    "quad": [
+     {
+      "x": 0.5583333333333333,
+      "y": 0.3634920634920635
+     },
+     {
+      "x": 0.5988095238095238,
+      "y": 0.4015873015873016
+     },
+     {
+      "x": 0.5821428571428572,
+      "y": 0.5126984126984127
+     },
+     {
+      "x": 0.555952380952381,
+      "y": 0.5095238095238095
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.5583333333333333,
+      "y": 0.3634920634920635
+     },
+     {
+      "x": 0.5845238095238096,
+      "y": 0.3634920634920635
+     },
+     {
+      "x": 0.5845238095238096,
+      "y": 0.3825396825396825
+     },
+     {
+      "x": 0.5988095238095238,
+      "y": 0.4015873015873016
+     },
+     {
+      "x": 0.5988095238095238,
+      "y": 0.4142857142857143
+     },
+     {
+      "x": 0.5821428571428572,
+      "y": 0.4174603174603175
+     },
+     {
+      "x": 0.5821428571428572,
+      "y": 0.5126984126984127
+     },
+     {
+      "x": 0.555952380952381,
+      "y": 0.5095238095238095
+     }
+    ],
+    "length_m": 1.6,
+    "depth_m": 0.65,
+    "thickness_m": 0.03
+   }
+  ],
+  "edit_instruction": "Surgically replace only the countertop surfaces: the curved island top in the foreground with its rounded front edge, the left perimeter counter along the left wall under the left window, the long back counter running across the back wall under the center and right windows (with the sink cutout visible), and the right perimeter counter extending to the right edge. Apply Dekton Trilium: a deep charcoal grey base with subtle ash grey mottling and prominent crisp white veining striking diagonally across the surface in a bold marble pattern, polished finish with strong reflections. Keep the white subway-tile backsplash, the sage green walls, the dark cherry wood cabinet fronts and island panels, the stainless steel sink and faucet, the black dishwasher front, the stainless steel refrigerator, the wood floor, and all other elements exactly as they are. Each countertop keeps its exact shape, thickness, edge profile, and curves. The camera angle, framing, lighting, and everything else stay identical.",
+  "video_prompt": "First-person walkthrough starting from this exact photo showing the new Dekton Trilium countertops with deep charcoal grey and bold white veining. Steady handheld gimbal movement at human eye level (1.6 m height). The viewer slowly pans left across the left perimeter counter and windows, then smoothly pans right past the back counter and sink to the right side of the kitchen. Then the camera moves forward two steps toward the curved island in the foreground while gently tilting down to reveal the polished surface grain, white veining detail, and natural reflections from the windows. Natural daylight from the windows, realistic parallax as surfaces pass by, physically consistent geometry throughout. No people appear, no text overlays, no new objects. The room layout, cabinet configuration, window placement, and stone veining pattern remain identical throughout the video."
+ },
+ "edit": {
+  "provider": "gemini-image",
+  "model": "gemini-3.1-flash-image",
+  "secs": 20.388,
+  "alignment": {
+   "scale": 1.004,
+   "tx": 0.0009999999999999992,
+   "ty": 0.0009999999999999992,
+   "score": 0.9078342786155948
+  },
+  "editedFraction": 0.2647504920137214
+ }
+}

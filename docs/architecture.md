@@ -2,10 +2,13 @@
 
 StoneSight turns **one room photo + one stone choice** into three deliverables: a
 photoreal static image, a first-person walkthrough video and an interactive 3D
-walkthrough. The only AI providers are **Anthropic Claude** (understanding and
-planning) and **NVIDIA NIM** (pixel generation). Every stage has a
-deterministic fallback, so the app keeps working when an NVIDIA endpoint is
-not deployed.
+walkthrough. **Anthropic Claude** does the understanding and planning (surface
+map, prompts, masks); a **Gemini image model** (via an OpenAI-compatible gateway)
+or an **NVIDIA FLUX.1 Kontext NIM** does the photoreal countertop edit, which is
+aligned and composited back into the original photo; **NVIDIA Cosmos** optionally
+makes the video. Every stage has a deterministic fallback, so the app keeps
+working when an editor is not available. See [PROJECT_HANDOVER.md](PROJECT_HANDOVER.md)
+for the full history and status.
 
 ## End-to-end flow
 
