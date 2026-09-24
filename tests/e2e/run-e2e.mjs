@@ -228,7 +228,7 @@ async function main() {
     MCP_TEST_MODE: "true",
     PORT: String(API_PORT),
     NVIDIA_API_KEY: "",
-    ...(LIVE ? {} : { ANTHROPIC_API_KEY: "" }),
+    ...(LIVE ? {} : { ANTHROPIC_API_KEY: "", STONESIGHT_DOTENV: "off" }),
   });
   start("npx", ["vite", "--port", String(WEB_PORT), "--strictPort"], { MCP_TEST_MODE: "true", VITE_API_URL: `http://localhost:${API_PORT}` });
   await waitFor(`http://localhost:${API_PORT}/api/health`);

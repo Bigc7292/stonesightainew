@@ -20,7 +20,7 @@ async function checkClaude() {
     return;
   }
   try {
-    const client = new Anthropic({ apiKey: key });
+    const client = new Anthropic({ apiKey: key, baseURL: config.claudeBaseUrl() || undefined });
     const model = await client.models.retrieve(config.claudeModel());
     record("Claude (scene analysis)", true, `${model.id} available (key ${maskSecret(key)})`);
   } catch (error) {

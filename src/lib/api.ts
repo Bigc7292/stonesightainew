@@ -72,11 +72,21 @@ export async function analyzeRoom(token: string | null | undefined, image: strin
   });
 }
 
-export async function editImage(token: string | null | undefined, image: string, prompt: string, stone: Stone) {
-  return request<{ image: string; localPath: string; provider: string }>("/api/image/generate", token, {
-    method: "POST",
-    body: JSON.stringify({ image, prompt, stone: stonePayload(stone) }),
-  });
+export async function editImage(
+  token: string | null | undefined,
+  image: string,
+  prompt: string,
+  stone: Stone,
+  extras: { swatch?: string | null; scene?: SceneAnalysis | null } = {},
+) {
+  return request<{ image: string; localPath: string; provider: string; model?: string; composited?: boolean }>(
+    "/api/image/generate",
+    token,
+    {
+      method: "POST",
+      body: JSON.stringify({ image, prompt, stone: stonePayload(stone), swatch: extras.swatch ?? undefined, scene: extras.scene ?? undefined }),
+    },
+  );
 }
 
 export async function startVideoJob(token: string | null | undefined, image: string, prompt: string, stone: Stone) {

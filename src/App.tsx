@@ -6,13 +6,16 @@
  *
  * One click on "Generate Visualization" produces three deliverables:
  *   1. A static image of the customer's room with the chosen stone
- *      (NVIDIA FLUX.1 Kontext edit composited with Claude's surface mask, or
- *      the local Claude-guided stone renderer when NVIDIA is unavailable).
+ *      (photoreal edit by a Gemini image model or an NVIDIA FLUX.1 Kontext NIM,
+ *      composited into the original photo inside Claude's surface mask, or the
+ *      local Claude-guided stone renderer when no editor is available).
  *   2. A first-person, eye-level walkthrough video
  *      (NVIDIA Cosmos image-to-video, or recorded in the browser from the 3D scene).
  *   3. An interactive first-person 3D walkthrough of the room.
  *
- * AI providers are strictly Anthropic Claude and NVIDIA. See docs/architecture.md.
+ * AI providers: Anthropic Claude (analysis, prompts, masks), Gemini image
+ * models via an OpenAI-compatible gateway (photoreal edit) and NVIDIA
+ * (Kontext / Cosmos NIMs). See docs/architecture.md.
  */
 
 import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
@@ -396,23 +399,32 @@ function StoneSightApp() {
       if (!current()) return;
       const hasSurfaces = !!scene && scene.surfaces.length > 0;
 
-      // 2. Static image (NVIDIA Kontext edit, else the local Claude-guided renderer).
+      // 2. Static image: photoreal edit (NVIDIA Kontext NIM or Gemini image,
+      //    composited into the original inside Claude's stone mask), else the
+      //    local Claude-guided renderer.
       let result: string | null = null;
       let engine = "";
       if (caps.image.length > 0) {
-        setProcessingStatus(`NVIDIA FLUX Kontext is fitting ${stone.name}…`);
+        setProcessingStatus(`Installing ${stone.name} on your surfaces…`);
         try {
-          const edited = await editImage(accessToken, photo, scene?.edit_instruction ?? "", stone);
-          if (hasSurfaces) {
+          const edited = await editImage(accessToken, photo, scene?.edit_instruction ?? "", stone, {
+            swatch,
+            scene: hasSurfaces ? scene : null,
+          });
+          const editor = edited.provider === "gemini-image" ? `Gemini ${edited.model ?? "image"}` : "NVIDIA FLUX.1 Kontext";
+          if (edited.composited) {
+            result = edited.image;
+            engine = `${editor} · Claude precision mask`;
+          } else if (hasSurfaces) {
             setProcessingStatus("Preserving everything except the stone…");
             result = await compositeEditedImage(photo, edited.image, scene!);
-            engine = "NVIDIA FLUX.1 Kontext · Claude precision mask";
+            engine = `${editor} · Claude precision mask`;
           } else {
             result = edited.image;
-            engine = "NVIDIA FLUX.1 Kontext";
+            engine = editor;
           }
         } catch (error) {
-          addNotice(run, `NVIDIA image editing unavailable (${error instanceof Error ? error.message : "error"}).`);
+          addNotice(run, `Photoreal image editing unavailable (${error instanceof Error ? error.message : "error"}).`);
         }
       }
       if (!result && hasSurfaces) {

@@ -15,8 +15,10 @@
 import { config } from "./env";
 import { extractImageBase64, nvidiaInvoke, NvidiaError, uploadNvcfAsset } from "./nvidia";
 import { sniffImageMime, toJpeg } from "./images";
+import { editWithGemini, geminiImageConfigured } from "./geminiImage";
+import { stoneEditPrompt, type StoneInfo } from "./prompts";
 
-export type ImageProvider = "nvidia-kontext-self-hosted" | "nvidia-kontext-hosted";
+export type ImageProvider = "nvidia-kontext-self-hosted" | "gemini-image" | "nvidia-kontext-hosted";
 
 export interface EditResult {
   buffer: Buffer;
@@ -30,6 +32,7 @@ let hostedRejectsCustomImages = false;
 export function imageEditProviders(): ImageProvider[] {
   const list: ImageProvider[] = [];
   if (config.fluxInferenceUrl()) list.push("nvidia-kontext-self-hosted");
+  if (geminiImageConfigured()) list.push("gemini-image");
   if (config.nvidiaApiKey() && config.nvidiaHostedImageEnabled() && !hostedRejectsCustomImages) {
     list.push("nvidia-kontext-hosted");
   }
@@ -53,7 +56,7 @@ function kontextBody(prompt: string, image: string, seed: number) {
 }
 
 export async function editWithKontext(photo: Buffer, prompt: string, seed?: number): Promise<EditResult> {
-  const providers = imageEditProviders();
+  const providers = imageEditProviders().filter((p) => p !== "gemini-image");
   if (providers.length === 0) {
     throw new NvidiaError("No NVIDIA image-editing endpoint configured", 503);
   }
@@ -110,4 +113,43 @@ export async function editWithKontext(photo: Buffer, prompt: string, seed?: numb
     }
   }
   throw new NvidiaError(errors.join(" | "), 502);
+}
+
+export interface StoneEditRequest {
+  photo: Buffer;
+  swatch?: Buffer;
+  stone: StoneInfo;
+  /** Claude's edit_instruction (surface-by-surface), or a template. */
+  instruction: string;
+  seed?: number;
+}
+
+export interface StoneEditResult extends EditResult {
+  model?: string;
+}
+
+/**
+ * Runs the configured editors in order: self-hosted Kontext NIM, Gemini image
+ * (sees the swatch), then NVIDIA-hosted Kontext.
+ */
+export async function editStone(req: StoneEditRequest): Promise<StoneEditResult> {
+  const providers = imageEditProviders();
+  if (providers.length === 0) throw new NvidiaError("No image-editing endpoint configured", 503);
+  const errors: string[] = [];
+  const kontextFirst = providers[0] === "nvidia-kontext-self-hosted";
+  const order: ("kontext" | "gemini")[] = kontextFirst ? ["kontext", "gemini"] : ["gemini", "kontext"];
+  for (const step of order) {
+    try {
+      if (step === "gemini" && providers.includes("gemini-image")) {
+        const r = await editWithGemini(req.photo, req.swatch, stoneEditPrompt(req.stone, req.instruction, !!req.swatch));
+        return { buffer: r.buffer, mime: r.mime, provider: "gemini-image", model: r.model };
+      }
+      if (step === "kontext" && providers.some((p) => p !== "gemini-image")) {
+        return await editWithKontext(req.photo, req.instruction, req.seed);
+      }
+    } catch (error) {
+      errors.push(error instanceof Error ? error.message : String(error));
+    }
+  }
+  throw new NvidiaError(errors.join(" | ") || "No image editor succeeded", 502);
 }

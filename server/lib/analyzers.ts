@@ -29,6 +29,8 @@ export interface AnalyzeInput {
   photo: Buffer;
   swatch?: Buffer;
   stone: StoneInfo;
+  /** Optional hook for evaluation tooling: receives each intermediate stage. */
+  trace?: (stage: string, data: unknown) => void;
 }
 
 export interface AnalyzeResult {
@@ -69,7 +71,7 @@ async function prepareImages(input: AnalyzeInput) {
 let anthropicClient: Anthropic | null = null;
 function anthropic(): Anthropic {
   if (!anthropicClient) {
-    anthropicClient = new Anthropic({ apiKey: config.anthropicApiKey() });
+    anthropicClient = new Anthropic({ apiKey: config.anthropicApiKey(), baseURL: config.claudeBaseUrl() || undefined });
   }
   return anthropicClient;
 }
@@ -196,6 +198,7 @@ async function analyzeWithClaude(input: AnalyzeInput): Promise<AnalyzeResult> {
     }
   }
   let analysis = sanitizeScene(best.data);
+  input.trace?.("claude", analysis);
 
   // Grounding pass (set-of-mark): Claude picks numbered photo regions for
   // each surface and the outlines are rebuilt from them, so they follow the
@@ -204,6 +207,7 @@ async function analyzeWithClaude(input: AnalyzeInput): Promise<AnalyzeResult> {
     try {
       const seg = await segmentPhoto(photo);
       const marked = await drawSegmentOverlay(photo, width, height, seg);
+      input.trace?.("segments", { image: marked, count: seg.count });
       const ids = analysis.surfaces.map((s) => s.id);
       const grounding = await claudeJson(
         [
@@ -216,6 +220,7 @@ async function analyzeWithClaude(input: AnalyzeInput): Promise<AnalyzeResult> {
         ],
         GroundingSchema,
       );
+      input.trace?.("grounding", grounding.data);
       const applied = applyRegionAssignments(analysis, grounding.data.assignments, seg);
       analysis = applied.scene;
       console.log("[ANALYZE] Grounded surfaces", { regions: seg.count, updated: applied.updated });

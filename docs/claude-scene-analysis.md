@@ -14,7 +14,7 @@ Code: `server/lib/analyzers.ts`, schema `server/lib/sceneSchema.ts`, contract
 | SDK | `@anthropic-ai/sdk`, `client.beta.messages.parse` | Typed structured outputs |
 | Model | `claude-opus-5` (`CLAUDE_MODEL`) | Strong spatial reasoning on photos |
 | Thinking | `{ type: "adaptive" }` | Geometry benefits from reasoning |
-| Effort | `high` (`CLAUDE_EFFORT`) | Intelligence-sensitive task; lower it for speed/cost |
+| Effort | `high` (`CLAUDE_ANALYSIS_EFFORT`) | Intelligence-sensitive task; lower it for speed/cost |
 | Output | `output_config.format = betaZodOutputFormat(SceneAnalysisSchema)` | Response is guaranteed to match the schema |
 | Refusal fallback | `betas: ["server-side-fallback-2026-07-01"]`, `fallbacks: "default"` | If the model declines, the API retries on a suitable fallback model inside the same call |
 | `max_tokens` | 16000 | Room for thinking + a long surface list |
@@ -73,7 +73,7 @@ grounding supersedes it, so it is off by default. It runs before grounding.
 The reply is parsed from text (markdown fences stripped) and validated with
 zod, and the JSON Schema is also included in the prompt, so gateways that drop
 `output_config` (seen with a third-party reseller in live testing) still work.
-Point the SDK at one with `ANTHROPIC_BASE_URL`. Results through gateways may
+Point the app at one with `CLAUDE_BASE_URL` (preferred over `ANTHROPIC_BASE_URL`, which Claude Code and similar tools set for themselves). Results through gateways may
 differ from api.anthropic.com: the reseller tested reported ~80 input tokens
 for a request containing a full photo and described the image as ~768 px wide,
 which suggests it downsizes images (or is not backed by the requested model).
@@ -144,6 +144,6 @@ results.**
 
 One request per visualization: three images (~1.6k tokens each at these
 sizes) plus ~1.5k tokens of prompt in, and typically 2–6k tokens out including
-thinking. At `high` effort expect roughly 20–60 s. Lower `CLAUDE_EFFORT` to
+thinking. At `high` effort expect roughly 20–60 s. Lower `CLAUDE_ANALYSIS_EFFORT` to
 `medium` for faster, cheaper runs; measure the impact on surface accuracy
 with a few of your own photos first.

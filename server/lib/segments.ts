@@ -218,7 +218,7 @@ export async function drawSegmentOverlay(photo: Buffer, width: number, height: n
 // ---------------------------------------------------------------------------
 
 /** Square-kernel erosion (op = "min") or dilation (op = "max") of a binary mask. */
-function morph(mask: Uint8Array, w: number, h: number, r: number, op: "min" | "max"): Uint8Array {
+export function morph(mask: Uint8Array, w: number, h: number, r: number, op: "min" | "max"): Uint8Array {
   const tmp = new Uint8Array(w * h), out = new Uint8Array(w * h);
   const pick = op === "min" ? (a: number, b: number) => a & b : (a: number, b: number) => a | b;
   const init = op === "min" ? 1 : 0;

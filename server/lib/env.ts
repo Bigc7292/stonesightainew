@@ -21,6 +21,9 @@ let loaded = false;
 export function loadEnv(): void {
   if (loaded) return;
   loaded = true;
+  // Tests configure process.env themselves and must never pick up a
+  // developer's real keys from .env.
+  if (process.env.STONESIGHT_DOTENV === "off" || process.env.NODE_TEST_CONTEXT) return;
   dotenv.config({ path: path.resolve(__dirname, "..", ".env"), quiet: true });
   dotenv.config({ path: path.resolve(__dirname, "..", "..", ".env"), quiet: true });
 }
@@ -41,10 +44,17 @@ export const config = {
 
   // --- Anthropic Claude -----------------------------------------------------
   anthropicApiKey: () => str("ANTHROPIC_API_KEY"),
+  /**
+   * Optional Anthropic-compatible gateway for the app's Claude calls. Takes
+   * precedence over ANTHROPIC_BASE_URL, which tools such as Claude Code set
+   * in their own environment and would otherwise silently redirect the app.
+   */
+  claudeBaseUrl: () => str("CLAUDE_BASE_URL"),
   claudeModel: () => str("CLAUDE_MODEL", "claude-opus-5"),
   /** low | medium | high | xhigh | max — geometry work benefits from high. */
   claudeEffort: () =>
-    str("CLAUDE_EFFORT", "high") as "low" | "medium" | "high" | "xhigh" | "max",
+    // Not CLAUDE_EFFORT: Claude Code exports that for itself.
+    str("CLAUDE_ANALYSIS_EFFORT", "high") as "low" | "medium" | "high" | "xhigh" | "max",
 
   /**
    * Number of "look at your outlines on the photo and correct them" passes
@@ -56,6 +66,17 @@ export const config = {
    * surface and the outlines are rebuilt from those regions (default on).
    */
   claudeGrounding: () => !/^(0|false|off|no)$/i.test(str("CLAUDE_GROUNDING", "1")),
+
+  // --- Generative image edit (Gemini image models via an OpenAI-compatible gateway)
+  /** Base URL of an OpenAI-compatible gateway serving Gemini image models, e.g. https://api.oneprovider.dev */
+  imageEditBaseUrl: () => str("IMAGE_EDIT_BASE_URL").replace(/\/+$/, ""),
+  imageEditApiKey: () => str("IMAGE_EDIT_API_KEY"),
+  /** Ordered, comma-separated image models; tried in turn. */
+  imageEditModels: () =>
+    str("IMAGE_EDIT_MODELS", "gemini-3.1-flash-image,gemini-3-pro-image-preview,gemini-2.5-flash-image")
+      .split(",")
+      .map((m) => m.trim())
+      .filter(Boolean),
 
   // --- NVIDIA ---------------------------------------------------------------
   nvidiaApiKey: () => str("NVIDIA_API_KEY"),

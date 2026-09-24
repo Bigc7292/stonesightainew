@@ -40,7 +40,7 @@ Back wall: the floor and ceiling corners of the farthest wall facing the camera.
 
 Colours: representative #rrggbb for walls, floor, ceiling and cabinet fronts.
 
-edit_instruction: one paragraph for the FLUX.1 Kontext image-editing model. It sees ONLY the room photo, never the swatch, so describe the chosen stone concretely (base colour, veining colour/direction/scale, finish) using the swatch and the stone description. Name the exact surfaces to change by their position in the photo. Then state what must not change: camera angle, framing, room layout, cabinets, appliances, sink, taps, walls, floor, ceiling, lighting, shadows, reflections, objects and people.
+edit_instruction: one paragraph for the photoreal image editor (a Gemini image model that also sees the swatch, or FLUX.1 Kontext, which sees only the room photo). List EVERY stone surface to change by where it is in the photo (e.g. "the long island top running from the left foreground to the back right, its left waterfall end facing the camera, the back counter under the window, the backsplash between counter and wall cabinets"), including thin visible slab edges. Describe the chosen stone concretely (base colour, veining colour/direction/scale, finish) so the editor gets it right even without the swatch. Name the neighbouring things that are NOT stone and must stay exactly as they are (for example cabinet fronts below the counter, the sink and tap, appliances, stools, tiles, floor), and say that the camera, framing and everything else stay identical. Never ask for new objects or a different surface shape.
 
 video_prompt: one paragraph for the NVIDIA Cosmos image-to-video model. The video starts from this exact photo (already showing the new stone) and must be a first-person walkthrough at human eye level (~1.6 m): steady handheld-gimbal motion, the viewer slowly looks left, then right across the room, then takes a few steps toward the main stone surface while the camera gently tilts down to show its grain and reflections. Ask for natural light, realistic parallax and physically consistent geometry. State that no people, text or new objects appear and the room layout, cabinets and stone pattern stay identical throughout.`;
 
@@ -64,6 +64,29 @@ export function sceneAnalysisUserPrompt(stone: StoneInfo): string {
     `Selected stone: ${stone.name}${stone.category ? ` (${stone.category}` : ""}${stone.tone ? `, ${stone.tone} tone` : ""}${stone.category ? ")" : ""}.`,
     stone.description ? `Manufacturer description: ${stone.description}` : "",
     "Analyse the room photo and return the scene JSON.",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+/**
+ * Prompt for the generative image editor (Gemini image models). Builds on the
+ * prompts that produced the best results in the original Gemini version of
+ * StoneSight ("exhaustive, photorealistic material replacement … monolithic
+ * consistency … 100% fidelity") and adds Claude's surface-by-surface
+ * instruction plus explicit do-not-change rules (rules.md §3).
+ */
+export function stoneEditPrompt(stone: StoneInfo, claudeInstruction: string, hasSwatch: boolean): string {
+  return [
+    `Perform an exhaustive, photorealistic material replacement in Image 1: install ${stone.name}${stone.category ? ` (${stone.category})` : ""} on every stone surface.`,
+    hasSwatch
+      ? "Image 2 shows the exact stone: match its base colour, veining colour, vein width, scale and direction, and its finish precisely."
+      : "",
+    stone.description ? `Material description: ${stone.description}` : "",
+    claudeInstruction ? `Surfaces to change (from a precise analysis of this photo): ${claudeInstruction}` : "",
+    "Install it like real fabricated slabs: veining flows continuously across each slab with monolithic consistency, wraps over edges and down waterfall ends (book-matched at mitred corners), shows the true slab thickness on visible edges, and takes on the room's existing light, shadows and reflections — polished surfaces reflect the lights and nearby objects as the original did.",
+    "Change ONLY the stone material. Keep everything else exactly as in Image 1, with 100% fidelity: the same camera position, framing, perspective, crop and aspect ratio; the same cabinets, doors, handles, appliances, sink, taps, hob, stools, walls, tiles, floor, ceiling, lights, windows, plants, objects and people; the same lighting and colour grading. Do not add, remove, move or restyle anything. Objects standing on the stone stay in place on top of it.",
+    "Return only the edited photograph.",
   ]
     .filter(Boolean)
     .join("\n");

@@ -18,8 +18,10 @@ const sceneFixture = JSON.parse(fs.readFileSync(path.join(FIXTURES, "kitchen-ana
 
 let fake: http.Server;
 let app: http.Server;
+let fakeBase = "";
 let api = "";
-const seen: { flux?: any; cosmos?: any; anthropic?: any; anthropicHeaders?: http.IncomingHttpHeaders; anthropicCalls: any[] } = { anthropicCalls: [] };
+const seen: { flux?: any; cosmos?: any; anthropic?: any; anthropicHeaders?: http.IncomingHttpHeaders; anthropicCalls: any[]; gemini?: any } = { anthropicCalls: [] };
+let geminiEdit = ""; // base64 JPEG returned by the fake Gemini endpoint
 
 function readBody(req: http.IncomingMessage): Promise<string> {
   return new Promise((resolve) => {
@@ -31,6 +33,18 @@ function readBody(req: http.IncomingMessage): Promise<string> {
 
 before(async () => {
   const editedPng = await sharp({ create: { width: 16, height: 16, channels: 3, background: "#224466" } }).png().toBuffer();
+  // Fake Gemini edit: the same photo, slightly smaller (as real editors return),
+  // with a charcoal slab painted over the island top and a white "unwanted"
+  // change on the ceiling that must NOT reach the result.
+  const kitchen = await sharp(fs.readFileSync(path.join(FIXTURES, "kitchen.jpg"))).rotate().jpeg({ quality: 95 }).toBuffer();
+  const meta = await sharp(kitchen).metadata();
+  const W = meta.width!, H = meta.height!;
+  const rect = (x: number, y: number, w: number, h: number, fill: string) =>
+    `<rect x="${x * W}" y="${y * H}" width="${w * W}" height="${h * H}" fill="${fill}"/>`;
+  const paint = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">${rect(0.3, 0.58, 0.4, 0.04, "#2b2b2d")}${rect(0.05, 0.02, 0.2, 0.08, "#ff00ff")}</svg>`);
+  // sharp resizes before compositing within one pipeline, so do it in two steps.
+  const painted = await sharp(kitchen).composite([{ input: paint }]).jpeg({ quality: 95 }).toBuffer();
+  geminiEdit = (await sharp(painted).resize(Math.round(W * 0.98), Math.round(H * 0.98)).jpeg().toBuffer()).toString("base64");
   fake = http.createServer(async (req, res) => {
     const body = await readBody(req);
     res.setHeader("content-type", "application/json");
@@ -40,6 +54,9 @@ before(async () => {
     } else if (req.url === "/cosmos") {
       seen.cosmos = JSON.parse(body);
       res.end(JSON.stringify({ b64_video: Buffer.from("fake-mp4-bytes").toString("base64") }));
+    } else if (req.url === "/gemini/v1/chat/completions") {
+      seen.gemini = JSON.parse(body);
+      res.end(JSON.stringify({ choices: [{ message: { role: "assistant", content: `![image](data:image/jpeg;base64,${geminiEdit})` } }] }));
     } else if (req.url?.startsWith("/v1/messages")) {
       const call = JSON.parse(body);
       seen.anthropicCalls.push(call);
@@ -70,6 +87,7 @@ before(async () => {
   });
   await new Promise<void>((r) => fake.listen(0, "127.0.0.1", () => r()));
   const fakeUrl = `http://127.0.0.1:${(fake.address() as AddressInfo).port}`;
+  fakeBase = fakeUrl;
 
   Object.assign(process.env, {
     MCP_TEST_MODE: "true",
@@ -160,6 +178,51 @@ test("image generation builds a strict template prompt when Claude's instruction
   fs.rmSync(path.join(__dirname, "..", "public", body.localPath), { force: true });
 });
 
+test("Gemini edit sees the swatch, and only the stone is composited back into the original", async () => {
+  const saved = { FLUX_INFERENCE_URL: process.env.FLUX_INFERENCE_URL };
+  Object.assign(process.env, { FLUX_INFERENCE_URL: "", IMAGE_EDIT_BASE_URL: `${fakeBase}/gemini`, IMAGE_EDIT_API_KEY: "img-key" });
+  try {
+    const swatch = `data:image/jpeg;base64,${(await sharp({ create: { width: 64, height: 64, channels: 3, background: "#2b2b2d" } }).jpeg().toBuffer()).toString("base64")}`;
+    const res = await post("/api/image/generate", {
+      image: photo,
+      swatch,
+      scene: sceneFixture,
+      prompt: "Replace the island top.",
+      stone: { name: "Dekton Trilium", category: "Dekton", description: "Charcoal with white veins" },
+    });
+    const body = await res.json();
+    assert.equal(res.status, 200, JSON.stringify(body));
+    assert.equal(body.provider, "gemini-image");
+    assert.equal(body.composited, true);
+
+    // Request: room photo + swatch as images, the strict prompt with Claude's instruction.
+    const content = seen.gemini.messages[0].content;
+    assert.equal(content.filter((c: any) => c.type === "image_url").length, 2);
+    const text = content.filter((c: any) => c.type === "text").map((c: any) => c.text).join("\n");
+    assert.match(text, /Dekton Trilium/);
+    assert.match(text, /Replace the island top\./);
+    assert.match(text, /Change ONLY the stone material/);
+    assert.deepEqual(seen.gemini.modalities, ["image", "text"]);
+
+    // Result: original size; stone taken from the edit; unwanted ceiling edit discarded.
+    const out = await sharp(Buffer.from(body.image.split(",")[1], "base64")).raw().toBuffer({ resolveWithObject: true });
+    const orig = await sharp(fs.readFileSync(path.join(FIXTURES, "kitchen.jpg"))).rotate().raw().toBuffer({ resolveWithObject: true });
+    assert.equal(out.info.width, orig.info.width);
+    assert.equal(out.info.height, orig.info.height);
+    const px = (img: typeof out, x: number, y: number) => {
+      const i = (Math.round(y * img.info.height) * img.info.width + Math.round(x * img.info.width)) * img.info.channels;
+      return [img.data[i], img.data[i + 1], img.data[i + 2]];
+    };
+    const diff = (a: number[], b: number[]) => Math.max(...a.map((v, i) => Math.abs(v - b[i])));
+    assert.ok(diff(px(out, 0.15, 0.06), px(orig, 0.15, 0.06)) < 12, "ceiling edit must not leak");
+    const island = px(out, 0.5, 0.6);
+    assert.ok(island.every((v) => v < 90), `island takes the charcoal edit: ${island}`);
+    fs.rmSync(path.join(__dirname, "..", "public", body.localPath), { force: true });
+  } finally {
+    Object.assign(process.env, saved, { IMAGE_EDIT_BASE_URL: "", IMAGE_EDIT_API_KEY: "" });
+  }
+});
+
 test("video generation runs as a Cosmos job and serves the MP4", async () => {
   const start = await post("/api/video/generate", { image: photo, prompt: "First-person walkthrough at eye level." });
   assert.equal(start.status, 202);
@@ -189,7 +252,7 @@ test("missing providers produce structured 503s the frontend can fall back on", 
   try {
     const img = await post("/api/image/generate", { image: photo, prompt: "x" });
     assert.equal(img.status, 503);
-    assert.equal((await img.json()).code, "NVIDIA_IMAGE_UNAVAILABLE");
+    assert.equal((await img.json()).code, "IMAGE_EDIT_UNAVAILABLE");
     const vid = await post("/api/video/generate", { image: photo });
     assert.equal(vid.status, 503);
     assert.equal((await vid.json()).code, "NVIDIA_VIDEO_UNAVAILABLE");

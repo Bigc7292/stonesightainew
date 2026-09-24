@@ -38,7 +38,8 @@ variables always win. See `.env.example`.
 | `MCP_TEST_MODE` | — | `true` bypasses auth (**development/tests only**) |
 | `ANTHROPIC_API_KEY` | — | Enables Claude scene analysis |
 | `CLAUDE_MODEL` | `claude-opus-5` | Claude model |
-| `CLAUDE_EFFORT` | `high` | `low`…`max` |
+| `CLAUDE_ANALYSIS_EFFORT` | `high` | `low`…`max` |
+| `CLAUDE_BASE_URL` | — | Anthropic-compatible gateway for the app (wins over `ANTHROPIC_BASE_URL`) |
 | `NVIDIA_API_KEY` | — | Hosted NVIDIA endpoints + NVIDIA VLM fallback |
 | `NVIDIA_BASE_URL` | `https://integrate.api.nvidia.com/v1` | OpenAI-compatible NVIDIA API |
 | `NVIDIA_VLM_MODEL` | `meta/llama-3.2-90b-vision-instruct,meta/llama-3.2-11b-vision-instruct` | Fallback analysers, tried in order |
