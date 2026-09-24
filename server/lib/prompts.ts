@@ -44,6 +44,14 @@ edit_instruction: one paragraph for the FLUX.1 Kontext image-editing model. It s
 
 video_prompt: one paragraph for the NVIDIA Cosmos image-to-video model. The video starts from this exact photo (already showing the new stone) and must be a first-person walkthrough at human eye level (~1.6 m): steady handheld-gimbal motion, the viewer slowly looks left, then right across the room, then takes a few steps toward the main stone surface while the camera gently tilts down to show its grain and reflections. Ask for natural light, realistic parallax and physically consistent geometry. State that no people, text or new objects appear and the room layout, cabinets and stone pattern stay identical throughout.`;
 
+/** Second-pass instruction: correct the analysis using its own overlay. */
+export const REFINE_PROMPT = `Check every outline against the actual photo and correct it:
+- Each polygon must hug the visible stone of that surface exactly — the top face of a counter/island, the full face of a waterfall or backsplash — and must not spill onto cabinets, stools, floor, walls or appliances.
+- Each quad must cover the whole plane of its surface with corners in the documented order.
+- Add any stone surface you missed and remove any surface that is not stone.
+- Re-check heights, sizes, camera and back wall so they are consistent with what the overlay shows.
+Keep everything that is already correct. Return the complete corrected JSON object only.`;
+
 export function sceneAnalysisUserPrompt(stone: StoneInfo): string {
   return [
     `Selected stone: ${stone.name}${stone.category ? ` (${stone.category}` : ""}${stone.tone ? `, ${stone.tone} tone` : ""}${stone.category ? ")" : ""}.`,

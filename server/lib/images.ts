@@ -4,6 +4,7 @@
 import sharp from "sharp";
 import fs from "fs";
 import path from "path";
+import type { SceneAnalysis } from "../../shared/scene";
 
 export interface DecodedImage {
   buffer: Buffer;
@@ -80,4 +81,38 @@ export function saveGeneratedAsset(folder: "images" | "videos", buffer: Buffer, 
     .slice(2, 8)}.${ext}`;
   fs.writeFileSync(path.join(dir, name), buffer);
   return `/${folder}/${name}`;
+}
+
+/**
+ * Draws a scene analysis on the photo (filled polygons, dashed quads, surface
+ * ids, back wall and a light grid) for Claude's self-check pass.
+ */
+export async function drawSceneOverlay(photo: Buffer, width: number, height: number, scene: SceneAnalysis) {
+  const colours = ["#ff2d55", "#00e5ff", "#ffd60a", "#30d158", "#bf5af2", "#ff9f0a"];
+  const pts = (ps: { x: number; y: number }[]) => ps.map((p) => `${(p.x * width).toFixed(1)},${(p.y * height).toFixed(1)}`).join(" ");
+  const esc = (t: string) => t.replace(/[<>&"]/g, "");
+  const font = Math.max(12, Math.round(Math.min(width, height) / 40));
+  const parts: string[] = [];
+  for (let i = 1; i < 10; i++) {
+    parts.push(
+      `<line x1="${(width * i) / 10}" y1="0" x2="${(width * i) / 10}" y2="${height}" stroke="#fff" stroke-opacity="0.35"/>`,
+      `<line x1="0" y1="${(height * i) / 10}" x2="${width}" y2="${(height * i) / 10}" stroke="#fff" stroke-opacity="0.35"/>`,
+    );
+  }
+  if (scene.back_wall) {
+    const b = scene.back_wall;
+    parts.push(`<polygon points="${pts([b.floor_left, b.floor_right, b.ceiling_right, b.ceiling_left])}" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="10 6"/>`);
+  }
+  scene.surfaces.forEach((s, i) => {
+    const c = colours[i % colours.length];
+    parts.push(
+      `<polygon points="${pts(s.polygon)}" fill="${c}" fill-opacity="0.35" stroke="${c}" stroke-width="3"/>`,
+      `<polygon points="${pts(s.quad)}" fill="none" stroke="${c}" stroke-width="2" stroke-dasharray="6 4"/>`,
+    );
+    const cx = (s.polygon.reduce((a, p) => a + p.x, 0) / s.polygon.length) * width;
+    const cy = (s.polygon.reduce((a, p) => a + p.y, 0) / s.polygon.length) * height;
+    parts.push(`<text x="${cx.toFixed(0)}" y="${cy.toFixed(0)}" font-size="${font}" font-family="sans-serif" fill="#fff" stroke="#000" stroke-width="1">${esc(s.id)}</text>`);
+  });
+  const svg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">${parts.join("")}</svg>`);
+  return sharp(photo).composite([{ input: svg, top: 0, left: 0 }]).jpeg({ quality: 85 }).toBuffer();
 }

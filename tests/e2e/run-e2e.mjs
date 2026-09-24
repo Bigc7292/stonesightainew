@@ -27,6 +27,9 @@ const FIXTURE_SCENE = JSON.parse(fs.readFileSync(path.join(root, "tests", "fixtu
 const API_PORT = 5077;
 const WEB_PORT = 3077;
 const STONE = "Dekton Trilium";
+// E2E_LIVE=1: use the real /api/analyze (needs ANTHROPIC_API_KEY, and
+// optionally ANTHROPIC_BASE_URL, in the environment) instead of the fixture.
+const LIVE = process.env.E2E_LIVE === "1";
 
 const procs = [];
 function start(cmd, args, env) {
@@ -64,7 +67,7 @@ async function runFlow(browser, scenario) {
   await page.route(`http://localhost:${API_PORT}/api/health`, (route) =>
     route.fulfill({ json: { ok: true, providers: { analysis: "claude", image: scenario.image ? ["nvidia-kontext-self-hosted"] : [], video: [] } } }),
   );
-  await page.route(`http://localhost:${API_PORT}/api/analyze`, async (route) => {
+  if (!LIVE) await page.route(`http://localhost:${API_PORT}/api/analyze`, async (route) => {
     calls.analyze++;
     const body = route.request().postDataJSON();
     check(`[${scenario.name}] analyze receives photo + swatch + stone`, !!body.image?.startsWith("data:image/") && !!body.swatch && body.stone?.name === STONE);
@@ -88,7 +91,7 @@ async function runFlow(browser, scenario) {
   await page.getByRole("button", { name: /Generate Visualization/ }).click();
 
   // 1. Static image
-  await page.waitForSelector('[data-testid="result-image"]', { timeout: 60_000 });
+  await page.waitForSelector('[data-testid="result-image"]', { timeout: LIVE ? 420_000 : 60_000 });
   const after = await page.locator('[data-testid="result-image"] img').evaluateAll((imgs) => imgs.map((i) => i.src).find((s) => s.startsWith("data:")) || "");
   check(`[${scenario.name}] static image produced`, after.startsWith("data:image/jpeg"), `${Math.round(after.length / 1024)} KB`);
   fs.writeFileSync(path.join(out, `${scenario.name}-result.jpg`), Buffer.from(after.split(",")[1], "base64"));
@@ -205,13 +208,18 @@ async function runFlow(browser, scenario) {
   check(`[${scenario.name}] collision keeps viewer out of the island and inside the room`, !blocked.inObstacle && blocked.inRoom);
 
   await page.screenshot({ path: path.join(out, `${scenario.name}-page.png`), fullPage: true });
-  check(`[${scenario.name}] expected backend calls`, calls.analyze === 1 && calls.image === (scenario.image ? 1 : 0), JSON.stringify(calls));
+  check(`[${scenario.name}] expected backend calls`, (LIVE || calls.analyze === 1) && calls.image === (scenario.image ? 1 : 0), JSON.stringify(calls));
   await page.close();
   return after;
 }
 
 async function main() {
-  start("npx", ["tsx", "server/server.ts"], { MCP_TEST_MODE: "true", PORT: String(API_PORT), ANTHROPIC_API_KEY: "", NVIDIA_API_KEY: "" });
+  start("npx", ["tsx", "server/server.ts"], {
+    MCP_TEST_MODE: "true",
+    PORT: String(API_PORT),
+    NVIDIA_API_KEY: "",
+    ...(LIVE ? {} : { ANTHROPIC_API_KEY: "" }),
+  });
   start("npx", ["vite", "--port", String(WEB_PORT), "--strictPort"], { MCP_TEST_MODE: "true", VITE_API_URL: `http://localhost:${API_PORT}` });
   await waitFor(`http://localhost:${API_PORT}/api/health`);
   await waitFor(`http://localhost:${WEB_PORT}/`);
@@ -224,6 +232,7 @@ async function main() {
     // Scenario A — Claude only (local renderer + browser video)
     await runFlow(browser, { name: "claude-only", image: false, expectEngine: "StoneSight renderer", expectVideo: true });
 
+    if (!LIVE) {
     // Scenario B — Claude + NVIDIA Kontext: fake edit recolours everything.
     const meta = await sharp(FIXTURE_IMG).metadata();
     const edited = await sharp(FIXTURE_IMG).modulate({ hue: 180, saturation: 2 }).tint("#20ff40").jpeg({ quality: 95 }).toBuffer();
@@ -247,6 +256,7 @@ async function main() {
     const ii = (Math.floor(0.75 * meta.height) * meta.width + Math.floor(0.3 * meta.width)) * 3; // on the waterfall
     const changed = Math.abs(orig[ii] - res[ii]) + Math.abs(orig[ii + 1] - res[ii + 1]) + Math.abs(orig[ii + 2] - res[ii + 2]);
     check("[claude-nvidia] stone area takes the NVIDIA edit", changed > 60, `sum diff ${changed}`);
+    }
   } finally {
     await browser.close();
     procs.forEach((p) => p.kill("SIGTERM"));

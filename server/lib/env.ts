@@ -46,6 +46,12 @@ export const config = {
   claudeEffort: () =>
     str("CLAUDE_EFFORT", "high") as "low" | "medium" | "high" | "xhigh" | "max",
 
+  /**
+   * Number of "look at your outlines on the photo and correct them" passes
+   * after the first analysis (0 disables). Each pass is one more Claude call.
+   */
+  claudeRefinePasses: () => Math.max(0, Math.min(3, Number(str("CLAUDE_REFINE_PASSES", "1")) || 0)),
+
   // --- NVIDIA ---------------------------------------------------------------
   nvidiaApiKey: () => str("NVIDIA_API_KEY"),
   /** OpenAI-compatible NVIDIA API used for the optional VLM scene analyser. */

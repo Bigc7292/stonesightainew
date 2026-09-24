@@ -9,15 +9,17 @@
  */
 import Anthropic from "@anthropic-ai/sdk";
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
+import { z } from "zod";
 import { config } from "./env";
 import { SceneAnalysisSchema } from "./sceneSchema";
 import {
   SCENE_ANALYSIS_SYSTEM_PROMPT,
   sceneAnalysisUserPrompt,
+  REFINE_PROMPT,
   type StoneInfo,
 } from "./prompts";
 import { sanitizeScene, type SceneAnalysis } from "../../shared/scene";
-import { toJpeg, withCoordinateGrid } from "./images";
+import { drawSceneOverlay, toJpeg, withCoordinateGrid } from "./images";
 
 export type AnalyzerName = "claude" | "nvidia-vlm";
 
@@ -55,7 +57,7 @@ async function prepareImages(input: AnalyzeInput) {
   const photo = await toJpeg(input.photo, 1280, 88);
   const grid = await withCoordinateGrid(photo.buffer, photo.width, photo.height);
   const swatch = input.swatch ? (await toJpeg(input.swatch, 512, 85)).buffer : undefined;
-  return { photo: photo.buffer, grid, swatch };
+  return { photo: photo.buffer, grid, swatch, width: photo.width, height: photo.height };
 }
 
 // ---------------------------------------------------------------------------
@@ -70,28 +72,22 @@ function anthropic(): Anthropic {
   return anthropicClient;
 }
 
-async function analyzeWithClaude(input: AnalyzeInput): Promise<AnalyzeResult> {
-  const { photo, grid, swatch } = await prepareImages(input);
-  const model = config.claudeModel();
+type ClaudeTurn = Anthropic.Beta.BetaMessageParam;
 
-  const content: Anthropic.Beta.BetaContentBlockParam[] = [
-    { type: "text", text: "Image 1 — the customer's room photo:" },
-    { type: "image", source: { type: "base64", media_type: "image/jpeg", data: photo.toString("base64") } },
-    { type: "text", text: "Image 2 — the same photo with a coordinate grid (red vertical lines = x, cyan horizontal lines = y):" },
-    { type: "image", source: { type: "base64", media_type: "image/jpeg", data: grid.toString("base64") } },
-  ];
-  if (swatch) {
-    content.push(
-      { type: "text", text: "Image 3 — swatch of the selected stone:" },
-      { type: "image", source: { type: "base64", media_type: "image/jpeg", data: swatch.toString("base64") } },
-    );
-  }
-  content.push({ type: "text", text: sceneAnalysisUserPrompt(input.stone) });
+const imageBlock = (buf: Buffer): Anthropic.Beta.BetaContentBlockParam => ({
+  type: "image",
+  source: { type: "base64", media_type: "image/jpeg", data: buf.toString("base64") },
+});
 
+/** One Claude request that must return a SceneAnalysis JSON object. */
+async function claudeScene(messages: ClaudeTurn[]) {
   let response;
   try {
-    response = await anthropic().beta.messages.parse({
-      model,
+    // `create` (not `parse`): the JSON schema is still enforced by the API via
+    // output_config, but we parse the reply ourselves so Anthropic-compatible
+    // gateways that drop output_config or wrap JSON in markdown also work.
+    response = await anthropic().beta.messages.create({
+      model: config.claudeModel(),
       max_tokens: 16000,
       // Server-side refusal fallback: if the primary model declines, the API
       // re-runs the same request on a suitable fallback model automatically.
@@ -103,7 +99,7 @@ async function analyzeWithClaude(input: AnalyzeInput): Promise<AnalyzeResult> {
         format: betaZodOutputFormat(SceneAnalysisSchema),
       },
       system: SCENE_ANALYSIS_SYSTEM_PROMPT,
-      messages: [{ role: "user", content }],
+      messages,
     });
   } catch (error) {
     if (error instanceof Anthropic.AuthenticationError) {
@@ -121,22 +117,76 @@ async function analyzeWithClaude(input: AnalyzeInput): Promise<AnalyzeResult> {
   if (response.stop_reason === "refusal") {
     throw new AnalyzerError("Claude declined to analyse this photo", 422, "CLAUDE_REFUSAL");
   }
-  if (response.stop_reason === "max_tokens" || !response.parsed_output) {
+  const text = response.content.map((b) => (b.type === "text" ? b.text : "")).join("");
+  let parsed: unknown;
+  try {
+    parsed = response.stop_reason === "max_tokens" ? undefined : extractJsonObject(text);
+  } catch {
+    parsed = undefined;
+  }
+  const check = parsed === undefined ? null : SceneAnalysisSchema.safeParse(parsed);
+  if (!check?.success) {
+    console.warn("[ANALYZE] Claude reply failed validation", {
+      stopReason: response.stop_reason,
+      issues: check ? check.error.issues.slice(0, 8).map((i) => `${i.path.join(".")}: ${i.message}`) : "not JSON",
+      sample: text.slice(0, 200),
+    });
     throw new AnalyzerError("Claude returned an incomplete scene analysis", 502, "CLAUDE_INCOMPLETE");
   }
-
-  console.log("[ANALYZE] Claude analysis complete", {
+  console.log("[ANALYZE] Claude pass complete", {
     model: response.model,
-    surfaces: response.parsed_output.surfaces.length,
+    surfaces: check.data.surfaces.length,
     inputTokens: response.usage.input_tokens,
     outputTokens: response.usage.output_tokens,
   });
+  return { data: check.data, text, model: response.model };
+}
 
-  return {
-    analysis: sanitizeScene(response.parsed_output),
-    analyzer: "claude",
-    model: response.model,
-  };
+async function analyzeWithClaude(input: AnalyzeInput): Promise<AnalyzeResult> {
+  const { photo, grid, swatch, width, height } = await prepareImages(input);
+
+  const content: Anthropic.Beta.BetaContentBlockParam[] = [
+    { type: "text", text: "Image 1 — the customer's room photo:" },
+    imageBlock(photo),
+    { type: "text", text: "Image 2 — the same photo with a coordinate grid (red vertical lines = x, cyan horizontal lines = y):" },
+    imageBlock(grid),
+  ];
+  if (swatch) content.push({ type: "text", text: "Image 3 — swatch of the selected stone:" }, imageBlock(swatch));
+  // The schema is enforced via output_config; it is repeated in the prompt so
+  // gateways that drop output_config still receive the exact contract.
+  content.push({
+    type: "text",
+    text: `${sceneAnalysisUserPrompt(input.stone)}\nReturn ONLY one JSON object (no markdown) matching this JSON Schema exactly:\n${JSON.stringify(z.toJSONSchema(SceneAnalysisSchema))}`,
+  });
+
+  let best = await claudeScene([{ role: "user", content }]);
+
+  // Self-check passes: Claude sees its own outlines drawn on the photo and
+  // corrects them. Vision models are far more precise at fixing a visible
+  // overlay than at producing coordinates blind.
+  for (let pass = 1; pass <= config.claudeRefinePasses(); pass++) {
+    try {
+      const overlay = await drawSceneOverlay(photo, width, height, sanitizeScene(best.data));
+      best = await claudeScene([
+        { role: "user", content },
+        { role: "assistant", content: [{ type: "text", text: JSON.stringify(best.data) }] },
+        {
+          role: "user",
+          content: [
+            { type: "text", text: "Here is your analysis drawn on the photo (coloured fills = polygons, dashed = quads, labels = surface ids, white dashed = back wall, grid every 0.1):" },
+            imageBlock(overlay),
+            { type: "text", text: REFINE_PROMPT },
+          ],
+        },
+      ]);
+    } catch (error) {
+      console.warn(`[ANALYZE] Claude refinement pass ${pass} failed; keeping previous result`, {
+        message: error instanceof Error ? error.message : String(error),
+      });
+      break;
+    }
+  }
+  return { analysis: sanitizeScene(best.data), analyzer: "claude", model: best.model };
 }
 
 // ---------------------------------------------------------------------------

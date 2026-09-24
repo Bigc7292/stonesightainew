@@ -35,6 +35,24 @@ sinks, appliances…), how to order quad corners, typical counter heights, how
 to estimate the camera, and how to write the two downstream prompts with
 explicit "do not change" instructions (rules.md §3).
 
+## Self-check pass (`CLAUDE_REFINE_PASSES`, default 1)
+
+After the first answer, the server draws Claude's polygons, quads, surface ids
+and back wall onto the photo (`drawSceneOverlay`) and sends that picture back
+with `REFINE_PROMPT`, asking Claude to correct every outline. In live tests on
+the sample kitchen, one pass moved the island-top outline from the stools onto
+the actual top surface; a second pass made the result worse (rectangles over
+stools and ovens), so the default is one pass. Each pass is one more request
+(~60 s at `high` effort).
+
+## Anthropic-compatible gateways
+
+The reply is parsed from text (markdown fences stripped) and validated with
+zod, and the JSON Schema is also included in the prompt, so gateways that drop
+`output_config` (seen with a third-party reseller in live testing) still work.
+Point the SDK at one with `ANTHROPIC_BASE_URL`. Results through gateways may
+differ from api.anthropic.com.
+
 ## Output schema (abridged)
 
 ```jsonc
