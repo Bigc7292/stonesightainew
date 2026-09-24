@@ -54,6 +54,7 @@ import { extractAndStorePatterns } from "./services/aiMemoryService";
 import { GenerationGallery } from "./components/GenerationGallery";
 import { defaultScene, type SceneAnalysis } from "../shared/scene";
 import {
+  API_URL,
   analyzeRoom,
   editImage,
   getCapabilities,
@@ -436,8 +437,10 @@ function StoneSightApp() {
       if (!result) {
         // Explain the real cause: nothing configured, services failed, or no surfaces found.
         throw new Error(
-          !caps.analysis && caps.image.length === 0
-            ? "The AI services are not configured on the server. Add ANTHROPIC_API_KEY (and optionally an NVIDIA Kontext NIM) to .env — see README — and restart the server."
+          caps.reachable === false
+            ? `Can't reach the StoneSight server at ${API_URL}. Start it (npm run server) or, on a hosted site, set VITE_API_URL to the deployed server's address — see README.`
+            : !caps.analysis && caps.image.length === 0
+            ? "The AI services are not configured on the server. Add ANTHROPIC_API_KEY (and IMAGE_EDIT_BASE_URL + IMAGE_EDIT_API_KEY for photoreal edits) to the server's environment — see README — and restart it."
             : scene
               ? "We couldn't find any stone surfaces in this photo. Try a wider, well-lit photo that clearly shows the countertops."
               : "Scene analysis and NVIDIA image editing both failed (see the notes above). Add or check ANTHROPIC_API_KEY, or deploy the NVIDIA Kontext NIM (FLUX_INFERENCE_URL), then try again.",

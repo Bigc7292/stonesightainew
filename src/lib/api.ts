@@ -47,14 +47,16 @@ export interface Capabilities {
   analysis: "claude" | "nvidia-vlm" | null;
   image: string[];
   video: string[];
+  /** False when the StoneSight server could not be reached at all. */
+  reachable?: boolean;
 }
 
 export async function getCapabilities(): Promise<Capabilities> {
   try {
     const body = await request<{ providers: Capabilities }>("/api/health", null);
-    return body.providers;
+    return { ...body.providers, reachable: true };
   } catch {
-    return { analysis: null, image: [], video: [] };
+    return { analysis: null, image: [], video: [], reachable: false };
   }
 }
 
