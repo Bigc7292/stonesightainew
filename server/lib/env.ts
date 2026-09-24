@@ -50,7 +50,12 @@ export const config = {
    * Number of "look at your outlines on the photo and correct them" passes
    * after the first analysis (0 disables). Each pass is one more Claude call.
    */
-  claudeRefinePasses: () => Math.max(0, Math.min(3, Number(str("CLAUDE_REFINE_PASSES", "1")) || 0)),
+  claudeRefinePasses: () => Math.max(0, Math.min(3, Number(str("CLAUDE_REFINE_PASSES", "0")) || 0)),
+  /**
+   * Set-of-mark grounding pass: Claude assigns numbered photo regions to each
+   * surface and the outlines are rebuilt from those regions (default on).
+   */
+  claudeGrounding: () => !/^(0|false|off|no)$/i.test(str("CLAUDE_GROUNDING", "1")),
 
   // --- NVIDIA ---------------------------------------------------------------
   nvidiaApiKey: () => str("NVIDIA_API_KEY"),

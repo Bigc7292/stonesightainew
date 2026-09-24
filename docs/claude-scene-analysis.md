@@ -35,15 +35,38 @@ sinks, appliances…), how to order quad corners, typical counter heights, how
 to estimate the camera, and how to write the two downstream prompts with
 explicit "do not change" instructions (rules.md §3).
 
-## Self-check pass (`CLAUDE_REFINE_PASSES`, default 1)
+## Grounding pass — set-of-mark (`CLAUDE_GROUNDING`, default on)
 
-After the first answer, the server draws Claude's polygons, quads, surface ids
-and back wall onto the photo (`drawSceneOverlay`) and sends that picture back
-with `REFINE_PROMPT`, asking Claude to correct every outline. In live tests on
-the sample kitchen, one pass moved the island-top outline from the stools onto
-the actual top surface; a second pass made the result worse (rectangles over
-stools and ovens), so the default is one pass. Each pass is one more request
-(~60 s at `high` effort).
+Vision models are much better at recognising labelled regions than at typing
+exact coordinates. In live tests the first-pass outlines were often off by
+5–10 % of the frame (axis-aligned boxes over cabinets and stools), which made
+the stone land in the wrong place. So after the first answer
+(`server/lib/segments.ts`):
+
+1. The photo is split into ~50 colour-coherent regions
+   (Felzenszwalb–Huttenlocher graph segmentation in CIE Lab, 420 px working
+   size, ~0.3 s). Region borders follow the real edges in the photo.
+2. The outlines and a number per region are drawn on the photo
+   (`drawSegmentOverlay`) and sent back in the same conversation with
+   `groundingPrompt`. Claude answers `{"assignments":[{"surface_id","regions"}]}`.
+3. For each surface, the chosen regions are filtered for colour consistency
+   (regions more than ΔE 22 from the surface's dominant colour, such as a dark
+   hob or floor region listed with a white top, are dropped). The union is
+   cleaned with a morphological opening, and the largest piece is traced into
+   the new `polygon`. The new `quad` is the largest quadrilateral inside its
+   convex hull, with its corners in Claude's order, so edge 0→1 still follows
+   `length_m`.
+4. Any surface without usable regions keeps Claude's original geometry, and a
+   failed grounding call keeps the whole first-pass result.
+
+This costs one extra request.
+
+## Self-check pass (`CLAUDE_REFINE_PASSES`, default 0)
+
+Optional: the server draws Claude's polygons, quads, surface ids and back wall
+on the photo (`drawSceneOverlay`) and asks Claude to correct them
+(`REFINE_PROMPT`). It helped once and hurt with two passes in live tests, and
+grounding supersedes it, so it is off by default. It runs before grounding.
 
 ## Anthropic-compatible gateways
 
@@ -51,7 +74,11 @@ The reply is parsed from text (markdown fences stripped) and validated with
 zod, and the JSON Schema is also included in the prompt, so gateways that drop
 `output_config` (seen with a third-party reseller in live testing) still work.
 Point the SDK at one with `ANTHROPIC_BASE_URL`. Results through gateways may
-differ from api.anthropic.com.
+differ from api.anthropic.com: the reseller tested reported ~80 input tokens
+for a request containing a full photo and described the image as ~768 px wide,
+which suggests it downsizes images (or is not backed by the requested model).
+Region picks through it were noticeably worse than the prompt design assumes.
+Use an official key for production quality.
 
 ## Output schema (abridged)
 

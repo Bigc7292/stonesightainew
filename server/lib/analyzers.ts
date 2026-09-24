@@ -16,10 +16,12 @@ import {
   SCENE_ANALYSIS_SYSTEM_PROMPT,
   sceneAnalysisUserPrompt,
   REFINE_PROMPT,
+  groundingPrompt,
   type StoneInfo,
 } from "./prompts";
 import { sanitizeScene, type SceneAnalysis } from "../../shared/scene";
 import { drawSceneOverlay, toJpeg, withCoordinateGrid } from "./images";
+import { applyRegionAssignments, drawSegmentOverlay, segmentPhoto } from "./segments";
 
 export type AnalyzerName = "claude" | "nvidia-vlm";
 
@@ -80,7 +82,14 @@ const imageBlock = (buf: Buffer): Anthropic.Beta.BetaContentBlockParam => ({
 });
 
 /** One Claude request that must return a SceneAnalysis JSON object. */
-async function claudeScene(messages: ClaudeTurn[]) {
+const claudeScene = (messages: ClaudeTurn[]) => claudeJson(messages, SceneAnalysisSchema);
+
+const GroundingSchema = z.object({
+  assignments: z.array(z.object({ surface_id: z.string(), regions: z.array(z.number().int()) })),
+});
+
+/** One Claude request whose reply must be a JSON object matching `schema`. */
+async function claudeJson<T extends z.ZodType>(messages: ClaudeTurn[], schema: T) {
   let response;
   try {
     // `create` (not `parse`): the JSON schema is still enforced by the API via
@@ -96,7 +105,7 @@ async function claudeScene(messages: ClaudeTurn[]) {
       thinking: { type: "adaptive" },
       output_config: {
         effort: config.claudeEffort(),
-        format: betaZodOutputFormat(SceneAnalysisSchema),
+        format: betaZodOutputFormat(schema),
       },
       system: SCENE_ANALYSIS_SYSTEM_PROMPT,
       messages,
@@ -124,7 +133,7 @@ async function claudeScene(messages: ClaudeTurn[]) {
   } catch {
     parsed = undefined;
   }
-  const check = parsed === undefined ? null : SceneAnalysisSchema.safeParse(parsed);
+  const check = parsed === undefined ? null : schema.safeParse(parsed);
   if (!check?.success) {
     console.warn("[ANALYZE] Claude reply failed validation", {
       stopReason: response.stop_reason,
@@ -133,13 +142,13 @@ async function claudeScene(messages: ClaudeTurn[]) {
     });
     throw new AnalyzerError("Claude returned an incomplete scene analysis", 502, "CLAUDE_INCOMPLETE");
   }
+  const data = check.data as z.infer<T>;
   console.log("[ANALYZE] Claude pass complete", {
     model: response.model,
-    surfaces: check.data.surfaces.length,
     inputTokens: response.usage.input_tokens,
     outputTokens: response.usage.output_tokens,
   });
-  return { data: check.data, text, model: response.model };
+  return { data, text, model: response.model };
 }
 
 async function analyzeWithClaude(input: AnalyzeInput): Promise<AnalyzeResult> {
@@ -186,7 +195,37 @@ async function analyzeWithClaude(input: AnalyzeInput): Promise<AnalyzeResult> {
       break;
     }
   }
-  return { analysis: sanitizeScene(best.data), analyzer: "claude", model: best.model };
+  let analysis = sanitizeScene(best.data);
+
+  // Grounding pass (set-of-mark): Claude picks numbered photo regions for
+  // each surface and the outlines are rebuilt from them, so they follow the
+  // real edges instead of Claude's approximate coordinates.
+  if (config.claudeGrounding() && analysis.surfaces.length > 0) {
+    try {
+      const seg = await segmentPhoto(photo);
+      const marked = await drawSegmentOverlay(photo, width, height, seg);
+      const ids = analysis.surfaces.map((s) => s.id);
+      const grounding = await claudeJson(
+        [
+          { role: "user", content },
+          { role: "assistant", content: [{ type: "text", text: JSON.stringify(best.data) }] },
+          {
+            role: "user",
+            content: [imageBlock(marked), { type: "text", text: groundingPrompt(ids, seg.count) }],
+          },
+        ],
+        GroundingSchema,
+      );
+      const applied = applyRegionAssignments(analysis, grounding.data.assignments, seg);
+      analysis = applied.scene;
+      console.log("[ANALYZE] Grounded surfaces", { regions: seg.count, updated: applied.updated });
+    } catch (error) {
+      console.warn("[ANALYZE] Grounding pass failed; keeping Claude's outlines", {
+        message: error instanceof Error ? error.message : String(error),
+      });
+    }
+  }
+  return { analysis, analyzer: "claude", model: best.model };
 }
 
 // ---------------------------------------------------------------------------

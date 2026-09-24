@@ -73,6 +73,16 @@ async function runFlow(browser, scenario) {
     check(`[${scenario.name}] analyze receives photo + swatch + stone`, !!body.image?.startsWith("data:image/") && !!body.swatch && body.stone?.name === STONE);
     await route.fulfill({ json: { success: true, analysis: sceneFor(STONE), analyzer: "claude", model: "claude-opus-5" } });
   });
+  if (LIVE) {
+    // Keep the real analysis so a bad render can be traced to the outlines.
+    page.on("response", async (res) => {
+      if (!res.url().endsWith("/api/analyze")) return;
+      calls.analyze++;
+      try {
+        fs.writeFileSync(path.join(out, `${scenario.name}-analysis.json`), JSON.stringify(await res.json(), null, 2));
+      } catch {}
+    });
+  }
   if (scenario.image) {
     await page.route(`http://localhost:${API_PORT}/api/image/generate`, async (route) => {
       calls.image++;

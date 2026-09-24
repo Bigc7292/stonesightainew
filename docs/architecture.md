@@ -17,6 +17,7 @@ not deployed.
  3. Generate:
     GET  /api/health ───────────────────────────────► which providers exist
     POST /api/analyze {photo, swatch, stone} ───────► Claude vision (structured outputs)
+                                                       + grounding: Claude picks numbered photo regions
                                       ◄─────────────── SceneAnalysis (shared/scene.ts)
     ┌─ NVIDIA image available?
     │  yes: POST /api/image/generate {photo, Claude edit_instruction}
@@ -33,8 +34,9 @@ not deployed.
 
 ## The scene analysis is the backbone
 
-`POST /api/analyze` asks Claude to measure the photo once
-([details](claude-scene-analysis.md)). The response (`SceneAnalysis`) contains:
+`POST /api/analyze` asks Claude to measure the photo, then snaps every stone
+outline to real image edges by having Claude pick numbered photo regions
+(set-of-mark grounding; [details](claude-scene-analysis.md)). The response (`SceneAnalysis`) contains:
 
 | Field | Used by |
 |-------|---------|

@@ -52,6 +52,13 @@ export const REFINE_PROMPT = `Check every outline against the actual photo and c
 - Re-check heights, sizes, camera and back wall so they are consistent with what the overlay shows.
 Keep everything that is already correct. Return the complete corrected JSON object only.`;
 
+/** Grounding pass: map each surface onto numbered photo regions (set-of-mark). */
+export function groundingPrompt(surfaceIds: string[], regionCount: number): string {
+  return `The photo has been divided into ${regionCount} numbered regions (yellow outlines follow real edges in the photo; each number sits inside its region).
+For each of your surfaces (${surfaceIds.join(", ")}), list every region number that shows the stone of THAT surface — the visible top face of a counter/island, the full face of a waterfall side or backsplash, etc. Include a region when most of it is that stone; leave out regions that are mostly cabinets, stools, floor, walls, appliances, sinks, taps or objects. A marble face is often split into several regions along its veins — include all of them.
+Return ONLY one JSON object (no markdown): {"assignments":[{"surface_id":"<id>","regions":[<numbers>]}]}`;
+}
+
 export function sceneAnalysisUserPrompt(stone: StoneInfo): string {
   return [
     `Selected stone: ${stone.name}${stone.category ? ` (${stone.category}` : ""}${stone.tone ? `, ${stone.tone} tone` : ""}${stone.category ? ")" : ""}.`,

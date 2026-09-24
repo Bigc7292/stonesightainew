@@ -76,6 +76,7 @@ npm run check:providers
 shared/scene.ts            Scene contract shared by server and browser (+ sanitiser)
 server/                    Express API (Claude + NVIDIA), see docs/backend.md
   lib/analyzers.ts         Claude vision (structured outputs) / NVIDIA VLM scene analysis
+  lib/segments.ts          Set-of-mark grounding: photo regions → exact stone outlines
   lib/imageEditor.ts       NVIDIA FLUX.1 Kontext (self-hosted NIM, hosted NVCF)
   lib/nvidia.ts            NIM/NVCF client: 202 polling, asset upload, response parsing
   lib/prompts.ts           Every AI prompt, in one reviewable place

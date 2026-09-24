@@ -19,7 +19,7 @@ const sceneFixture = JSON.parse(fs.readFileSync(path.join(FIXTURES, "kitchen-ana
 let fake: http.Server;
 let app: http.Server;
 let api = "";
-const seen: { flux?: any; cosmos?: any; anthropic?: any; anthropicHeaders?: http.IncomingHttpHeaders } = {};
+const seen: { flux?: any; cosmos?: any; anthropic?: any; anthropicHeaders?: http.IncomingHttpHeaders; anthropicCalls: any[] } = { anthropicCalls: [] };
 
 function readBody(req: http.IncomingMessage): Promise<string> {
   return new Promise((resolve) => {
@@ -41,15 +41,23 @@ before(async () => {
       seen.cosmos = JSON.parse(body);
       res.end(JSON.stringify({ b64_video: Buffer.from("fake-mp4-bytes").toString("base64") }));
     } else if (req.url?.startsWith("/v1/messages")) {
-      seen.anthropic = JSON.parse(body);
-      seen.anthropicHeaders = req.headers;
+      const call = JSON.parse(body);
+      seen.anthropicCalls.push(call);
+      const grounding = JSON.stringify(call.messages.at(-1).content).includes("numbered regions");
+      if (!grounding) {
+        seen.anthropic = call;
+        seen.anthropicHeaders = req.headers;
+      }
+      const reply = grounding
+        ? { assignments: [{ surface_id: sceneFixture.surfaces[0].id, regions: [1, 2, 3] }] }
+        : sceneFixture;
       res.end(
         JSON.stringify({
           id: "msg_test",
           type: "message",
           role: "assistant",
           model: seen.anthropic.model,
-          content: [{ type: "text", text: JSON.stringify(sceneFixture) }],
+          content: [{ type: "text", text: JSON.stringify(reply) }],
           stop_reason: "end_turn",
           stop_sequence: null,
           usage: { input_tokens: 1000, output_tokens: 800 },
@@ -116,6 +124,12 @@ test("analyze calls Claude with vision + structured outputs and returns a saniti
   const images = req.messages[0].content.filter((b: any) => b.type === "image");
   assert.equal(images.length, 3, "photo, gridded photo and swatch");
   assert.match(req.system, /normalised/);
+
+  // Second call: set-of-mark grounding on the numbered-region overlay.
+  const groundingCall = seen.anthropicCalls.at(-1);
+  assert.equal(seen.anthropicCalls.length, 2, "analysis + grounding");
+  assert.equal(groundingCall.messages.length, 3, "continues the analysis conversation");
+  assert.equal(groundingCall.messages.at(-1).content.filter((b: any) => b.type === "image").length, 1);
 });
 
 test("analyze validates input", async () => {
