@@ -64,7 +64,8 @@ async function runFlow(browser, scenario) {
   page.on("pageerror", (e) => check(`[${scenario.name}] no page errors`, false, e.message));
   const calls = { analyze: 0, image: 0, video: 0 };
 
-  await page.route(`http://localhost:${API_PORT}/api/health`, (route) =>
+  // Live mode reports the server's real providers (Claude, Gemini image, …).
+  if (!LIVE) await page.route(`http://localhost:${API_PORT}/api/health`, (route) =>
     route.fulfill({ json: { ok: true, providers: { analysis: "claude", image: scenario.image ? ["nvidia-kontext-self-hosted"] : [], video: [] } } }),
   );
   if (!LIVE) await page.route(`http://localhost:${API_PORT}/api/analyze`, async (route) => {
@@ -240,7 +241,9 @@ async function main() {
   });
   try {
     // Scenario A — Claude only (local renderer + browser video)
-    await runFlow(browser, { name: "claude-only", image: false, expectEngine: "StoneSight renderer", expectVideo: true });
+    await runFlow(browser, LIVE
+      ? { name: "live", image: false, expectEngine: process.env.E2E_EXPECT_ENGINE || "", expectVideo: true }
+      : { name: "claude-only", image: false, expectEngine: "StoneSight renderer", expectVideo: true });
 
     if (!LIVE) {
     // Scenario B — Claude + NVIDIA Kontext: fake edit recolours everything.
