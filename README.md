@@ -68,6 +68,7 @@ npm run check:providers
 - [docs/video-pipeline-setup.md](docs/video-pipeline-setup.md) — NVIDIA Cosmos setup and the browser video fallback
 - [docs/3d-walkthrough.md](docs/3d-walkthrough.md) — 3D reconstruction, controls and limits
 - [docs/backend.md](docs/backend.md) — API reference, environment variables, errors and logging
+- [docs/deployment.md](docs/deployment.md) — hosting: website on Vercel, API server on Railway
 - [rules.md](rules.md) — development workflow rules
 
 ## Project layout

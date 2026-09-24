@@ -33,7 +33,7 @@ variables always win. See `.env.example`.
 | Variable | Default | Purpose |
 |----------|---------|---------|
 | `PORT` | `5000` | HTTP port |
-| `CLIENT_URL` | *(allow all)* | Comma-separated CORS origins |
+| `CLIENT_URL` | *(allow all)* | Allowed website origins (comma-separated, `*` wildcard), see [deployment.md](deployment.md) |
 | `SUPABASE_URL`, `SUPABASE_ANON_KEY` | — | Token verification (the `VITE_` variants are accepted too) |
 | `MCP_TEST_MODE` | — | `true` bypasses auth (**development/tests only**) |
 | `ANTHROPIC_API_KEY` | — | Enables Claude scene analysis |
