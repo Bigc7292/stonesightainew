@@ -32,3 +32,6 @@ public/videos/*
 
 # Logs
 *.log
+
+# Local secrets (never commit)
+.secrets/
