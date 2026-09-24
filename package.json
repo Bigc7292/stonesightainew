@@ -14,7 +14,8 @@
     "server": "tsx server/server.ts",
     "dev:all": "concurrently \"npm run dev\" \"npm run server\"",
     "check:providers": "tsx scripts/check-providers.ts",
-    "eval:analysis": "tsx scripts/eval-analysis.ts"
+    "eval:analysis": "tsx scripts/eval-analysis.ts",
+    "start": "tsx server/server.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
@@ -31,6 +32,7 @@
     "react-dom": "^19.0.0",
     "sharp": "^0.35.3",
     "three": "^0.186.0",
+    "tsx": "^4.21.0",
     "vite": "^6.2.0",
     "zod": "^4.6.5"
   },
@@ -44,8 +46,10 @@
     "concurrently": "^10.0.3",
     "playwright-core": "^1.63.0",
     "tailwindcss": "^4.1.14",
-    "tsx": "^4.21.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

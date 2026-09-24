@@ -24,8 +24,15 @@ import healthRoutes from "./routes/health";
 export function createApp() {
   const app = express();
 
+  // CLIENT_URL: comma-separated allowed origins; "*" inside one matches any
+  // characters, e.g. https://stonesightainew*.vercel.app for every preview.
   const allowed = config.clientUrl();
-  app.use(cors(allowed ? { origin: allowed.split(",").map((s) => s.trim()) } : undefined));
+  const origins = allowed
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .map((o) => new RegExp(`^${o.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^/]*")}$`));
+  app.use(cors(origins.length ? { origin: origins } : undefined));
 
   app.use((_req, res, next) => {
     res.setHeader("X-Content-Type-Options", "nosniff");
