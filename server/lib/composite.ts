@@ -153,6 +153,34 @@ async function meanLab(buf: Buffer): Promise<[number, number, number]> {
   return toLab(R / n, G / n, B / n);
 }
 
+/** Removes 8-connected components smaller than `minSize` pixels. */
+function dropSmallComponents(mask: Uint8Array, w: number, h: number, minSize: number): Uint8Array {
+  const out = new Uint8Array(w * h);
+  const seen = new Uint8Array(w * h);
+  const stack: number[] = [];
+  const comp: number[] = [];
+  for (let s0 = 0; s0 < w * h; s0++) {
+    if (!mask[s0] || seen[s0]) continue;
+    comp.length = 0;
+    stack.push(s0);
+    seen[s0] = 1;
+    while (stack.length) {
+      const i = stack.pop()!;
+      comp.push(i);
+      const x = i % w, y = (i / w) | 0;
+      for (let dy = -1; dy <= 1; dy++)
+        for (let dx = -1; dx <= 1; dx++) {
+          const nx = x + dx, ny = y + dy;
+          if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+          const j = ny * w + nx;
+          if (mask[j] && !seen[j]) { seen[j] = 1; stack.push(j); }
+        }
+    }
+    if (comp.length >= minSize) for (const i of comp) out[i] = 1;
+  }
+  return out;
+}
+
 /**
  * Pixels the edit turned into the chosen stone, cleaned up with a
  * segmentation of the original photo:
@@ -161,8 +189,9 @@ async function meanLab(buf: Buffer): Promise<[number, number, number]> {
  *     waterfall end in shadow is much darker than the swatch), and it was not
  *     a strongly coloured material before (wood, paint, brick);
  *   - a region where most pixels became stone is taken whole (fills veins);
- *   - a region where only part did (a counter merged with a similar wall) keeps
- *     just those pixels, closed to fill veins and opened to drop specks.
+ *   - elsewhere (e.g. a counter merged with a large wall region) coherent
+ *     patches of changed pixels are kept, closed to fill veins and cleaned of
+ *     specks and small blobs.
  * Returns a 0/1 mask at segmentation resolution.
  */
 function stoneChangeMask(seg: Segmentation, orig: Buffer, edit: Buffer, swatchLab: number[]): Float32Array {
@@ -173,27 +202,29 @@ function stoneChangeMask(seg: Segmentation, orig: Buffer, edit: Buffer, swatchLa
   for (let i = 0; i < n; i++) {
     const lo = toLab(orig[i * 3], orig[i * 3 + 1], orig[i * 3 + 2]);
     const le = toLab(edit[i * 3], edit[i * 3 + 1], edit[i * 3 + 2]);
-    const stoneLike = Math.hypot(0.35 * (le[0] - swatchLab[0]), le[1] - swatchLab[1], le[2] - swatchLab[2]) < 18;
+    const stoneLike = Math.hypot(0.5 * (le[0] - swatchLab[0]), le[1] - swatchLab[1], le[2] - swatchLab[2]) < 18;
     // Strongly coloured originals (wood cabinets, painted walls, brick) were
     // not stone, so the editor turning them into stone is an unwanted change.
     const wasNeutral = Math.hypot(lo[1], lo[2]) < 26;
-    if (stoneLike && wasNeutral && dE(lo, le) > 20) { pass[i] = 1; passCount[seg.labels[i]]++; }
+    if (stoneLike && wasNeutral && dE(lo, le) > 12) { pass[i] = 1; passCount[seg.labels[i]]++; }
   }
   const whole = new Uint8Array(seg.count + 1);
-  const partial = new Uint8Array(seg.count + 1);
   for (let id = 1; id <= seg.count; id++) {
     const a = seg.areas[id];
     if (a < n * 0.002) continue; // specks
     const f = passCount[id] / a;
     if (f >= 0.5 && a <= n * 0.25) whole[id] = 1;
-    else if (f >= 0.12) partial[id] = 1;
   }
+  // Changed pixels outside whole regions (e.g. a counter merged with a large
+  // wall region): keep coherent patches, judged by their own size rather than
+  // by the fraction of the (possibly huge) region they sit in.
   let part = new Uint8Array(n);
-  for (let i = 0; i < n; i++) if (partial[seg.labels[i]] && pass[i]) part[i] = 1;
+  for (let i = 0; i < n; i++) if (pass[i] && !whole[seg.labels[i]]) part[i] = 1;
   part = morph(morph(part, w, h, 2, "max"), w, h, 2, "min"); // close: fill veins
   part = morph(morph(part, w, h, 1, "min"), w, h, 1, "max"); // open: drop specks
+  part = dropSmallComponents(part, w, h, Math.round(n * 0.002));
   const m = new Float32Array(n);
-  for (let i = 0; i < n; i++) m[i] = whole[seg.labels[i]] || (part[i] && partial[seg.labels[i]]) ? 1 : 0;
+  for (let i = 0; i < n; i++) m[i] = whole[seg.labels[i]] || part[i] ? 1 : 0;
   return m;
 }
 
@@ -268,7 +299,7 @@ export async function compositeStoneEdit(
   const near = new Uint8Array(sw * sh);
   for (let y = 0; y < sh; y++)
     for (let x = 0; x < sw; x++) near[y * sw + x] = mask[Math.floor((y / sh) * h) * w + Math.floor((x / sw) * w)] > 0 ? 1 : 0;
-  const reach = morph(near, sw, sh, Math.max(2, Math.round(Math.max(sw, sh) * 0.06)), "max");
+  const reach = morph(near, sw, sh, Math.max(2, Math.round(Math.max(sw, sh) * 0.12)), "max");
   for (let i = 0; i < change.length; i++) if (!reach[i]) change[i] = 0;
   const changeImg = await sharp(Buffer.from(change.map((v) => v * 255)), { raw: { width: sw, height: sh, channels: 1 } })
     .blur(1.2)
