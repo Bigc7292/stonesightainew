@@ -55,7 +55,7 @@ Keep everything that is already correct. Return the complete corrected JSON obje
 /** Grounding pass: map each surface onto numbered photo regions (set-of-mark). */
 export function groundingPrompt(surfaceIds: string[], regionCount: number): string {
   return `The photo has been divided into ${regionCount} numbered regions (yellow outlines follow real edges in the photo; each number sits inside its region).
-For each of your surfaces (${surfaceIds.join(", ")}), list every region number that shows the stone of THAT surface — the visible top face of a counter/island, the full face of a waterfall side or backsplash, etc. Include a region when most of it is that stone; leave out regions that are mostly cabinets, stools, floor, walls, appliances, sinks, taps or objects. A marble face is often split into several regions along its veins — include all of them.
+For each of your surfaces (${surfaceIds.join(", ")}), list every region number that shows the stone of THAT surface. A countertop top is the flat surface ON TOP of the cabinets, where objects sit; its edge is only the thin band along the counter's front. The taller area directly below that edge is a cabinet or panel front, not countertop — never include it (except the full face of an existing waterfall end). Include a region when most of it is that stone; leave out regions that are mostly cabinets, stools, floor, walls, backsplash, appliances, sinks, taps or objects. A marble face is often split into several regions along its veins — include all of them.
 Return ONLY one JSON object (no markdown): {"assignments":[{"surface_id":"<id>","regions":[<numbers>]}]}`;
 }
 
@@ -86,6 +86,7 @@ export function stoneEditPrompt(stone: StoneInfo, claudeInstruction: string, has
       ? "Image 2 is a sample of this exact stone. Ensure the veining, color, and finish match it exactly: the same base colour, vein colour, vein width, scale and direction."
       : "Ensure the veining, color, and finish match this description exactly.",
     claudeInstruction ? `Countertops to change (from a precise analysis of this photo): ${claudeInstruction}` : "",
+    "Replace EVERY countertop listed — the island and all perimeter and back counters, however small or far away — so that none is left in the old material.",
     "Keep every countertop's exact shape, outline, thickness and edge profile, and keep the stone strictly inside the existing countertop area. Do not extend it onto the backsplash, walls, tiles, cabinet fronts, island side panels, floor or appliances, and do not add waterfall ends, extra slabs or any new objects.",
     "Blend it into the photo's existing lighting: the veining flows naturally across each slab and over its visible edge, with the same highlights, shadows and reflections the original counters had. Objects on the counters stay in place on top of the new stone.",
     "Everything else stays identical with 100% fidelity: camera position, framing, crop, perspective and aspect ratio; cabinets, doors, handles, appliances, sink, tap, hob, stools, backsplash, walls, floor, ceiling, lights, windows, decor and colour grading. Return only the edited photograph.",

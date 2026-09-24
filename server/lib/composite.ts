@@ -268,7 +268,7 @@ export async function compositeStoneEdit(
   const near = new Uint8Array(sw * sh);
   for (let y = 0; y < sh; y++)
     for (let x = 0; x < sw; x++) near[y * sw + x] = mask[Math.floor((y / sh) * h) * w + Math.floor((x / sw) * w)] > 0 ? 1 : 0;
-  const reach = morph(near, sw, sh, Math.max(2, Math.round(Math.max(sw, sh) * 0.02)), "max");
+  const reach = morph(near, sw, sh, Math.max(2, Math.round(Math.max(sw, sh) * 0.06)), "max");
   for (let i = 0; i < change.length; i++) if (!reach[i]) change[i] = 0;
   const changeImg = await sharp(Buffer.from(change.map((v) => v * 255)), { raw: { width: sw, height: sh, channels: 1 } })
     .blur(1.2)
