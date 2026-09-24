@@ -1,26 +1,27 @@
 {
   "name": "stonesight-server",
   "version": "1.0.0",
-  "description": "Backend server for StoneSight AI visualization platform",
+  "description": "StoneSight AI backend (Claude + NVIDIA NIM). Normally run from the project root with `npm run server`; dependencies live in the root package.json.",
   "main": "server.ts",
   "scripts": {
     "start": "tsx server.ts",
     "dev": "tsx watch server.ts",
-    "build": "tsc",
-    "serve": "node dist/server.js"
+    "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
     "@supabase/supabase-js": "^2.98.0",
-    "axios": "^1.14.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2"
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "sharp": "^0.35.3",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
-    "@types/express": "^4.17.25",
-    "@types/node": "^20.14.2",
-    "tsx": "^4.15.0",
-    "typescript": "^5.4.5"
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.14.0",
+    "tsx": "^4.21.0",
+    "typescript": "~5.8.2"
   }
 }
