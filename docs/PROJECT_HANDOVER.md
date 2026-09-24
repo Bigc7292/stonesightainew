@@ -54,6 +54,9 @@ swatch onto Claude's outlines in perspective (lower realism).
 
 ![Outputs from a live app run](images/live-app-outputs.jpg)
 
+Sample 12-second walkthrough video from the same live run:
+[`images/sample-walkthrough.webm`](images/sample-walkthrough.webm).
+
 ---
 
 ## 3. AI providers, keys and **the credit incident**
