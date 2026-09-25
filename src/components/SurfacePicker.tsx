@@ -168,8 +168,9 @@ export default function SurfacePicker({ photo, stoneName, reason, onConfirm }: P
         </button>
       </div>
 
-      <div className="relative w-full rounded-2xl overflow-hidden bg-black select-none touch-manipulation">
-        <img src={photo} alt="Your room" className="block w-full h-auto" draggable={false} />
+      {/* Sized to the photo (capped at 70% of the screen height) so the whole room and the buttons fit on screen. */}
+      <div className="relative mx-auto w-fit max-w-full rounded-2xl overflow-hidden bg-black select-none touch-manipulation">
+        <img src={photo} alt="Your room" className="block max-w-full max-h-[70vh] w-auto h-auto" draggable={false} />
         {seg ? (
           <canvas
             ref={canvasRef}

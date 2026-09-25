@@ -116,11 +116,10 @@ async function runFlow(browser, scenario) {
     await page.waitForSelector('[data-testid="surface-picker-canvas"]', { timeout: 60_000 });
     check(`[${scenario.name}] tap-to-select opens instead of an error`, (await page.locator('[data-testid="error-banner"]').count()) === 0);
     const canvas = page.locator('[data-testid="surface-picker-canvas"]');
-    await canvas.scrollIntoViewIfNeeded();
-    const box = await canvas.boundingBox();
     for (const t of scenario.taps) {
       await page.click(`[data-testid="mode-${t.mode}"]`);
-      await page.mouse.click(box.x + t.x * box.width, box.y + t.y * box.height);
+      // Tap relative to the photo (the page may have scrolled).
+      await canvas.click({ position: await canvas.evaluate((el, [x, y]) => ({ x: x * el.clientWidth, y: y * el.clientHeight }), [t.x, t.y]) });
     }
     const summary = await page.locator('[data-testid="surface-picker"]').innerText();
     check(`[${scenario.name}] taps select regions`, /[1-9]\d* top region/.test(summary) && /[1-9]\d* vertical region/.test(summary), summary.split("\n").find((l) => l.includes("selected")) || "");
