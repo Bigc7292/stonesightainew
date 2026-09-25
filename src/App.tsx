@@ -64,6 +64,7 @@ import {
 } from "./lib/api";
 import { downloadUrl, fileToDataUrl, loadImage, loadSwatch, urlToDataUrl } from "./lib/imageUtils";
 import { compositeEditedImage, renderStoneLocally } from "./render/visualize";
+import SurfacePicker from "./components/SurfacePicker";
 import { buildRoomLayout } from "./scene/roomGeometry";
 
 // three.js-based modules load on demand so the upload screen stays light.
@@ -265,6 +266,8 @@ function StoneSightApp() {
   const [video, setVideo] = useState<VideoState>({ status: "idle" });
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [capabilities, setCapabilities] = useState<Capabilities | null>(null);
+  /** No-AI mode: the customer taps the countertops (set with the reason shown to them). */
+  const [picker, setPicker] = useState<{ reason: string } | null>(null);
 
   const [stones] = useState<Stone[]>(STONE_DATABASE);
 
@@ -361,6 +364,81 @@ function StoneSightApp() {
     }
   };
 
+  /** Shows the result image and starts the video (shared by the AI and tap-to-select paths). */
+  const finishVisualization = (
+    run: number,
+    stone: Stone,
+    photo: string,
+    result: string,
+    engine: string,
+    finalScene: SceneAnalysis,
+    caps: Capabilities,
+  ) => {
+    setResultImage(result);
+    setImageEngine(engine);
+    setAnalysis(finalScene);
+    setIsProcessing(false);
+    setProcessingStatus("Visualization complete.");
+
+    if (user) {
+      saveGeneration({
+        userId: user.id,
+        generationType: "image",
+        inputImageUrl: photo,
+        inputPrompt: finalScene.edit_instruction || `Apply ${stone.name} to stone surfaces`,
+        inputParameters: { stoneName: stone.name, stoneCategory: stone.category, stoneTone: stone.tone },
+        outputUrl: result,
+        outputMetadata: { stoneId: stone.id, engine, surfaces: finalScene.surfaces.length },
+        modelUsed: engine,
+        tags: [stone.category, stone.tone, stone.name],
+      })
+        .then((saved) => {
+          if (saved.data) {
+            extractAndStorePatterns({
+              id: saved.data.id,
+              generation_type: "image",
+              input_parameters: { stoneName: stone.name, stoneCategory: stone.category, stoneTone: stone.tone },
+              processing_time_ms: saved.data.processing_time_ms,
+              model_used: engine,
+              tags: [stone.category, stone.tone, stone.name],
+            }).catch(console.error);
+          }
+        })
+        .catch(console.error);
+    }
+
+    // Video (runs in the background while the user explores the 3D scene).
+    produceVideo(run, result, finalScene, stone, caps);
+  };
+
+  const openPicker = (run: number, reason: string) => {
+    if (run !== runRef.current) return;
+    setPicker({ reason });
+    setIsProcessing(false);
+    setProcessingStatus("Tap your countertops to place the stone.");
+  };
+
+  /** Tap-to-select result: render the stone locally on the chosen surfaces. */
+  const visualizeManualScene = async (scene: SceneAnalysis) => {
+    if (!uploadedImage || !selectedStone) return;
+    const run = runRef.current;
+    const stone = selectedStone;
+    const photo = uploadedImage;
+    setPicker(null);
+    setIsProcessing(true);
+    setErrorMessage(null);
+    setProcessingStatus(`Rendering ${stone.name} onto your countertops…`);
+    try {
+      const result = await renderStoneLocally(photo, stone.swatchUrl, scene);
+      if (run !== runRef.current) return;
+      finishVisualization(run, stone, photo, result, "StoneSight renderer · your surface selection", scene, capabilities ?? { analysis: null, image: [], video: [] });
+    } catch (error) {
+      if (run !== runRef.current) return;
+      setErrorMessage(error instanceof Error ? error.message : "Rendering failed. Please try again.");
+      setIsProcessing(false);
+    }
+  };
+
   const startVisualization = async () => {
     if (!uploadedImage || !selectedStone) return;
     const run = ++runRef.current;
@@ -374,12 +452,20 @@ function StoneSightApp() {
     setNotices([]);
     setErrorMessage(null);
     setVideo({ status: "idle" });
+    setPicker(null);
     setIsProcessing(true);
     setStep(2);
 
     try {
-      const caps = capabilities ?? (await getCapabilities());
+      const caps = await getCapabilities();
       setCapabilities(caps);
+      if (!current()) return;
+      // No AI configured (or the server is unreachable): the customer selects
+      // the countertops themselves and everything renders in the browser.
+      if (caps.reachable === false || (!caps.analysis && caps.image.length === 0)) {
+        openPicker(run, caps.reachable === false ? "The AI service is offline, so you'll place the stone yourself." : "");
+        return;
+      }
       setProcessingStatus("Preparing your photo…");
       const swatch = await urlToDataUrl(stone.swatchUrl, 768).catch(() => null);
 
@@ -435,54 +521,18 @@ function StoneSightApp() {
       }
       if (!current()) return;
       if (!result) {
-        // Explain the real cause: nothing configured, services failed, or no surfaces found.
-        throw new Error(
-          caps.reachable === false
-            ? `Can't reach the StoneSight server at ${API_URL}. Start it (npm run server) or, on a hosted site, set VITE_API_URL to the deployed server's address — see README.`
-            : !caps.analysis && caps.image.length === 0
-            ? "The AI services are not configured on the server. Add ANTHROPIC_API_KEY (and IMAGE_EDIT_BASE_URL + IMAGE_EDIT_API_KEY for photoreal edits) to the server's environment — see README — and restart it."
-            : scene
-              ? "We couldn't find any stone surfaces in this photo. Try a wider, well-lit photo that clearly shows the countertops."
-              : "Scene analysis and NVIDIA image editing both failed (see the notes above). Add or check ANTHROPIC_API_KEY, or deploy the NVIDIA Kontext NIM (FLUX_INFERENCE_URL), then try again.",
+        // The AI could not finish (no credit, outage, or no countertops found):
+        // fall back to tap-to-select instead of failing.
+        openPicker(
+          run,
+          scene
+            ? "We couldn't find the countertops automatically."
+            : "The AI analysis is unavailable right now, so you'll place the stone yourself.",
         );
+        return;
       }
 
-      const finalScene = scene ?? defaultScene();
-      setResultImage(result);
-      setImageEngine(engine);
-      setAnalysis(finalScene);
-      setIsProcessing(false);
-      setProcessingStatus("Visualization complete.");
-
-      if (user) {
-        saveGeneration({
-          userId: user.id,
-          generationType: "image",
-          inputImageUrl: photo,
-          inputPrompt: finalScene.edit_instruction || `Apply ${stone.name} to stone surfaces`,
-          inputParameters: { stoneName: stone.name, stoneCategory: stone.category, stoneTone: stone.tone },
-          outputUrl: result,
-          outputMetadata: { stoneId: stone.id, engine, surfaces: finalScene.surfaces.length },
-          modelUsed: engine,
-          tags: [stone.category, stone.tone, stone.name],
-        })
-          .then((saved) => {
-            if (saved.data) {
-              extractAndStorePatterns({
-                id: saved.data.id,
-                generation_type: "image",
-                input_parameters: { stoneName: stone.name, stoneCategory: stone.category, stoneTone: stone.tone },
-                processing_time_ms: saved.data.processing_time_ms,
-                model_used: engine,
-                tags: [stone.category, stone.tone, stone.name],
-              }).catch(console.error);
-            }
-          })
-          .catch(console.error);
-      }
-
-      // 3. Video (runs in the background while the user explores the 3D scene).
-      produceVideo(run, result, finalScene, stone, caps);
+      finishVisualization(run, stone, photo, result, engine, scene ?? defaultScene(), caps);
     } catch (error) {
       if (!current()) return;
       console.error("Visualization failed:", error);
@@ -939,7 +989,7 @@ function StoneSightApp() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                   <div>
                     <h2 className="text-3xl font-display font-medium text-gray-100 mb-2">
-                      {isProcessing ? "Crafting Your Vision" : `Your Space in ${selectedStone?.name ?? "Stone"}`}
+                      {isProcessing ? "Crafting Your Vision" : picker ? "Place Your Stone" : `Your Space in ${selectedStone?.name ?? "Stone"}`}
                     </h2>
                     <p className="text-gray-400 flex items-center gap-2 text-sm" data-testid="processing-status">
                       <span className={`w-2 h-2 rounded-full bg-gold-500 ${isProcessing || videoBusy ? "animate-pulse" : ""}`} />
@@ -967,7 +1017,15 @@ function StoneSightApp() {
                   </div>
                 </div>
 
-                {/* 1 — Static image with Before/After slider */}
+                {/* 1 — Static image with Before/After slider (or tap-to-select in no-AI mode) */}
+                {picker && uploadedImage && selectedStone ? (
+                  <SurfacePicker
+                    photo={uploadedImage}
+                    stoneName={selectedStone.name}
+                    reason={picker.reason}
+                    onConfirm={visualizeManualScene}
+                  />
+                ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <div className="space-y-4">
                     <h3 className="text-xs font-medium uppercase tracking-widest text-gray-400 flex items-center gap-2">
@@ -1090,6 +1148,7 @@ function StoneSightApp() {
                     </div>
                   </div>
                 </div>
+                )}
 
                 {/* 2 — First-person walkthrough video */}
                 <div className="space-y-6">

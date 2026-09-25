@@ -9,6 +9,10 @@
  *   - Scenario A: no NVIDIA → local Claude-guided renderer + browser-recorded video
  *   - Scenario B: a fake NVIDIA Kontext edit that recolours the WHOLE photo;
  *     asserts the compositor kept every pixel outside the stone mask identical.
+ *   - Scenario C: no AI configured at all → the user taps the countertops
+ *     (tap-to-select), the stone is rendered in the browser, 3D still works.
+ *   - Scenario D: AI configured but failing (e.g. out of credit) → falls back
+ *     to tap-to-select instead of showing an error.
  *
  * Usage: npm run test:e2e   (set E2E_OUT=dir to keep screenshots; CHROMIUM_PATH to override)
  */
@@ -65,11 +69,17 @@ async function runFlow(browser, scenario) {
   const calls = { analyze: 0, image: 0, video: 0 };
 
   // Live mode reports the server's real providers (Claude, Gemini image, …).
+  const providers = scenario.providers ?? { analysis: "claude", image: scenario.image ? ["nvidia-kontext-self-hosted"] : [], video: [] };
   if (!LIVE) await page.route(`http://localhost:${API_PORT}/api/health`, (route) =>
-    route.fulfill({ json: { ok: true, providers: { analysis: "claude", image: scenario.image ? ["nvidia-kontext-self-hosted"] : [], video: [] } } }),
+    route.fulfill({ json: { ok: true, providers } }),
   );
   if (!LIVE) await page.route(`http://localhost:${API_PORT}/api/analyze`, async (route) => {
     calls.analyze++;
+    if (scenario.analyzeFails) {
+      // e.g. the AI key ran out of credit
+      await route.fulfill({ status: 502, json: { success: false, code: "CLAUDE_API", error: "Insufficient API key balance" } });
+      return;
+    }
     const body = route.request().postDataJSON();
     check(`[${scenario.name}] analyze receives photo + swatch + stone`, !!body.image?.startsWith("data:image/") && !!body.swatch && body.stone?.name === STONE);
     await route.fulfill({ json: { success: true, analysis: sceneFor(STONE), analyzer: "claude", model: "claude-opus-5" } });
@@ -100,6 +110,23 @@ async function runFlow(browser, scenario) {
   await page.setInputFiles('input[type="file"]', FIXTURE_IMG);
   await page.getByText(STONE, { exact: true }).first().click();
   await page.getByRole("button", { name: /Generate Visualization/ }).click();
+
+  // 0. No-AI mode: the customer taps the countertops.
+  if (scenario.taps) {
+    await page.waitForSelector('[data-testid="surface-picker-canvas"]', { timeout: 60_000 });
+    check(`[${scenario.name}] tap-to-select opens instead of an error`, (await page.locator('[data-testid="error-banner"]').count()) === 0);
+    const canvas = page.locator('[data-testid="surface-picker-canvas"]');
+    await canvas.scrollIntoViewIfNeeded();
+    const box = await canvas.boundingBox();
+    for (const t of scenario.taps) {
+      await page.click(`[data-testid="mode-${t.mode}"]`);
+      await page.mouse.click(box.x + t.x * box.width, box.y + t.y * box.height);
+    }
+    const summary = await page.locator('[data-testid="surface-picker"]').innerText();
+    check(`[${scenario.name}] taps select regions`, /[1-9]\d* top region/.test(summary) && /[1-9]\d* vertical region/.test(summary), summary.split("\n").find((l) => l.includes("selected")) || "");
+    await page.screenshot({ path: path.join(out, `${scenario.name}-picker.png`) });
+    await page.click('[data-testid="surface-picker-confirm"]');
+  }
 
   // 1. Static image
   await page.waitForSelector('[data-testid="result-image"]', { timeout: LIVE ? 420_000 : 60_000 });
@@ -219,7 +246,7 @@ async function runFlow(browser, scenario) {
   check(`[${scenario.name}] collision keeps viewer out of the island and inside the room`, !blocked.inObstacle && blocked.inRoom);
 
   await page.screenshot({ path: path.join(out, `${scenario.name}-page.png`), fullPage: true });
-  check(`[${scenario.name}] expected backend calls`, (LIVE || calls.analyze === 1) && calls.image === (scenario.image ? 1 : 0), JSON.stringify(calls));
+  check(`[${scenario.name}] expected backend calls`, (LIVE || calls.analyze === (scenario.expectAnalyze ?? 1)) && calls.image === (scenario.image ? 1 : 0), JSON.stringify(calls));
   await page.close();
   return after;
 }
@@ -269,6 +296,36 @@ async function main() {
     const ii = (Math.floor(0.75 * meta.height) * meta.width + Math.floor(0.3 * meta.width)) * 3; // on the waterfall
     const changed = Math.abs(orig[ii] - res[ii]) + Math.abs(orig[ii + 1] - res[ii + 1]) + Math.abs(orig[ii + 2] - res[ii + 2]);
     check("[claude-nvidia] stone area takes the NVIDIA edit", changed > 60, `sum diff ${changed}`);
+
+    // Scenario C — no AI configured at all: tap-to-select + local renderer.
+    const taps = [
+      { mode: "top", x: 0.35, y: 0.605 }, { mode: "top", x: 0.55, y: 0.59 }, { mode: "top", x: 0.72, y: 0.58 },
+      { mode: "face", x: 0.2, y: 0.72 }, { mode: "face", x: 0.3, y: 0.85 }, { mode: "face", x: 0.4, y: 0.78 },
+    ];
+    const resultC = await runFlow(browser, {
+      name: "no-ai",
+      providers: { analysis: null, image: [], video: [] },
+      taps,
+      expectAnalyze: 0,
+      expectEngine: "your surface selection",
+      expectVideo: false,
+    });
+    const resC = await sharp(Buffer.from(resultC.split(",")[1], "base64")).resize(meta.width, meta.height).raw().toBuffer();
+    const px = (buf, nx, ny) => { const i = (Math.floor(ny * meta.height) * meta.width + Math.floor(nx * meta.width)) * 3; return [buf[i], buf[i + 1], buf[i + 2]]; };
+    const diff = (a, b) => a.reduce((acc, v, i) => acc + Math.abs(v - b[i]), 0);
+    check("[no-ai] tapped countertop takes the stone", diff(px(orig, 0.55, 0.59), px(resC, 0.55, 0.59)) > 60, `sum diff ${diff(px(orig, 0.55, 0.59), px(resC, 0.55, 0.59))}`);
+    const farDiff = Math.max(...[[0.5, 0.15], [0.85, 0.85], [0.95, 0.3]].map(([x, y]) => diff(px(orig, x, y), px(resC, x, y))));
+    check("[no-ai] room outside the tapped surfaces is unchanged", farDiff <= 30, `max sum diff ${farDiff}`);
+
+    // Scenario D — AI configured but failing (e.g. out of credit): falls back to tap-to-select.
+    await runFlow(browser, {
+      name: "ai-fails",
+      analyzeFails: true,
+      taps,
+      expectAnalyze: 1,
+      expectEngine: "your surface selection",
+      expectVideo: false,
+    });
     }
   } finally {
     await browser.close();
