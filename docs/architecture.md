@@ -19,6 +19,9 @@ for the full history and status.
  2. Pick stone  ──► loadSwatch (trim catalogue margins)
  3. Generate:
     GET  /api/health ───────────────────────────────► which providers exist
+    ┌─ server unreachable, no AI configured, or AI fails?
+    │  → SurfacePicker: customer paints countertops → buildManualScene → renderStone
+    │    (skips the steps below, continues at ① with the same video/3D pipeline)
     POST /api/analyze {photo, swatch, stone} ───────► Claude vision (structured outputs)
                                                        + grounding: Claude picks numbered photo regions
                                       ◄─────────────── SceneAnalysis (shared/scene.ts)
@@ -100,7 +103,9 @@ animated jumps and a clickable mini-map.
 
 | Situation | Behaviour |
 |-----------|-----------|
-| No analyser (no Claude, no NVIDIA key) | NVIDIA Kontext still edits the photo if configured (template prompt, no mask); otherwise a clear configuration error |
+| No analyser (no Claude, no NVIDIA key) | NVIDIA Kontext still edits the photo if configured (template prompt, no mask); otherwise the no-AI "paint your countertops" mode |
+| API server unreachable | No-AI mode (segmentation and rendering run in the browser) |
+| AI configured but failing (e.g. out of credit) | The error is shown as a notice and the no-AI mode opens |
 | Claude fails | NVIDIA VLM is tried (if `NVIDIA_API_KEY`); otherwise continue with a template prompt |
 | Kontext not configured / fails | Local Claude-guided renderer |
 | Hosted Kontext rejects custom images (preview keys) | Detected once (422 `example_id`), hosted path disabled for the process |

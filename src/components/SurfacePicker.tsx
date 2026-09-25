@@ -1,9 +1,9 @@
 /**
  * Tap-to-select countertops (no-AI mode).
  *
- * Shows the customer's photo split into regions; tapping a region marks it as
- * a countertop top (gold) or a vertical stone face such as a waterfall end
- * (teal). Tapping it again unmarks it. "Visualize" turns the selection into a
+ * Shows the customer's photo split into small regions; tapping or dragging
+ * over regions marks them as a countertop top (gold) or a vertical stone face
+ * such as a waterfall end (teal). Tapping a marked region unmarks it. "Visualize" turns the selection into a
  * scene for the local stone renderer, the 3D walkthrough and the video.
  */
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -94,15 +94,41 @@ export default function SurfacePicker({ photo, stoneName, reason, onConfirm }: P
     return regionAt(seg, (e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height);
   };
 
-  const toggle = (id: number) => {
+  // Dragging always paints every region the pointer passes over; a plain tap
+  // on a region already marked in this mode unmarks it.
+  const stroke = useRef<{ start: number; moved: boolean; wasMarked: boolean } | null>(null);
+  const paint = (id: number) => {
     if (!id) return;
-    setHistory((h) => [...h.slice(-30), marks]);
     setMarks((prev) => {
+      if (prev.get(id) === mode) return prev;
       const next = new Map(prev);
-      if (next.get(id) === mode) next.delete(id);
-      else next.set(id, mode);
+      next.set(id, mode);
       return next;
     });
+  };
+  const startStroke = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    const id = pointToRegion(e);
+    if (!id) return;
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+    setHistory((h) => [...h.slice(-30), marks]);
+    stroke.current = { start: id, moved: false, wasMarked: marks.get(id) === mode };
+    paint(id);
+  };
+  const moveStroke = (id: number) => {
+    const st = stroke.current;
+    if (!st || !id) return;
+    if (id !== st.start) st.moved = true;
+    paint(id);
+  };
+  const endStroke = () => {
+    const st = stroke.current;
+    stroke.current = null;
+    if (st && !st.moved && st.wasMarked)
+      setMarks((prev) => {
+        const next = new Map(prev);
+        next.delete(st.start);
+        return next;
+      });
   };
 
   const counts = { top: 0, face: 0 };
@@ -139,11 +165,11 @@ export default function SurfacePicker({ photo, stoneName, reason, onConfirm }: P
     <div data-testid="surface-picker" className="bg-dark-800/50 p-6 rounded-[32px] shadow-premium border border-white/5 space-y-5">
       <div>
         <h3 className="text-lg font-display font-medium text-gray-100 flex items-center gap-2">
-          <Layers className="w-5 h-5 text-gold-500" /> Tap your countertops
+          <Layers className="w-5 h-5 text-gold-500" /> Paint your countertops
         </h3>
         <p className="text-sm text-gray-400 mt-1">
-          {reason ? `${reason} ` : ""}Tap every part of the countertops to cover them in {stoneName}. Use{" "}
-          <span className="text-teal-300">Vertical faces</span> for waterfall ends and thick front edges. Tap again to undo a region.
+          {reason ? `${reason} ` : ""}Tap or drag across every part of the countertops to cover them in {stoneName}. Use{" "}
+          <span className="text-teal-300">Vertical faces</span> for waterfall ends and thick front edges. Tap a marked area to unmark it.
         </p>
       </div>
 
@@ -175,9 +201,15 @@ export default function SurfacePicker({ photo, stoneName, reason, onConfirm }: P
           <canvas
             ref={canvasRef}
             data-testid="surface-picker-canvas"
-            className="absolute inset-0 w-full h-full cursor-crosshair"
-            onPointerDown={(e) => toggle(pointToRegion(e))}
-            onPointerMove={(e) => e.pointerType === "mouse" && setHover(pointToRegion(e))}
+            className="absolute inset-0 w-full h-full cursor-crosshair touch-none"
+            onPointerDown={startStroke}
+            onPointerMove={(e) => {
+              const id = pointToRegion(e);
+              if (stroke.current) moveStroke(id);
+              else if (e.pointerType === "mouse") setHover(id);
+            }}
+            onPointerUp={endStroke}
+            onPointerCancel={() => (stroke.current = null)}
             onPointerLeave={() => setHover(0)}
           />
         ) : (

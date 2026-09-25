@@ -349,7 +349,13 @@ export function surfaceFromRegions(
   for (let i = 0; i < w * h; i++) if (set.has(seg.labels[i])) mask[i] = 1;
   // Opening removes thin spurs where a region leaks along a door frame or
   // cable; frame borders count as inside so edge-touching slabs survive.
-  const opened = opts.trustRegions ? mask : morph(morph(mask, w, h, 2, "min"), w, h, 2, "max");
+  const open2 = (m: Uint8Array) => morph(morph(m, w, h, 2, "min"), w, h, 2, "max");
+  // Hand-picked regions: a closing bridges the hairline gaps between the
+  // small regions a veined slab is split into, so they form one surface;
+  // the opening after it trims thin strips caught along door frames.
+  const opened = opts.trustRegions
+    ? open2(morph(morph(mask, w, h, 2, "max"), w, h, 2, "min"))
+    : morph(morph(mask, w, h, 2, "min"), w, h, 2, "max");
   let openedArea = 0;
   for (let i = 0; i < opened.length; i++) openedArea += opened[i];
   if (openedArea > 0) mask = opened;

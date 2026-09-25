@@ -118,8 +118,15 @@ async function runFlow(browser, scenario) {
     const canvas = page.locator('[data-testid="surface-picker-canvas"]');
     for (const t of scenario.taps) {
       await page.click(`[data-testid="mode-${t.mode}"]`);
-      // Tap relative to the photo (the page may have scrolled).
-      await canvas.click({ position: await canvas.evaluate((el, [x, y]) => ({ x: x * el.clientWidth, y: y * el.clientHeight }), [t.x, t.y]) });
+      // The photo fits in 70% of the viewport; centre it so the whole stroke is on screen.
+      await canvas.evaluate((el) => el.scrollIntoView({ block: "center" }));
+      const box = await canvas.boundingBox();
+      // Drag through the stroke's points, relative to the photo on screen.
+      const at = ([x, y]) => [box.x + x * box.width, box.y + y * box.height];
+      await page.mouse.move(...at(t.points[0]));
+      await page.mouse.down();
+      for (const p of t.points.slice(1)) await page.mouse.move(...at(p), { steps: 25 });
+      await page.mouse.up();
     }
     const summary = await page.locator('[data-testid="surface-picker"]').innerText();
     check(`[${scenario.name}] taps select regions`, /[1-9]\d* top region/.test(summary) && /[1-9]\d* vertical region/.test(summary), summary.split("\n").find((l) => l.includes("selected")) || "");
@@ -297,9 +304,14 @@ async function main() {
     check("[claude-nvidia] stone area takes the NVIDIA edit", changed > 60, `sum diff ${changed}`);
 
     // Scenario C — no AI configured at all: tap-to-select + local renderer.
+    // Drag strokes (normalised points) across the island top and its waterfall end.
     const taps = [
-      { mode: "top", x: 0.35, y: 0.605 }, { mode: "top", x: 0.55, y: 0.59 }, { mode: "top", x: 0.72, y: 0.58 },
-      { mode: "face", x: 0.2, y: 0.72 }, { mode: "face", x: 0.3, y: 0.85 }, { mode: "face", x: 0.4, y: 0.78 },
+      { mode: "top", points: [[0.2, 0.625], [0.45, 0.615], [0.7, 0.6]] },
+      { mode: "top", points: [[0.81, 0.59], [0.88, 0.58]] },
+      { mode: "top", points: [[0.3, 0.605], [0.55, 0.595]] },
+      { mode: "face", points: [[0.15, 0.72], [0.48, 0.74]] },
+      { mode: "face", points: [[0.18, 0.82], [0.47, 0.86]] },
+      { mode: "face", points: [[0.3, 0.7], [0.3, 0.86]] },
     ];
     const resultC = await runFlow(browser, {
       name: "no-ai",
@@ -313,7 +325,8 @@ async function main() {
     const px = (buf, nx, ny) => { const i = (Math.floor(ny * meta.height) * meta.width + Math.floor(nx * meta.width)) * 3; return [buf[i], buf[i + 1], buf[i + 2]]; };
     const diff = (a, b) => a.reduce((acc, v, i) => acc + Math.abs(v - b[i]), 0);
     check("[no-ai] tapped countertop takes the stone", diff(px(orig, 0.55, 0.59), px(resC, 0.55, 0.59)) > 60, `sum diff ${diff(px(orig, 0.55, 0.59), px(resC, 0.55, 0.59))}`);
-    const farDiff = Math.max(...[[0.5, 0.15], [0.85, 0.85], [0.95, 0.3]].map(([x, y]) => diff(px(orig, x, y), px(resC, x, y))));
+    check("[no-ai] waterfall face takes the stone", diff(px(orig, 0.3, 0.8), px(resC, 0.3, 0.8)) > 40, `sum diff ${diff(px(orig, 0.3, 0.8), px(resC, 0.3, 0.8))}`);
+    const farDiff = Math.max(...[[0.5, 0.15], [0.85, 0.85], [0.95, 0.3], [0.76, 0.5], [0.66, 0.5]].map(([x, y]) => diff(px(orig, x, y), px(resC, x, y))));
     check("[no-ai] room outside the tapped surfaces is unchanged", farDiff <= 30, `max sum diff ${farDiff}`);
 
     // Scenario D — AI configured but failing (e.g. out of credit): falls back to tap-to-select.

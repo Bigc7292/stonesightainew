@@ -1,6 +1,6 @@
 # StoneSight AI — Project Handover & Status
 
-_Last updated: 24 September 2026. Branch `claude/sharp-cerf-q91vrf`, [PR #2](https://github.com/Bigc7292/stonesightainew/pull/2)._
+_Last updated: 25 September 2026. Branch `claude/sharp-cerf-q91vrf`, [PR #2](https://github.com/Bigc7292/stonesightainew/pull/2)._
 
 This is the single place to pick the project up again: what it does, what state
 it is in, what it costs, where every setting lives, how the prompts evolved and
@@ -15,9 +15,10 @@ why, how results were measured, and what to do next.
 | **Static image** (surgical countertop replacement) | ✅ Working and photoreal. On 8 test photos only the countertops change; backsplashes, walls, cabinets and floors stay original. |
 | **Walkthrough video** (12 s, eye level) | ✅ Working (rendered in the browser from the 3D room). Room-shape limits remain (see §8). |
 | **Interactive 3D room** | ✅ Working (mouse look, WASD, corner viewpoints, collision). Same room-shape limits. |
-| **Tests** | ✅ 29 unit/integration tests, lint, 23-check offline browser E2E, 10-check live E2E. |
+| **Tests** | ✅ 31 unit/integration tests, lint, offline browser E2E (4 scenarios incl. no-AI and AI-failing), 10-check live E2E. |
 | **Hosting** | ✅ Website on Vercel; API server on Railway (`https://api-production-2668b.up.railway.app`). |
 | **AI credit** | ⛔ **OneProvider key is out of credit** (`quota_exhausted`). The AI steps stop until a funded key is set (§3). |
+| **No-AI mode** (paint your countertops) | ✅ The app keeps working with **no paid AI key**: the customer paints the countertops on their photo and the browser renders the stone, then the 3D room and the video (§2a). AI mode switches back on by itself when a funded key is present. |
 | **Merged to `main`** | ❌ Not yet — the live domain still runs the old `main` code until PR #2 is merged. |
 
 ---
@@ -56,6 +57,32 @@ swatch onto Claude's outlines in perspective (lower realism).
 
 Sample 12-second walkthrough video from the same live run:
 [`images/sample-walkthrough.webm`](images/sample-walkthrough.webm).
+
+### 2a. No-AI mode — "Paint your countertops"
+
+Used automatically when the API server is unreachable, when it has no
+analysis/image provider configured, or when the AI call fails (for example the
+key is out of credit). No API key and no server-side AI are needed.
+
+1. The browser splits the photo into ~150–180 small colour regions
+   (`src/render/manualScene.ts` → `shared/segmentation.ts`, the same
+   Felzenszwalb segmentation the server uses for Claude's grounding). Regions are
+   deliberately small so a countertop and the wall behind it never share one.
+2. The customer **taps or drags** over the countertops (`src/components/SurfacePicker.tsx`):
+   *Countertop tops* (gold) for horizontal surfaces, *Vertical faces* (teal) for
+   waterfall ends and thick edges. Dragging always paints; tapping a marked
+   region unmarks it; Undo and Clear are available.
+3. `buildManualScene` turns each connected group of marked regions into a
+   surface (outline traced from the regions; a closing joins the veined pieces,
+   an opening trims thin strips; the perspective quad is the largest
+   quadrilateral inside the outline). Room geometry uses the generic default room.
+4. The existing StoneSight renderer paints the swatch in perspective
+   (`src/render/stoneRenderer.ts`); the 3D room and the 12-second video are built
+   from that scene exactly as in AI mode. The engine label reads
+   "StoneSight renderer · your surface selection".
+
+Quality is lower than the Gemini edit (flat texture mapping, generic room shape),
+but it costs nothing and never shows a configuration error to the customer.
 
 ---
 
@@ -223,7 +250,7 @@ npm run check:providers     # verify keys/endpoints without generating
 
 ## 8. Known issues and next steps
 
-1. **Refill / replace the AI key** (§3) — nothing AI-driven works until then.
+1. **Refill / replace the AI key** (§3) — until then customers get the no-AI mode (§2a).
 2. **Merge PR #2**, then switch Railway to `main`.
 3. **Try real customer photos** on the preview and collect failures.
 4. Small image flaws: occasional seams where Gemini slightly re-zooms (photo 09);
@@ -255,7 +282,9 @@ npm run check:providers     # verify keys/endpoints without generating
 | `d43591a` | Compositor keeps every countertop the surgical edit changed |
 | `f2b15f1` | Clear "server unreachable" message |
 | `4914e01`, `f0b3186` | Railway API hosting; website points at it |
-| _this commit_ | Handover documentation, result images, evaluation data |
+| `8c7776f` and earlier | Handover documentation, result images, evaluation data |
+| `42700b2`, `21b6af2` | **No-AI mode**: tap-to-select countertops rendered in the browser; automatic fallback when AI is missing or failing |
+| _this commit_ | No-AI mode: finer regions, drag-to-paint, spur trimming; E2E checks the waterfall and the door frame |
 
 ---
 

@@ -38,22 +38,24 @@ function blurToRgb(rgba: Uint8ClampedArray, w: number, h: number): Uint8Array {
 }
 
 /**
- * Segments raw RGBA pixels into roughly `target` tappable regions (retrying
- * with bigger regions when there are too many).
+ * Segments raw RGBA pixels into roughly `target` regions (retrying with bigger
+ * regions when there are too many). The regions are fine-grained on purpose —
+ * a countertop and the wall behind it must never share a region — and the
+ * customer paints over as many as needed with a drag.
  */
-export function segmentPixels(rgba: Uint8ClampedArray, w: number, h: number, target = 70): Segmentation {
+export function segmentPixels(rgba: Uint8ClampedArray, w: number, h: number, target = 180): Segmentation {
   const rgb = blurToRgb(rgba, w, h);
-  let k = 60;
-  let seg = segmentRgb(rgb, w, h, k, 0.0015);
+  let k = 35;
+  let seg = segmentRgb(rgb, w, h, k, 0.0008);
   for (let i = 0; i < 5 && seg.count > target * 1.3; i++) {
     k *= 1.4;
-    seg = segmentRgb(rgb, w, h, k, 0.0015);
+    seg = segmentRgb(rgb, w, h, k, 0.0008);
   }
   return seg;
 }
 
 /** Loads an image element into pixels at the segmentation size and segments it. */
-export function segmentImage(img: HTMLImageElement, target = 70): Segmentation {
+export function segmentImage(img: HTMLImageElement, target = 180): Segmentation {
   const scale = SEGMENT_LONG_SIDE / Math.max(img.naturalWidth, img.naturalHeight);
   const w = Math.max(16, Math.round(img.naturalWidth * Math.min(1, scale)));
   const h = Math.max(16, Math.round(img.naturalHeight * Math.min(1, scale)));
