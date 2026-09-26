@@ -29,7 +29,11 @@ public/images/*.jpg
 public/images/*.png
 public/videos/*
 
-.mcp.jsontests/e2e/output/
+.mcp.json
+tests/e2e/output/
+
+# Claude Code analyst inbox (customer photos)
+claude-code/
 
 # Logs
 *.log

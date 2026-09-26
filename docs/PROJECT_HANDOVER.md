@@ -1,6 +1,6 @@
 # StoneSight AI — Project Handover & Status
 
-_Last updated: 25 September 2026. Branch `claude/sharp-cerf-q91vrf`, [PR #2](https://github.com/Bigc7292/stonesightainew/pull/2)._
+_Last updated: 26 September 2026. Branch `claude/sharp-cerf-q91vrf`, [PR #2](https://github.com/Bigc7292/stonesightainew/pull/2)._
 
 This is the single place to pick the project up again: what it does, what state
 it is in, what it costs, where every setting lives, how the prompts evolved and
@@ -15,9 +15,10 @@ why, how results were measured, and what to do next.
 | **Static image** (surgical countertop replacement) | ✅ Working and photoreal. On 8 test photos only the countertops change; backsplashes, walls, cabinets and floors stay original. |
 | **Walkthrough video** (12 s, eye level) | ✅ Working (rendered in the browser from the 3D room). Room-shape limits remain (see §8). |
 | **Interactive 3D room** | ✅ Working (mouse look, WASD, corner viewpoints, collision). Same room-shape limits. |
-| **Tests** | ✅ 31 unit/integration tests, lint, offline browser E2E (4 scenarios incl. no-AI and AI-failing), 10-check live E2E. |
+| **Tests** | ✅ 32 unit/integration tests, lint, offline browser E2E (4 scenarios incl. no-AI and AI-failing), 10-check live E2E. |
 | **Hosting** | ✅ Website on Vercel; API server on Railway (`https://api-production-2668b.up.railway.app`). |
 | **AI credit** | ⛔ **OneProvider key is out of credit** (`quota_exhausted`). The AI steps stop until a funded key is set (§3). |
+| **Claude Code mode** (no API keys) | ✅ Inside this cloud environment Claude Code does the scene analysis itself; the app renders the image, video and 3D room. `npm run claude-code:run -- photo.jpg "Stone"` — see [claude-code-analyst.md](claude-code-analyst.md). |
 | **No-AI mode** (paint your countertops) | ✅ The app keeps working with **no paid AI key**: the customer paints the countertops on their photo and the browser renders the stone, then the 3D room and the video (§2a). AI mode switches back on by itself when a funded key is present. |
 | **Merged to `main`** | ❌ Not yet — the live domain still runs the old `main` code until PR #2 is merged. |
 
@@ -284,7 +285,8 @@ npm run check:providers     # verify keys/endpoints without generating
 | `4914e01`, `f0b3186` | Railway API hosting; website points at it |
 | `8c7776f` and earlier | Handover documentation, result images, evaluation data |
 | `42700b2`, `21b6af2` | **No-AI mode**: tap-to-select countertops rendered in the browser; automatic fallback when AI is missing or failing |
-| _this commit_ | No-AI mode: finer regions, drag-to-paint, spur trimming; E2E checks the waterfall and the door frame |
+| `dea128d` | No-AI mode: finer regions, drag-to-paint, spur trimming; E2E checks the waterfall and the door frame |
+| _this commit_ | **Claude Code analyst** (no API keys): analysis jobs answered by a Claude Code session; `claude-code:run` drives the real app end to end |
 
 ---
 

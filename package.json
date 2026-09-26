@@ -15,7 +15,9 @@
     "dev:all": "concurrently \"npm run dev\" \"npm run server\"",
     "check:providers": "tsx scripts/check-providers.ts",
     "eval:analysis": "tsx scripts/eval-analysis.ts",
-    "start": "tsx server/server.ts"
+    "start": "tsx server/server.ts",
+    "analyst": "tsx scripts/analyst.ts",
+    "claude-code:run": "node scripts/claude-code-run.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",

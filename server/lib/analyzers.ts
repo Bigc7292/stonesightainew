@@ -3,6 +3,8 @@
  * `SceneAnalysis` (see shared/scene.ts).
  *
  * Provider order:
+ *   0. Claude Code analyst (CLAUDE_CODE_ANALYST=on) — a Claude Code session
+ *      answers each job from a local inbox, no API key (claudeCodeAnalyst.ts).
  *   1. Anthropic Claude (vision + structured outputs) — when ANTHROPIC_API_KEY is set.
  *   2. NVIDIA-hosted VLM via the OpenAI-compatible NVIDIA API — when only
  *      NVIDIA_API_KEY is set (or Claude failed).
@@ -21,9 +23,10 @@ import {
 } from "./prompts";
 import { sanitizeScene, type SceneAnalysis } from "../../shared/scene";
 import { drawSceneOverlay, toJpeg, withCoordinateGrid } from "./images";
+import { analystEnabled, analyzeWithClaudeCode } from "./claudeCodeAnalyst";
 import { applyRegionAssignments, drawSegmentOverlay, segmentPhoto } from "./segments";
 
-export type AnalyzerName = "claude" | "nvidia-vlm";
+export type AnalyzerName = "claude-code" | "claude" | "nvidia-vlm";
 
 export interface AnalyzeInput {
   photo: Buffer;
@@ -51,6 +54,8 @@ export class AnalyzerError extends Error {
 
 export function availableAnalyzers(): AnalyzerName[] {
   const list: AnalyzerName[] = [];
+  // A Claude Code session answering jobs next to the server (no API key).
+  if (analystEnabled()) list.push("claude-code");
   if (config.anthropicApiKey()) list.push("claude");
   if (config.nvidiaApiKey()) list.push("nvidia-vlm");
   return list;
@@ -372,6 +377,8 @@ export async function analyzeScene(input: AnalyzeInput): Promise<AnalyzeResult> 
   let lastError: unknown;
   for (const name of analyzers) {
     try {
+      if (name === "claude-code")
+        return { analysis: await analyzeWithClaudeCode(input.photo, input.stone), analyzer: name, model: "claude-code-session" };
       return name === "claude" ? await analyzeWithClaude(input) : await analyzeWithNvidiaVlm(input);
     } catch (error) {
       lastError = error;

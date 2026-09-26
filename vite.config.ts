@@ -23,6 +23,11 @@ export default defineConfig(({mode}) => {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
       // Do not modify—file watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
+      // Files the backend and the Claude Code analyst write while a customer is
+      // mid-generation must not reload the page.
+      watch: {
+        ignored: ['**/claude-code/**', '**/server/**', '**/scripts/**', '**/docs/**', '**/tests/**', '**/public/images/**', '**/public/videos/**'],
+      },
     },
   };
 });

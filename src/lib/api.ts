@@ -44,7 +44,7 @@ async function request<T>(path: string, token: string | null | undefined, init: 
 }
 
 export interface Capabilities {
-  analysis: "claude" | "nvidia-vlm" | null;
+  analysis: "claude-code" | "claude" | "nvidia-vlm" | null;
   image: string[];
   video: string[];
   /** False when the StoneSight server could not be reached at all. */

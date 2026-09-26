@@ -14,6 +14,8 @@ The customer uploads a photo of the space (kitchen, bathroom, …), picks a ston
 | 2 | **First-person walkthrough video** at human eye level (look left, look right, walk up to the stone) | NVIDIA Cosmos image-to-video with Claude's camera-motion prompt. Without Cosmos, the video is filmed in the browser along the same path through the 3D room (exactly 12 s, MP4/WebM). |
 | 3 | **Interactive 3D walkthrough** — click, look around, walk with W/A/S/D, jump to each corner | The room is reconstructed in 3D from Claude's geometry (camera, walls, counter tops, waterfalls) and textured by projecting the generated image with visibility; stone slabs use the real swatch with a polished sheen. |
 
+**Running inside Claude Code?** Claude Code can do the AI analysis itself, with no API key: `npm run claude-code:run -- room.jpg "Dekton Trilium"` ([docs/claude-code-analyst.md](docs/claude-code-analyst.md)).
+
 **No AI key?** The app still works: it asks the customer to paint their countertops on the photo and renders the stone, video and 3D room entirely in the browser (see [handover §2a](docs/PROJECT_HANDOVER.md)).
 
 **AI providers:** Anthropic Claude (analysis, prompts, masks), Gemini image models through an OpenAI-compatible gateway such as OneProvider (photoreal countertop edit), and NVIDIA NIMs (optional Kontext / Cosmos). The full project record — status, costs, prompts, evaluation, deployment and next steps — is in **[docs/PROJECT_HANDOVER.md](docs/PROJECT_HANDOVER.md)**.

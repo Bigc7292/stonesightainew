@@ -473,7 +473,9 @@ function StoneSightApp() {
       let scene: SceneAnalysis | null = null;
       if (caps.analysis) {
         setProcessingStatus(
-          caps.analysis === "claude"
+          caps.analysis === "claude-code"
+            ? "Claude Code is mapping your room's stone surfaces…"
+            : caps.analysis === "claude"
             ? "Claude is mapping your room's stone surfaces…"
             : "NVIDIA vision model is mapping your room's stone surfaces…",
         );

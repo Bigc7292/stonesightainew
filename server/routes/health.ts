@@ -17,6 +17,7 @@ router.get("/", (_req, res) => {
     providers: {
       analysis: analyzers[0] ?? null,
       analysisModels: {
+        claudeCode: analyzers.includes("claude-code") ? "claude-code-session" : null,
         claude: analyzers.includes("claude") ? config.claudeModel() : null,
         nvidiaVlm: analyzers.includes("nvidia-vlm") ? config.nvidiaVlmModels() : null,
       },
