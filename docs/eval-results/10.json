@@ -1,0 +1,1142 @@
+{
+ "photo": "10",
+ "model": "claude-opus-5",
+ "analysis_seconds": 105.128,
+ "first_pass": {
+  "room_type": "kitchen",
+  "summary": "A compact L-shaped kitchen with black granite countertops on medium-toned oak cabinets, featuring a corner sink and stainless steel dishwasher against a white wall with an exposed red brick accent wall on the right.",
+  "camera": {
+   "horizontal_fov_deg": 72,
+   "eye_height_m": 1.55,
+   "pitch_deg": -2
+  },
+  "back_wall": {
+   "floor_left": {
+    "x": 0,
+    "y": 0.78
+   },
+   "floor_right": {
+    "x": 0.72,
+    "y": 0.78
+   },
+   "ceiling_left": {
+    "x": 0,
+    "y": 0
+   },
+   "ceiling_right": {
+    "x": 0.72,
+    "y": 0
+   }
+  },
+  "room_estimate": {
+   "width_m": 4.2,
+   "depth_m": 3.8,
+   "ceiling_height_m": 2.5,
+   "space_behind_camera_m": 2
+  },
+  "colors": {
+   "walls": "#e8e6e2",
+   "floor": "#8b5a3c",
+   "ceiling": "#f2f0ed",
+   "cabinets": "#c49860"
+  },
+  "surfaces": [
+   {
+    "id": "left_counter",
+    "label": "Left wall counter",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.91,
+    "quad": [
+     {
+      "x": 0,
+      "y": 0.48
+     },
+     {
+      "x": 0.25,
+      "y": 0.47
+     },
+     {
+      "x": 0.29,
+      "y": 0.55
+     },
+     {
+      "x": 0,
+      "y": 0.56
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0,
+      "y": 0.48
+     },
+     {
+      "x": 0.25,
+      "y": 0.47
+     },
+     {
+      "x": 0.29,
+      "y": 0.55
+     },
+     {
+      "x": 0,
+      "y": 0.56
+     }
+    ],
+    "length_m": 1.85,
+    "depth_m": 0.62,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "corner_counter",
+    "label": "Corner counter with sink",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.91,
+    "quad": [
+     {
+      "x": 0.25,
+      "y": 0.47
+     },
+     {
+      "x": 0.54,
+      "y": 0.45
+     },
+     {
+      "x": 0.58,
+      "y": 0.55
+     },
+     {
+      "x": 0.29,
+      "y": 0.55
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.25,
+      "y": 0.47
+     },
+     {
+      "x": 0.35,
+      "y": 0.46
+     },
+     {
+      "x": 0.43,
+      "y": 0.46
+     },
+     {
+      "x": 0.54,
+      "y": 0.45
+     },
+     {
+      "x": 0.58,
+      "y": 0.55
+     },
+     {
+      "x": 0.48,
+      "y": 0.54
+     },
+     {
+      "x": 0.43,
+      "y": 0.52
+     },
+     {
+      "x": 0.38,
+      "y": 0.52
+     },
+     {
+      "x": 0.32,
+      "y": 0.54
+     },
+     {
+      "x": 0.29,
+      "y": 0.55
+     }
+    ],
+    "length_m": 2.1,
+    "depth_m": 0.62,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "right_counter",
+    "label": "Right wall counter",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.91,
+    "quad": [
+     {
+      "x": 0.54,
+      "y": 0.45
+     },
+     {
+      "x": 0.78,
+      "y": 0.44
+     },
+     {
+      "x": 0.82,
+      "y": 0.54
+     },
+     {
+      "x": 0.58,
+      "y": 0.55
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.54,
+      "y": 0.45
+     },
+     {
+      "x": 0.78,
+      "y": 0.44
+     },
+     {
+      "x": 0.82,
+      "y": 0.54
+     },
+     {
+      "x": 0.58,
+      "y": 0.55
+     }
+    ],
+    "length_m": 1.75,
+    "depth_m": 0.62,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "left_counter_edge",
+    "label": "Left counter front edge",
+    "kind": "countertop_edge",
+    "orientation": "vertical",
+    "height_m": 0.88,
+    "quad": [
+     {
+      "x": 0,
+      "y": 0.48
+     },
+     {
+      "x": 0.25,
+      "y": 0.47
+     },
+     {
+      "x": 0.25,
+      "y": 0.49
+     },
+     {
+      "x": 0,
+      "y": 0.5
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0,
+      "y": 0.48
+     },
+     {
+      "x": 0.25,
+      "y": 0.47
+     },
+     {
+      "x": 0.25,
+      "y": 0.49
+     },
+     {
+      "x": 0,
+      "y": 0.5
+     }
+    ],
+    "length_m": 1.85,
+    "depth_m": 0.03,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "corner_counter_edge",
+    "label": "Corner counter front edge",
+    "kind": "countertop_edge",
+    "orientation": "vertical",
+    "height_m": 0.88,
+    "quad": [
+     {
+      "x": 0.25,
+      "y": 0.47
+     },
+     {
+      "x": 0.54,
+      "y": 0.45
+     },
+     {
+      "x": 0.54,
+      "y": 0.47
+     },
+     {
+      "x": 0.25,
+      "y": 0.49
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.25,
+      "y": 0.47
+     },
+     {
+      "x": 0.54,
+      "y": 0.45
+     },
+     {
+      "x": 0.54,
+      "y": 0.47
+     },
+     {
+      "x": 0.25,
+      "y": 0.49
+     }
+    ],
+    "length_m": 2.1,
+    "depth_m": 0.03,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "right_counter_edge",
+    "label": "Right counter front edge",
+    "kind": "countertop_edge",
+    "orientation": "vertical",
+    "height_m": 0.88,
+    "quad": [
+     {
+      "x": 0.54,
+      "y": 0.45
+     },
+     {
+      "x": 0.78,
+      "y": 0.44
+     },
+     {
+      "x": 0.78,
+      "y": 0.46
+     },
+     {
+      "x": 0.54,
+      "y": 0.47
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.54,
+      "y": 0.45
+     },
+     {
+      "x": 0.78,
+      "y": 0.44
+     },
+     {
+      "x": 0.78,
+      "y": 0.46
+     },
+     {
+      "x": 0.54,
+      "y": 0.47
+     }
+    ],
+    "length_m": 1.75,
+    "depth_m": 0.03,
+    "thickness_m": 0.03
+   }
+  ],
+  "edit_instruction": "Surgically replace only the countertop surfaces: the left wall counter running from the left edge to the corner sink, the corner counter section containing the stainless steel sink (preserving the sink cutout), and the right wall counter extending from the corner to the stainless steel dishwasher on the right, including the thin front edges of all three countertop sections. Replace the existing black granite with Dekton Trilium \u2014 a deep charcoal base with subtle ash grey mottling and prominent crisp white veining in an angular, marble-like pattern. The white wall with upper oak cabinets, the two windows, the red exposed brick accent wall on the right, the medium-toned oak cabinet fronts below the counters, the stainless steel sink and pull-down tap, the stainless steel dishwasher, and the medium brown hardwood floor must all stay exactly as they are in the original photo. Each countertop keeps its exact shape, thickness, and edge profile. The camera angle, framing, lighting, and everything else in the room remain identical.",
+  "video_prompt": "First-person walkthrough video starting from this exact kitchen photo showing the new Dekton Trilium countertops. The camera begins at human eye level (approximately 1.6 metres) near the room entrance. Smooth handheld gimbal motion: the viewer slowly pans left to take in the left counter and upper cabinets, then pans right across the corner sink area and continues to the right counter with the dishwasher and brick wall. After completing the pan, the camera moves forward steadily toward the corner counter, gently tilting downward to reveal the deep charcoal surface with its crisp white veining and subtle reflections under natural window light. Realistic parallax and physically consistent geometry throughout \u2014 the oak cabinets, white walls, red brick accent wall, hardwood floor, sink, tap, dishwasher, and the countertop stone pattern all remain identical to the source photo. No people, text, or new objects appear in the video."
+ },
+ "grounding": {
+  "assignments": [
+   {
+    "surface_id": "left_counter",
+    "regions": [
+     45
+    ]
+   },
+   {
+    "surface_id": "corner_counter",
+    "regions": [
+     43,
+     44
+    ]
+   },
+   {
+    "surface_id": "right_counter",
+    "regions": [
+     50
+    ]
+   },
+   {
+    "surface_id": "left_counter_edge",
+    "regions": [
+     46
+    ]
+   },
+   {
+    "surface_id": "corner_counter_edge",
+    "regions": [
+     47,
+     49
+    ]
+   },
+   {
+    "surface_id": "right_counter_edge",
+    "regions": [
+     51
+    ]
+   }
+  ]
+ },
+ "regions": 65,
+ "final_scene": {
+  "room_type": "kitchen",
+  "summary": "A compact L-shaped kitchen with black granite countertops on medium-toned oak cabinets, featuring a corner sink and stainless steel dishwasher against a white wall with an exposed red brick accent wall on the right.",
+  "camera": {
+   "horizontal_fov_deg": 72,
+   "eye_height_m": 1.55,
+   "pitch_deg": -2
+  },
+  "back_wall": {
+   "floor_left": {
+    "x": 0,
+    "y": 0.78
+   },
+   "floor_right": {
+    "x": 0.72,
+    "y": 0.78
+   },
+   "ceiling_left": {
+    "x": 0,
+    "y": 0
+   },
+   "ceiling_right": {
+    "x": 0.72,
+    "y": 0
+   }
+  },
+  "room_estimate": {
+   "width_m": 4.2,
+   "depth_m": 3.8,
+   "ceiling_height_m": 2.5,
+   "space_behind_camera_m": 2
+  },
+  "colors": {
+   "walls": "#e8e6e2",
+   "floor": "#8b5a3c",
+   "ceiling": "#f2f0ed",
+   "cabinets": "#c49860"
+  },
+  "surfaces": [
+   {
+    "id": "left_counter",
+    "label": "Left wall counter",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.91,
+    "quad": [
+     {
+      "x": 0.05119047619047619,
+      "y": 0.4735973597359736
+     },
+     {
+      "x": 0.3273809523809524,
+      "y": 0.4240924092409241
+     },
+     {
+      "x": 0.3345238095238095,
+      "y": 0.4537953795379538
+     },
+     {
+      "x": 0.10357142857142858,
+      "y": 0.5066006600660066
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.3273809523809524,
+      "y": 0.4240924092409241
+     },
+     {
+      "x": 0.33690476190476193,
+      "y": 0.4240924092409241
+     },
+     {
+      "x": 0.3416666666666667,
+      "y": 0.4306930693069307
+     },
+     {
+      "x": 0.3416666666666667,
+      "y": 0.4438943894389439
+     },
+     {
+      "x": 0.3345238095238095,
+      "y": 0.4537953795379538
+     },
+     {
+      "x": 0.3107142857142857,
+      "y": 0.4537953795379538
+     },
+     {
+      "x": 0.2630952380952381,
+      "y": 0.47029702970297027
+     },
+     {
+      "x": 0.22738095238095238,
+      "y": 0.4735973597359736
+     },
+     {
+      "x": 0.22023809523809523,
+      "y": 0.4801980198019802
+     },
+     {
+      "x": 0.19642857142857142,
+      "y": 0.4801980198019802
+     },
+     {
+      "x": 0.19166666666666668,
+      "y": 0.4867986798679868
+     },
+     {
+      "x": 0.14166666666666666,
+      "y": 0.4933993399339934
+     },
+     {
+      "x": 0.13214285714285715,
+      "y": 0.5
+     },
+     {
+      "x": 0.10357142857142858,
+      "y": 0.5066006600660066
+     },
+     {
+      "x": 0.06785714285714285,
+      "y": 0.5066006600660066
+     },
+     {
+      "x": 0.04642857142857143,
+      "y": 0.4966996699669967
+     },
+     {
+      "x": 0.04642857142857143,
+      "y": 0.4801980198019802
+     },
+     {
+      "x": 0.05119047619047619,
+      "y": 0.4735973597359736
+     },
+     {
+      "x": 0.075,
+      "y": 0.4735973597359736
+     },
+     {
+      "x": 0.15119047619047618,
+      "y": 0.4570957095709571
+     },
+     {
+      "x": 0.18452380952380953,
+      "y": 0.4603960396039604
+     },
+     {
+      "x": 0.19166666666666668,
+      "y": 0.4504950495049505
+     },
+     {
+      "x": 0.2773809523809524,
+      "y": 0.4372937293729373
+     }
+    ],
+    "length_m": 1.85,
+    "depth_m": 0.62,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "corner_counter",
+    "label": "Corner counter with sink",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.91,
+    "quad": [
+     {
+      "x": 0.4630952380952381,
+      "y": 0.4075907590759076
+     },
+     {
+      "x": 0.7416666666666667,
+      "y": 0.4537953795379538
+     },
+     {
+      "x": 0.6583333333333333,
+      "y": 0.5
+     },
+     {
+      "x": 0.3488095238095238,
+      "y": 0.4471947194719472
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.4083333333333333,
+      "y": 0.4075907590759076
+     },
+     {
+      "x": 0.4630952380952381,
+      "y": 0.4075907590759076
+     },
+     {
+      "x": 0.4654761904761905,
+      "y": 0.4372937293729373
+     },
+     {
+      "x": 0.47023809523809523,
+      "y": 0.4438943894389439
+     },
+     {
+      "x": 0.475,
+      "y": 0.4405940594059406
+     },
+     {
+      "x": 0.475,
+      "y": 0.4306930693069307
+     },
+     {
+      "x": 0.48214285714285715,
+      "y": 0.4306930693069307
+     },
+     {
+      "x": 0.48928571428571427,
+      "y": 0.4174917491749175
+     },
+     {
+      "x": 0.5059523809523809,
+      "y": 0.4174917491749175
+     },
+     {
+      "x": 0.5654761904761905,
+      "y": 0.4306930693069307
+     },
+     {
+      "x": 0.6321428571428571,
+      "y": 0.4372937293729373
+     },
+     {
+      "x": 0.6654761904761904,
+      "y": 0.4471947194719472
+     },
+     {
+      "x": 0.7416666666666667,
+      "y": 0.4537953795379538
+     },
+     {
+      "x": 0.7416666666666667,
+      "y": 0.4933993399339934
+     },
+     {
+      "x": 0.7107142857142857,
+      "y": 0.4933993399339934
+     },
+     {
+      "x": 0.705952380952381,
+      "y": 0.4867986798679868
+     },
+     {
+      "x": 0.6892857142857143,
+      "y": 0.5
+     },
+     {
+      "x": 0.6583333333333333,
+      "y": 0.5
+     },
+     {
+      "x": 0.6321428571428571,
+      "y": 0.4966996699669967
+     },
+     {
+      "x": 0.6297619047619047,
+      "y": 0.4900990099009901
+     },
+     {
+      "x": 0.5869047619047619,
+      "y": 0.4867986798679868
+     },
+     {
+      "x": 0.5773809523809523,
+      "y": 0.4768976897689769
+     },
+     {
+      "x": 0.5630952380952381,
+      "y": 0.4768976897689769
+     },
+     {
+      "x": 0.5488095238095239,
+      "y": 0.47029702970297027
+     },
+     {
+      "x": 0.4583333333333333,
+      "y": 0.466996699669967
+     },
+     {
+      "x": 0.45595238095238094,
+      "y": 0.4603960396039604
+     },
+     {
+      "x": 0.42023809523809524,
+      "y": 0.4537953795379538
+     },
+     {
+      "x": 0.41785714285714287,
+      "y": 0.4405940594059406
+     },
+     {
+      "x": 0.3488095238095238,
+      "y": 0.4471947194719472
+     },
+     {
+      "x": 0.3464285714285714,
+      "y": 0.4207920792079208
+     }
+    ],
+    "length_m": 2.1,
+    "depth_m": 0.62,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "right_counter",
+    "label": "Right wall counter",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.91,
+    "quad": [
+     {
+      "x": 0.5535714285714286,
+      "y": 0.4834983498349835
+     },
+     {
+      "x": 0.6630952380952381,
+      "y": 0.5033003300330033
+     },
+     {
+      "x": 0.6630952380952381,
+      "y": 0.5495049504950495
+     },
+     {
+      "x": 0.5464285714285714,
+      "y": 0.5264026402640264
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.5535714285714286,
+      "y": 0.4834983498349835
+     },
+     {
+      "x": 0.6297619047619047,
+      "y": 0.4933993399339934
+     },
+     {
+      "x": 0.6321428571428571,
+      "y": 0.5
+     },
+     {
+      "x": 0.6630952380952381,
+      "y": 0.5033003300330033
+     },
+     {
+      "x": 0.6630952380952381,
+      "y": 0.5495049504950495
+     },
+     {
+      "x": 0.625,
+      "y": 0.5495049504950495
+     },
+     {
+      "x": 0.5964285714285714,
+      "y": 0.533003300330033
+     },
+     {
+      "x": 0.5464285714285714,
+      "y": 0.5264026402640264
+     },
+     {
+      "x": 0.5464285714285714,
+      "y": 0.4933993399339934
+     }
+    ],
+    "length_m": 1.75,
+    "depth_m": 0.62,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "left_counter_edge",
+    "label": "Left counter front edge",
+    "kind": "countertop_edge",
+    "orientation": "vertical",
+    "height_m": 0.88,
+    "quad": [
+     {
+      "x": 0.0869047619047619,
+      "y": 0.5099009900990099
+     },
+     {
+      "x": 0.3892857142857143,
+      "y": 0.4438943894389439
+     },
+     {
+      "x": 0.41785714285714287,
+      "y": 0.466996699669967
+     },
+     {
+      "x": 0.2011904761904762,
+      "y": 0.5363036303630363
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.3892857142857143,
+      "y": 0.4438943894389439
+     },
+     {
+      "x": 0.41309523809523807,
+      "y": 0.4438943894389439
+     },
+     {
+      "x": 0.41785714285714287,
+      "y": 0.466996699669967
+     },
+     {
+      "x": 0.38452380952380955,
+      "y": 0.466996699669967
+     },
+     {
+      "x": 0.3821428571428571,
+      "y": 0.4768976897689769
+     },
+     {
+      "x": 0.3607142857142857,
+      "y": 0.4768976897689769
+     },
+     {
+      "x": 0.3392857142857143,
+      "y": 0.4834983498349835
+     },
+     {
+      "x": 0.33690476190476193,
+      "y": 0.5
+     },
+     {
+      "x": 0.325,
+      "y": 0.5
+     },
+     {
+      "x": 0.32261904761904764,
+      "y": 0.4900990099009901
+     },
+     {
+      "x": 0.30833333333333335,
+      "y": 0.4900990099009901
+     },
+     {
+      "x": 0.27976190476190477,
+      "y": 0.4966996699669967
+     },
+     {
+      "x": 0.2773809523809524,
+      "y": 0.5033003300330033
+     },
+     {
+      "x": 0.19404761904761905,
+      "y": 0.5132013201320133
+     },
+     {
+      "x": 0.19404761904761905,
+      "y": 0.5198019801980198
+     },
+     {
+      "x": 0.2011904761904762,
+      "y": 0.5198019801980198
+     },
+     {
+      "x": 0.2011904761904762,
+      "y": 0.5363036303630363
+     },
+     {
+      "x": 0.1869047619047619,
+      "y": 0.5363036303630363
+     },
+     {
+      "x": 0.18452380952380953,
+      "y": 0.5297029702970297
+     },
+     {
+      "x": 0.08928571428571429,
+      "y": 0.5297029702970297
+     },
+     {
+      "x": 0.0869047619047619,
+      "y": 0.523102310231023
+     },
+     {
+      "x": 0.0869047619047619,
+      "y": 0.5099009900990099
+     },
+     {
+      "x": 0.13214285714285715,
+      "y": 0.5033003300330033
+     },
+     {
+      "x": 0.14166666666666666,
+      "y": 0.4966996699669967
+     },
+     {
+      "x": 0.1630952380952381,
+      "y": 0.4966996699669967
+     },
+     {
+      "x": 0.17261904761904762,
+      "y": 0.4900990099009901
+     },
+     {
+      "x": 0.19166666666666668,
+      "y": 0.4900990099009901
+     },
+     {
+      "x": 0.19642857142857142,
+      "y": 0.4834983498349835
+     },
+     {
+      "x": 0.22023809523809523,
+      "y": 0.4834983498349835
+     },
+     {
+      "x": 0.22738095238095238,
+      "y": 0.4768976897689769
+     },
+     {
+      "x": 0.2630952380952381,
+      "y": 0.4735973597359736
+     },
+     {
+      "x": 0.3107142857142857,
+      "y": 0.4570957095709571
+     },
+     {
+      "x": 0.3345238095238095,
+      "y": 0.4570957095709571
+     },
+     {
+      "x": 0.3488095238095238,
+      "y": 0.4504950495049505
+     },
+     {
+      "x": 0.3773809523809524,
+      "y": 0.4504950495049505
+     },
+     {
+      "x": 0.37976190476190474,
+      "y": 0.4537953795379538
+     }
+    ],
+    "length_m": 1.85,
+    "depth_m": 0.03,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "corner_counter_edge",
+    "label": "Corner counter front edge",
+    "kind": "countertop_edge",
+    "orientation": "vertical",
+    "height_m": 0.88,
+    "quad": [
+     {
+      "x": 0.3892857142857143,
+      "y": 0.47029702970297027
+     },
+     {
+      "x": 0.544047619047619,
+      "y": 0.4735973597359736
+     },
+     {
+      "x": 0.5464285714285714,
+      "y": 0.6947194719471947
+     },
+     {
+      "x": 0.3869047619047619,
+      "y": 0.6716171617161716
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.3892857142857143,
+      "y": 0.47029702970297027
+     },
+     {
+      "x": 0.544047619047619,
+      "y": 0.4735973597359736
+     },
+     {
+      "x": 0.5464285714285714,
+      "y": 0.6947194719471947
+     },
+     {
+      "x": 0.5321428571428571,
+      "y": 0.6947194719471947
+     },
+     {
+      "x": 0.5226190476190476,
+      "y": 0.6914191419141914
+     },
+     {
+      "x": 0.5202380952380953,
+      "y": 0.6848184818481848
+     },
+     {
+      "x": 0.48928571428571427,
+      "y": 0.6782178217821783
+     },
+     {
+      "x": 0.48214285714285715,
+      "y": 0.6683168316831684
+     },
+     {
+      "x": 0.4797619047619048,
+      "y": 0.6716171617161716
+     },
+     {
+      "x": 0.3869047619047619,
+      "y": 0.6716171617161716
+     }
+    ],
+    "length_m": 2.1,
+    "depth_m": 0.03,
+    "thickness_m": 0.03
+   },
+   {
+    "id": "right_counter_edge",
+    "label": "Right counter front edge",
+    "kind": "countertop_edge",
+    "orientation": "vertical",
+    "height_m": 0.88,
+    "quad": [
+     {
+      "x": 0.6654761904761904,
+      "y": 0.5099009900990099
+     },
+     {
+      "x": 0.736904761904762,
+      "y": 0.4966996699669967
+     },
+     {
+      "x": 0.725,
+      "y": 0.7343234323432343
+     },
+     {
+      "x": 0.6607142857142857,
+      "y": 0.764026402640264
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.7178571428571429,
+      "y": 0.4966996699669967
+     },
+     {
+      "x": 0.736904761904762,
+      "y": 0.4966996699669967
+     },
+     {
+      "x": 0.736904761904762,
+      "y": 0.5858085808580858
+     },
+     {
+      "x": 0.7416666666666667,
+      "y": 0.5924092409240924
+     },
+     {
+      "x": 0.7535714285714286,
+      "y": 0.5924092409240924
+     },
+     {
+      "x": 0.7559523809523809,
+      "y": 0.6089108910891089
+     },
+     {
+      "x": 0.7321428571428571,
+      "y": 0.6122112211221122
+     },
+     {
+      "x": 0.7321428571428571,
+      "y": 0.6914191419141914
+     },
+     {
+      "x": 0.7297619047619047,
+      "y": 0.7112211221122112
+     },
+     {
+      "x": 0.725,
+      "y": 0.7145214521452146
+     },
+     {
+      "x": 0.725,
+      "y": 0.7343234323432343
+     },
+     {
+      "x": 0.7130952380952381,
+      "y": 0.731023102310231
+     },
+     {
+      "x": 0.694047619047619,
+      "y": 0.7541254125412541
+     },
+     {
+      "x": 0.6845238095238095,
+      "y": 0.7607260726072608
+     },
+     {
+      "x": 0.675,
+      "y": 0.7607260726072608
+     },
+     {
+      "x": 0.6726190476190477,
+      "y": 0.7178217821782178
+     },
+     {
+      "x": 0.6702380952380952,
+      "y": 0.764026402640264
+     },
+     {
+      "x": 0.6607142857142857,
+      "y": 0.764026402640264
+     },
+     {
+      "x": 0.6654761904761904,
+      "y": 0.5099009900990099
+     },
+     {
+      "x": 0.6845238095238095,
+      "y": 0.5099009900990099
+     },
+     {
+      "x": 0.6916666666666667,
+      "y": 0.5
+     }
+    ],
+    "length_m": 1.75,
+    "depth_m": 0.03,
+    "thickness_m": 0.03
+   }
+  ],
+  "edit_instruction": "Surgically replace only the countertop surfaces: the left wall counter running from the left edge to the corner sink, the corner counter section containing the stainless steel sink (preserving the sink cutout), and the right wall counter extending from the corner to the stainless steel dishwasher on the right, including the thin front edges of all three countertop sections. Replace the existing black granite with Dekton Trilium \u2014 a deep charcoal base with subtle ash grey mottling and prominent crisp white veining in an angular, marble-like pattern. The white wall with upper oak cabinets, the two windows, the red exposed brick accent wall on the right, the medium-toned oak cabinet fronts below the counters, the stainless steel sink and pull-down tap, the stainless steel dishwasher, and the medium brown hardwood floor must all stay exactly as they are in the original photo. Each countertop keeps its exact shape, thickness, and edge profile. The camera angle, framing, lighting, and everything else in the room remain identical.",
+  "video_prompt": "First-person walkthrough video starting from this exact kitchen photo showing the new Dekton Trilium countertops. The camera begins at human eye level (approximately 1.6 metres) near the room entrance. Smooth handheld gimbal motion: the viewer slowly pans left to take in the left counter and upper cabinets, then pans right across the corner sink area and continues to the right counter with the dishwasher and brick wall. After completing the pan, the camera moves forward steadily toward the corner counter, gently tilting downward to reveal the deep charcoal surface with its crisp white veining and subtle reflections under natural window light. Realistic parallax and physically consistent geometry throughout \u2014 the oak cabinets, white walls, red brick accent wall, hardwood floor, sink, tap, dishwasher, and the countertop stone pattern all remain identical to the source photo. No people, text, or new objects appear in the video."
+ },
+ "edit": {
+  "provider": "gemini-image",
+  "model": "gemini-3.1-flash-image",
+  "secs": 76.425,
+  "alignment": {
+   "scale": 1,
+   "tx": 0,
+   "ty": 0,
+   "score": 0.9910097334628745
+  },
+  "editedFraction": 0.1203146293715298
+ }
+}

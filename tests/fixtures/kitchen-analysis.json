@@ -1,0 +1,88 @@
+{
+  "room_type": "kitchen",
+  "summary": "Open-plan kitchen with a long waterfall island in white marble with grey veining, walnut tall cabinets, white tiles and dark oak floors, seen from the island's near end.",
+  "camera": { "horizontal_fov_deg": 62, "eye_height_m": 1.4, "pitch_deg": 3 },
+  "back_wall": {
+    "floor_left": { "x": 0.64, "y": 0.6 },
+    "floor_right": { "x": 1.1, "y": 0.6 },
+    "ceiling_left": { "x": 0.64, "y": 0.4 },
+    "ceiling_right": { "x": 1.1, "y": 0.385 }
+  },
+  "room_estimate": { "width_m": 7.5, "depth_m": 10, "ceiling_height_m": 2.9, "space_behind_camera_m": 2 },
+  "colors": { "walls": "#eae8e4", "floor": "#3b2a1f", "ceiling": "#efeeea", "cabinets": "#6e4b33" },
+  "surfaces": [
+    {
+      "id": "island_top",
+      "label": "Island top",
+      "kind": "island",
+      "orientation": "horizontal",
+      "height_m": 0.92,
+      "quad": [
+        { "x": 0.105, "y": 0.632 },
+        { "x": 0.8, "y": 0.566 },
+        { "x": 0.9375, "y": 0.575 },
+        { "x": 0.52, "y": 0.664 }
+      ],
+      "polygon": [
+        { "x": 0.105, "y": 0.632 },
+        { "x": 0.28, "y": 0.612 },
+        { "x": 0.45, "y": 0.597 },
+        { "x": 0.62, "y": 0.583 },
+        { "x": 0.8, "y": 0.566 },
+        { "x": 0.9375, "y": 0.575 },
+        { "x": 0.8, "y": 0.6 },
+        { "x": 0.65, "y": 0.628 },
+        { "x": 0.52, "y": 0.664 }
+      ],
+      "length_m": 4.2,
+      "depth_m": 1.1,
+      "thickness_m": 0.05
+    },
+    {
+      "id": "island_waterfall",
+      "label": "Island waterfall end",
+      "kind": "waterfall_side",
+      "orientation": "vertical",
+      "height_m": 0,
+      "quad": [
+        { "x": 0.105, "y": 0.632 },
+        { "x": 0.52, "y": 0.664 },
+        { "x": 0.521, "y": 0.945 },
+        { "x": 0.103, "y": 0.885 }
+      ],
+      "polygon": [
+        { "x": 0.105, "y": 0.632 },
+        { "x": 0.52, "y": 0.664 },
+        { "x": 0.521, "y": 0.945 },
+        { "x": 0.103, "y": 0.885 }
+      ],
+      "length_m": 1.1,
+      "depth_m": 0.92,
+      "thickness_m": 0.05
+    },
+    {
+      "id": "island_edge",
+      "label": "Island front edge (stool side)",
+      "kind": "countertop_edge",
+      "orientation": "vertical",
+      "height_m": 0.87,
+      "quad": [
+        { "x": 0.52, "y": 0.664 },
+        { "x": 0.9375, "y": 0.575 },
+        { "x": 0.9375, "y": 0.586 },
+        { "x": 0.52, "y": 0.687 }
+      ],
+      "polygon": [
+        { "x": 0.52, "y": 0.664 },
+        { "x": 0.9375, "y": 0.575 },
+        { "x": 0.9375, "y": 0.586 },
+        { "x": 0.52, "y": 0.687 }
+      ],
+      "length_m": 4.2,
+      "depth_m": 0.05,
+      "thickness_m": 0.02
+    }
+  ],
+  "edit_instruction": "Replace the white marble on the long kitchen island — its top surface, the thick slab edge along the stool side, and the full-height waterfall end panel facing the camera in the lower-left of the photo — with {{STONE}}. Keep veins flowing continuously from the top over the mitred edge and down the waterfall face, with a polished finish that reflects the pendant lights as the current marble does. Do not change anything else: keep the exact camera angle and framing, the walnut cabinets, ovens, range hood, hob, sink and tap, white wall tiles, bar stools, pendant lights, windows, dining table, dark wood floor, ceiling, shadows and reflections exactly as they are. Do not add, remove or move any object.",
+  "video_prompt": "First-person walkthrough of this open-plan kitchen at human eye level (about 1.6 m), filmed on a steady gimbal. Start at the near end of the island, slowly look left toward the walnut cabinets and range, then pan right across the bar stools and windows, then take a few calm steps along the island while tilting down to show the {{STONE}} grain and polished reflections of the pendant lights. Natural daylight, realistic parallax, physically consistent geometry, smooth motion without flicker. No people, no text, no new objects; the cabinets, stools, lights and stone pattern stay identical throughout."
+}

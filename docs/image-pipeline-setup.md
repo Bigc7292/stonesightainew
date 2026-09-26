@@ -1,126 +1,116 @@
-# Stone Sight AI — Image Pipeline Architecture (FLUX.1-Kontext-dev)
+# Image Pipeline — Claude + Gemini image (or NVIDIA FLUX.1 Kontext)
 
-The image generation engine runs on the **NVIDIA FLUX.1-Kontext-dev** pipeline for in-photo material replacement.
+The static image is produced in two stages:
 
-## 1. Local / Remote NVIDIA NIM Deployment (Path A)
+1. **Claude** locates every existing countertop and writes the edit instruction
+   (see [claude-scene-analysis.md](claude-scene-analysis.md)).
+2. A photoreal editor surgically replaces the countertops:
+   - **Gemini image models** (default) through an OpenAI-compatible gateway —
+     `IMAGE_EDIT_BASE_URL`, `IMAGE_EDIT_API_KEY`, optional `IMAGE_EDIT_MODELS`
+     (default `gemini-3.1-flash-image,gemini-3-pro-image-preview,gemini-2.5-flash-image`,
+     tried in order with retries on 503/429). Gemini also receives the **stone
+     swatch image**, and the prompt is `stoneEditPrompt` in `server/lib/prompts.ts`.
+   - or **NVIDIA FLUX.1 Kontext** when a self-hosted NIM is set (`FLUX_INFERENCE_URL`,
+     tried first) — details below.
 
-To run FLUX.1-Kontext-dev on a machine with a compatible NVIDIA GPU (minimum 24GB+ VRAM recommended):
+   The server then **aligns** the edit to the original photo and **composites only
+   the new countertops** back (`server/lib/composite.ts`), so the rest of the room
+   is pixel-identical. An edit the editor reframed is retried once, then the app
+   falls back to the local renderer. See [PROJECT_HANDOVER.md](PROJECT_HANDOVER.md)
+   for measured results and the prompt history.
+
+If no NVIDIA image endpoint is reachable, the browser renders the stone itself
+from Claude's surface map (perspective-correct swatch mapping with the photo's
+lighting). Both paths are covered by `npm run test:e2e`.
+
+> The previous implementation defaulted to `flux.1-dev`, a **text-to-image**
+> model that ignores the uploaded photo — that is why it "generated a
+> completely different looking room". The fal.ai/Replicate fallbacks have been
+> removed; only NVIDIA endpoints are used.
+
+## Endpoint resolution (`server/lib/imageEditor.ts`)
+
+| Order | Endpoint | Enabled when |
+|-------|----------|--------------|
+| 1 | Self-hosted / tunnelled Kontext NIM at `FLUX_INFERENCE_URL` | variable set |
+| 2 | NVIDIA-hosted Kontext `https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.1-kontext-dev` (override `NVIDIA_IMAGE_EDIT_URL`) | `NVIDIA_API_KEY` set and `NVIDIA_HOSTED_IMAGE` ≠ `false` |
+
+Request body (both):
+
+```json
+{ "prompt": "<Claude edit_instruction>", "image": "data:image/jpeg;base64,…",
+  "aspect_ratio": "match_input_image", "steps": 30, "cfg_scale": 3.5, "seed": 123 }
+```
+
+- The photo is resized to ≤1024 px (Kontext's native ~1 MP).
+- Hosted calls larger than ~180 KB upload the image as an **NVCF asset** and
+  send `data:image/jpeg;asset_id,<id>` with the `NVCF-INPUT-ASSET-REFERENCES`
+  header.
+- Hosted calls that answer `202 Accepted` are polled at
+  `https://api.nvcf.nvidia.com/v2/nvcf/pexec/status/<NVCF-REQID>`.
+- Accepted response shapes: `artifacts[0].base64`, `data[0].b64_json`,
+  `image`, `images[0]`, `b64_output`, `outputs[0]`.
+- **Hosted endpoints are example-only.** Live test (September 2026,
+  build.nvidia.com key): hosted FLUX.1 Kontext, FLUX.2 Klein and FLUX.1-dev
+  (depth mode) all return `422 Expected: example_id` for customer photos, both
+  inline (`got: base64`) and as NVCF assets (`got: asset_id`); only NVIDIA's
+  built-in example images are accepted. The server detects this once, logs a
+  warning and stops calling the hosted endpoint. **For NVIDIA edits of real
+  photos, deploy the Kontext NIM (below) and set `FLUX_INFERENCE_URL`.** Until
+  then the Claude-guided renderer produces the image.
+
+## Deploying the Kontext NIM (recommended)
+
+Needs an NVIDIA GPU with ≥24 GB VRAM (L40S, A100, H100, RTX 4090/5090…).
 
 ```bash
-# 1. Login to NVIDIA NGC Registry
-docker login nvcr.io
+docker login nvcr.io            # username: $oauthtoken, password: <your NGC API key>
 
-# 2. Spin up the FLUX.1-Kontext-dev NIM Container
-docker run -it --rm --name=flux-kontext-server \
+docker run -it --rm --name=flux-kontext \
   --runtime=nvidia --gpus='"device=0"' \
-  -e NGC_API_KEY=<your-nvidia-api-key> \
+  -e NGC_API_KEY=<your-ngc-api-key> \
   -e HF_TOKEN=<your-huggingface-token> \
   -p 8001:8000 \
   -v "$HOME/.cache/nim:/opt/nim/.cache/" \
   nvcr.io/nim/black-forest-labs/flux.1-kontext-dev:latest
 ```
 
-Once running, update your root `.env` to point to the active port:
+Then in `.env`:
 
 ```env
-FLUX_INFERENCE_URL=http://localhost:8001/v1/infer
+FLUX_INFERENCE_URL=http://<gpu-host>:8001/v1/infer
 ```
 
-## 2. Cloud Provider Fallbacks (Path B, C, etc.)
+Remote GPU options:
 
-When no local NIM is configured, the server falls back to cloud providers in order:
+- **NVIDIA Brev**: `brev open stonesight-flux --gpu a100-40gb`, run the container
+  above, then `brev tunnel list stonesight-flux` and set
+  `FLUX_INFERENCE_URL=https://<tunnel>/v1/infer`.
+- **Colab (experimental)**: `flux_nim_colab.ipynb` starts the NIM with ngrok on a
+  Colab GPU; set `FLUX_INFERENCE_URL` to the ngrok URL + `/v1/infer`.
 
-| Priority | Provider | Endpoint | Requirements |
-|----------|----------|----------|--------------|
-| 1 | NVIDIA Cloud API (Preview) | `https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.1-kontext-dev` | `NVIDIA_API_KEY` — **Limited to example images only** |
-| 2 | Replicate | `https://api.replicate.com/v1/predictions` | `REPLICATE_API_TOKEN` with credits |
-| 3 | fal.ai | `https://fal.run/fal-ai/flux-kontext-dev` | `FAL_KEY` with credits |
-
-**Note:** The NVIDIA Cloud API at `ai.api.nvidia.com` is a **preview endpoint** that only accepts predefined example images (`data:image/png;example_id,{0-2}`), not arbitrary user uploads. For production use with custom images, you MUST configure either:
-- Local NIM container (Path A)
-- Replicate with credits (Path B)
-- fal.ai with credits (Path C)
-
-## 3. Fallback Resolution Order
-
-1. **Local/Tunneled NIM** — If `FLUX_INFERENCE_URL` contains `localhost`, the server attempts a direct container request first.
-2. **NVIDIA Cloud API** — Attempts preview endpoint (will fail for custom images with 422).
-3. **Replicate** — Serverless GPU with `REPLICATE_API_TOKEN` (requires credits).
-4. **fal.ai** — Serverless GPU with `FAL_KEY` (requires credits).
-5. **Error State** — If all providers fail, returns `503 Service Unavailable` with actionable guidance.
-
-## 4. Environment Variables Reference
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `NVIDIA_API_KEY` | Conditional | Required for Path A (local NIM) and NVIDIA Cloud API. |
-| `FLUX_INFERENCE_URL` | Optional | Override for local/tunneled FLUX NIM endpoint. |
-| `REPLICATE_API_TOKEN` | Optional | Replicate serverless fallback. Requires account credits. |
-| `FAL_KEY` | Optional | fal.ai serverless fallback. Requires account credits. |
-
-## 5. Testing the Pipeline
+Verify with `npm run check:providers`, then:
 
 ```bash
-# Set test mode to bypass auth
-export MCP_TEST_MODE=true
-
-# Start server
-npm run dev
-
-# Test image generation
 curl -X POST http://localhost:5000/api/image/generate \
-  -H "Content-Type: application/json" \
-  -d '{
-    "prompt": "Replace the stones with gold nuggets",
-    "image": "<base64-or-data-url>"
-  }'
+  -H "Content-Type: application/json" -H "Authorization: Bearer <supabase-token>" \
+  -d '{"prompt":"Replace the countertop with white marble","image":"data:image/jpeg;base64,…"}'
 ```
 
-## 6. Troubleshooting
+## Compositing and local rendering (`src/render/stoneRenderer.ts`)
 
-| Error | Cause | Solution |
-|-------|-------|----------|
-| `422: Expected: example_id, got: base64` | NVIDIA Cloud API preview limitation | Use local NIM or configure Replicate/fal.ai |
-| `402: Insufficient credit` | Replicate/fal.ai account has no credits | Add credits at replicate.com or fal.ai |
-| `503: Image generation unavailable` | All providers exhausted | Check logs for specific provider errors |
-| `401: Unauthorized` | Auth middleware blocking | Set `MCP_TEST_MODE=true` in .env for dev |
+| Function | What it does |
+|----------|--------------|
+| `compositeEdit(photo, edited, scene)` | Union of Claude's surface polygons, dilated by 1.2 % and feathered 0.6 % of the long side; original pixels outside, NVIDIA pixels inside |
+| `renderStone(photo, swatch, scene)` | For each surface: homography from the slab's unit square to its quad, swatch sampled in metres (0.9 m per tile, mirrored repeat), lighting = blurred luminance ratio × exposure + specular highlights, soft polygon mask |
+| `loadSwatch(url)` | Trims uniform white/black catalogue margins before texturing |
 
-## 7. Quick Start: Add Replicate Credits (2 minutes)
+## Troubleshooting
 
-```bash
-# 1. Go to https://replicate.com/account/billing
-# 2. Add $5-10 credits (card required)
-# 3. Wait 1-2 minutes for propagation
-# 4. Test again - Path B will work immediately
-```
-
-**Cost:** ~$0.015-0.025/image → $5 = 200-333 generations
-
-## 8. Persistent Dev: Brev Remote GPU Setup
-
-```bash
-# 1. Install Brev CLI
-brew install brevdev/homebrew-brev/brev
-
-# 2. Login with your token
-brev login --token <your-jwt-token>
-
-# 3. Create GPU instance (A100 40GB ~$1.30/hr)
-brev open stonesight-flux --gpu a100-40gb
-
-# 4. In Brev shell, deploy NIM
-docker run -it --rm --name=flux-kontext-server \
-  --runtime=nvidia --gpus='"device=0"' \
-  -e NGC_API_KEY=<your-nvidia-api-key> \
-  -e HF_TOKEN=<your-huggingface-token> \
-  -p 8001:8000 \
-  -v "$HOME/.cache/nim:/opt/nim/.cache/" \
-  nvcr.io/nim/black-forest-labs/flux.1-kontext-dev:latest
-
-# 5. Get tunnel URL
-brev tunnel list stonesight-flux
-# → https://xyz.tunnel.brev.dev
-
-# 6. Update .env
-FLUX_INFERENCE_URL=https://xyz.tunnel.brev.dev/v1/infer
-```
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| "Rendered with StoneSight renderer" although NVIDIA is set up | Kontext call failed — see the notice on the results page and `[IMAGE]` server logs | Check `FLUX_INFERENCE_URL`, container logs, `npm run check:providers` |
+| `422 Expected: example_id` in logs | Hosted preview only accepts example images | Deploy the NIM and set `FLUX_INFERENCE_URL` |
+| `401` from NVIDIA | `NVIDIA_API_KEY` invalid/expired | Create a new key at build.nvidia.com |
+| Stone misses part of a counter | Claude's polygon was too small | Regenerate; use a wider, well-lit, uncluttered photo |
+| `NVIDIA_IMAGE_UNAVAILABLE` (503) | No NVIDIA image endpoint configured | Expected in Claude-only mode — the browser renders locally |

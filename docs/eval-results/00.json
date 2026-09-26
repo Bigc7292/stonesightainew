@@ -1,0 +1,665 @@
+{
+ "photo": "00",
+ "model": "claude-opus-5",
+ "analysis_seconds": 267.732,
+ "first_pass": {
+  "room_type": "kitchen",
+  "summary": "Modern luxury kitchen with a large island featuring white marble countertops with grey veining and a waterfall end panel, plus perimeter counters along the back wall.",
+  "camera": {
+   "horizontal_fov_deg": 68,
+   "eye_height_m": 1.6,
+   "pitch_deg": -6
+  },
+  "back_wall": {
+   "floor_left": {
+    "x": 0.2,
+    "y": 0.72
+   },
+   "floor_right": {
+    "x": 0.68,
+    "y": 0.65
+   },
+   "ceiling_left": {
+    "x": 0.2,
+    "y": 0.28
+   },
+   "ceiling_right": {
+    "x": 0.68,
+    "y": 0.3
+   }
+  },
+  "room_estimate": {
+   "width_m": 5.5,
+   "depth_m": 4.5,
+   "ceiling_height_m": 2.8,
+   "space_behind_camera_m": 2.5
+  },
+  "colors": {
+   "walls": "#c8b5a0",
+   "floor": "#3a2618",
+   "ceiling": "#e5dbd0",
+   "cabinets": "#5a4230"
+  },
+  "surfaces": [
+   {
+    "id": "island_top",
+    "label": "Island top",
+    "kind": "island",
+    "orientation": "horizontal",
+    "height_m": 0.92,
+    "quad": [
+     {
+      "x": 0.08,
+      "y": 0.655
+     },
+     {
+      "x": 0.7,
+      "y": 0.675
+     },
+     {
+      "x": 0.62,
+      "y": 0.575
+     },
+     {
+      "x": 0.12,
+      "y": 0.555
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.08,
+      "y": 0.655
+     },
+     {
+      "x": 0.7,
+      "y": 0.675
+     },
+     {
+      "x": 0.62,
+      "y": 0.575
+     },
+     {
+      "x": 0.55,
+      "y": 0.58
+     },
+     {
+      "x": 0.54,
+      "y": 0.595
+     },
+     {
+      "x": 0.48,
+      "y": 0.595
+     },
+     {
+      "x": 0.47,
+      "y": 0.62
+     },
+     {
+      "x": 0.54,
+      "y": 0.62
+     },
+     {
+      "x": 0.55,
+      "y": 0.63
+     },
+     {
+      "x": 0.12,
+      "y": 0.555
+     }
+    ],
+    "length_m": 3.2,
+    "depth_m": 1.2,
+    "thickness_m": 0.04
+   },
+   {
+    "id": "island_waterfall_left",
+    "label": "Island waterfall end (left)",
+    "kind": "waterfall_side",
+    "orientation": "vertical",
+    "height_m": 0,
+    "quad": [
+     {
+      "x": 0.08,
+      "y": 0.655
+     },
+     {
+      "x": 0.12,
+      "y": 0.555
+     },
+     {
+      "x": 0.15,
+      "y": 0.87
+     },
+     {
+      "x": 0.1,
+      "y": 0.9
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.08,
+      "y": 0.655
+     },
+     {
+      "x": 0.12,
+      "y": 0.555
+     },
+     {
+      "x": 0.15,
+      "y": 0.87
+     },
+     {
+      "x": 0.1,
+      "y": 0.9
+     }
+    ],
+    "length_m": 1.2,
+    "depth_m": 0.92,
+    "thickness_m": 0.04
+   },
+   {
+    "id": "perimeter_counter",
+    "label": "Perimeter counter (back wall)",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.92,
+    "quad": [
+     {
+      "x": 0.25,
+      "y": 0.575
+     },
+     {
+      "x": 0.58,
+      "y": 0.58
+     },
+     {
+      "x": 0.56,
+      "y": 0.52
+     },
+     {
+      "x": 0.25,
+      "y": 0.52
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.25,
+      "y": 0.575
+     },
+     {
+      "x": 0.35,
+      "y": 0.577
+     },
+     {
+      "x": 0.45,
+      "y": 0.578
+     },
+     {
+      "x": 0.58,
+      "y": 0.58
+     },
+     {
+      "x": 0.56,
+      "y": 0.52
+     },
+     {
+      "x": 0.25,
+      "y": 0.52
+     }
+    ],
+    "length_m": 1.8,
+    "depth_m": 0.65,
+    "thickness_m": 0.04
+   }
+  ],
+  "edit_instruction": "Surgically replace only the countertop surfaces: the large island countertop running from the left foreground toward the center-right of the frame, including its visible thick front edge and the waterfall panel on the left end that extends from the countertop down to the dark wood floor; and the perimeter counter along the back wall beneath the stainless steel range hood with the gas cooktop. Replace these surfaces with Dekton Trilium: a deep charcoal grey base with subtle mottling and light ash grey undertones, dramatically crossed by bold crisp white veining in a striking marble pattern with a polished finish. Keep exactly as they are: the white rectangular subway-tile backsplash behind the cooktop and extending along the back wall, the warm taupe walls and off-white ceiling, the dark walnut cabinet fronts on the left side housing the ovens and the white cabinet fronts on the right and in the background, the stainless steel double ovens and professional range hood, the undermount sink and chrome gooseneck faucet, the gas cooktop with metal grates, the four grey industrial dome pendant lights hanging above the island, the white upholstered bar stools with dark wood legs, and the rich dark hardwood floor. Each countertop surface keeps its exact current shape, thickness, edge profile and position. The camera angle, framing, lighting and all other elements remain identical.",
+  "video_prompt": "First-person walkthrough video starting from this exact frame showing the newly installed Dekton Trilium countertops with their deep charcoal base and dramatic white veining. Camera at human eye level (1.6m height) with smooth handheld-gimbal motion. Begin by slowly panning left to reveal the dark walnut cabinetry and stainless ovens, then smoothly sweep right across the stunning island with its bold waterfall panel and marble-look surface, continuing right to take in the perimeter counters, white cabinetry and the open space extending toward the windows in the background. Then walk forward 2-3 steps approaching the island while gently tilting the camera down to showcase the stone's rich charcoal grain, crisp white veining detail and subtle reflections from the industrial pendant lights above. Movement is steady and natural with realistic parallax. Natural daylight and interior lighting remain consistent. The room geometry, cabinet finishes, white subway-tile backsplash, appliances and stone veining pattern stay physically consistent and stable throughout. No people, text overlays or new objects appear in the scene."
+ },
+ "grounding": {
+  "assignments": [
+   {
+    "surface_id": "island_top",
+    "regions": [
+     39,
+     40,
+     41,
+     42,
+     47
+    ]
+   },
+   {
+    "surface_id": "island_waterfall_left",
+    "regions": [
+     46,
+     57,
+     58,
+     60
+    ]
+   },
+   {
+    "surface_id": "perimeter_counter",
+    "regions": [
+     38
+    ]
+   }
+  ]
+ },
+ "regions": 61,
+ "final_scene": {
+  "room_type": "kitchen",
+  "summary": "Modern luxury kitchen with a large island featuring white marble countertops with grey veining and a waterfall end panel, plus perimeter counters along the back wall.",
+  "camera": {
+   "horizontal_fov_deg": 68,
+   "eye_height_m": 1.6,
+   "pitch_deg": -6
+  },
+  "back_wall": {
+   "floor_left": {
+    "x": 0.2,
+    "y": 0.72
+   },
+   "floor_right": {
+    "x": 0.68,
+    "y": 0.65
+   },
+   "ceiling_left": {
+    "x": 0.2,
+    "y": 0.28
+   },
+   "ceiling_right": {
+    "x": 0.68,
+    "y": 0.3
+   }
+  },
+  "room_estimate": {
+   "width_m": 5.5,
+   "depth_m": 4.5,
+   "ceiling_height_m": 2.8,
+   "space_behind_camera_m": 2.5
+  },
+  "colors": {
+   "walls": "#c8b5a0",
+   "floor": "#3a2618",
+   "ceiling": "#e5dbd0",
+   "cabinets": "#5a4230"
+  },
+  "surfaces": [
+   {
+    "id": "island_top",
+    "label": "Island top",
+    "kind": "island",
+    "orientation": "horizontal",
+    "height_m": 0.92,
+    "quad": [
+     {
+      "x": 0.28191489361702127,
+      "y": 0.5845238095238096
+     },
+     {
+      "x": 0.7109929078014184,
+      "y": 0.5845238095238096
+     },
+     {
+      "x": 0.5195035460992907,
+      "y": 0.6797619047619048
+     },
+     {
+      "x": 0.28900709219858156,
+      "y": 0.6488095238095238
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.6081560283687943,
+      "y": 0.5797619047619048
+     },
+     {
+      "x": 0.6436170212765957,
+      "y": 0.5797619047619048
+     },
+     {
+      "x": 0.6471631205673759,
+      "y": 0.5869047619047619
+     },
+     {
+      "x": 0.7109929078014184,
+      "y": 0.5845238095238096
+     },
+     {
+      "x": 0.7109929078014184,
+      "y": 0.6178571428571429
+     },
+     {
+      "x": 0.7039007092198581,
+      "y": 0.6226190476190476
+     },
+     {
+      "x": 0.7216312056737588,
+      "y": 0.625
+     },
+     {
+      "x": 0.7216312056737588,
+      "y": 0.6345238095238095
+     },
+     {
+      "x": 0.6081560283687943,
+      "y": 0.655952380952381
+     },
+     {
+      "x": 0.5797872340425532,
+      "y": 0.6630952380952381
+     },
+     {
+      "x": 0.5691489361702128,
+      "y": 0.6702380952380952
+     },
+     {
+      "x": 0.5478723404255319,
+      "y": 0.6702380952380952
+     },
+     {
+      "x": 0.5195035460992907,
+      "y": 0.6797619047619048
+     },
+     {
+      "x": 0.5053191489361702,
+      "y": 0.6797619047619048
+     },
+     {
+      "x": 0.5053191489361702,
+      "y": 0.6678571428571428
+     },
+     {
+      "x": 0.5301418439716312,
+      "y": 0.6630952380952381
+     },
+     {
+      "x": 0.5336879432624113,
+      "y": 0.6607142857142857
+     },
+     {
+      "x": 0.5301418439716312,
+      "y": 0.6583333333333333
+     },
+     {
+      "x": 0.4166666666666667,
+      "y": 0.6607142857142857
+     },
+     {
+      "x": 0.3882978723404255,
+      "y": 0.6583333333333333
+     },
+     {
+      "x": 0.38120567375886527,
+      "y": 0.6511904761904762
+     },
+     {
+      "x": 0.28900709219858156,
+      "y": 0.6488095238095238
+     },
+     {
+      "x": 0.28191489361702127,
+      "y": 0.6440476190476191
+     },
+     {
+      "x": 0.28191489361702127,
+      "y": 0.5845238095238096
+     },
+     {
+      "x": 0.33156028368794327,
+      "y": 0.5845238095238096
+     },
+     {
+      "x": 0.33156028368794327,
+      "y": 0.6035714285714285
+     },
+     {
+      "x": 0.3351063829787234,
+      "y": 0.6059523809523809
+     },
+     {
+      "x": 0.3882978723404255,
+      "y": 0.6011904761904762
+     },
+     {
+      "x": 0.39893617021276595,
+      "y": 0.5916666666666667
+     },
+     {
+      "x": 0.4379432624113475,
+      "y": 0.5869047619047619
+     },
+     {
+      "x": 0.45567375886524825,
+      "y": 0.5892857142857143
+     },
+     {
+      "x": 0.4521276595744681,
+      "y": 0.6011904761904762
+     },
+     {
+      "x": 0.45567375886524825,
+      "y": 0.6059523809523809
+     },
+     {
+      "x": 0.5514184397163121,
+      "y": 0.6011904761904762
+     },
+     {
+      "x": 0.5797872340425532,
+      "y": 0.6059523809523809
+     },
+     {
+      "x": 0.5904255319148937,
+      "y": 0.5964285714285714
+     },
+     {
+      "x": 0.5904255319148937,
+      "y": 0.5845238095238096
+     },
+     {
+      "x": 0.6046099290780141,
+      "y": 0.5845238095238096
+     }
+    ],
+    "length_m": 3.2,
+    "depth_m": 1.2,
+    "thickness_m": 0.04
+   },
+   {
+    "id": "island_waterfall_left",
+    "label": "Island waterfall end (left)",
+    "kind": "waterfall_side",
+    "orientation": "vertical",
+    "height_m": 0,
+    "quad": [
+     {
+      "x": 0.10460992907801418,
+      "y": 0.6369047619047619
+     },
+     {
+      "x": 0.50177304964539,
+      "y": 0.6630952380952381
+     },
+     {
+      "x": 0.5053191489361702,
+      "y": 0.9369047619047619
+     },
+     {
+      "x": 0.11879432624113476,
+      "y": 0.8369047619047619
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.10460992907801418,
+      "y": 0.6369047619047619
+     },
+     {
+      "x": 0.15780141843971632,
+      "y": 0.6369047619047619
+     },
+     {
+      "x": 0.16489361702127658,
+      "y": 0.6440476190476191
+     },
+     {
+      "x": 0.20390070921985815,
+      "y": 0.6416666666666667
+     },
+     {
+      "x": 0.225177304964539,
+      "y": 0.6464285714285715
+     },
+     {
+      "x": 0.28191489361702127,
+      "y": 0.6464285714285715
+     },
+     {
+      "x": 0.28900709219858156,
+      "y": 0.6511904761904762
+     },
+     {
+      "x": 0.38120567375886527,
+      "y": 0.6535714285714286
+     },
+     {
+      "x": 0.38475177304964536,
+      "y": 0.6607142857142857
+     },
+     {
+      "x": 0.4166666666666667,
+      "y": 0.6630952380952381
+     },
+     {
+      "x": 0.50177304964539,
+      "y": 0.6630952380952381
+     },
+     {
+      "x": 0.5053191489361702,
+      "y": 0.9369047619047619
+     },
+     {
+      "x": 0.48404255319148937,
+      "y": 0.9369047619047619
+     },
+     {
+      "x": 0.3670212765957447,
+      "y": 0.9035714285714286
+     },
+     {
+      "x": 0.31382978723404253,
+      "y": 0.8940476190476191
+     },
+     {
+      "x": 0.2641843971631206,
+      "y": 0.8773809523809524
+     },
+     {
+      "x": 0.23581560283687944,
+      "y": 0.8607142857142858
+     },
+     {
+      "x": 0.2322695035460993,
+      "y": 0.8654761904761905
+     },
+     {
+      "x": 0.21808510638297873,
+      "y": 0.8654761904761905
+     },
+     {
+      "x": 0.11879432624113476,
+      "y": 0.8369047619047619
+     },
+     {
+      "x": 0.11524822695035461,
+      "y": 0.8321428571428572
+     },
+     {
+      "x": 0.11524822695035461,
+      "y": 0.8154761904761905
+     },
+     {
+      "x": 0.11879432624113476,
+      "y": 0.8130952380952381
+     },
+     {
+      "x": 0.10460992907801418,
+      "y": 0.805952380952381
+     }
+    ],
+    "length_m": 1.2,
+    "depth_m": 0.92,
+    "thickness_m": 0.04
+   },
+   {
+    "id": "perimeter_counter",
+    "label": "Perimeter counter (back wall)",
+    "kind": "countertop",
+    "orientation": "horizontal",
+    "height_m": 0.92,
+    "quad": [
+     {
+      "x": 0.25,
+      "y": 0.575
+     },
+     {
+      "x": 0.58,
+      "y": 0.58
+     },
+     {
+      "x": 0.56,
+      "y": 0.52
+     },
+     {
+      "x": 0.25,
+      "y": 0.52
+     }
+    ],
+    "polygon": [
+     {
+      "x": 0.25,
+      "y": 0.575
+     },
+     {
+      "x": 0.35,
+      "y": 0.577
+     },
+     {
+      "x": 0.45,
+      "y": 0.578
+     },
+     {
+      "x": 0.58,
+      "y": 0.58
+     },
+     {
+      "x": 0.56,
+      "y": 0.52
+     },
+     {
+      "x": 0.25,
+      "y": 0.52
+     }
+    ],
+    "length_m": 1.8,
+    "depth_m": 0.65,
+    "thickness_m": 0.04
+   }
+  ],
+  "edit_instruction": "Surgically replace only the countertop surfaces: the large island countertop running from the left foreground toward the center-right of the frame, including its visible thick front edge and the waterfall panel on the left end that extends from the countertop down to the dark wood floor; and the perimeter counter along the back wall beneath the stainless steel range hood with the gas cooktop. Replace these surfaces with Dekton Trilium: a deep charcoal grey base with subtle mottling and light ash grey undertones, dramatically crossed by bold crisp white veining in a striking marble pattern with a polished finish. Keep exactly as they are: the white rectangular subway-tile backsplash behind the cooktop and extending along the back wall, the warm taupe walls and off-white ceiling, the dark walnut cabinet fronts on the left side housing the ovens and the white cabinet fronts on the right and in the background, the stainless steel double ovens and professional range hood, the undermount sink and chrome gooseneck faucet, the gas cooktop with metal grates, the four grey industrial dome pendant lights hanging above the island, the white upholstered bar stools with dark wood legs, and the rich dark hardwood floor. Each countertop surface keeps its exact current shape, thickness, edge profile and position. The camera angle, framing, lighting and all other elements remain identical.",
+  "video_prompt": "First-person walkthrough video starting from this exact frame showing the newly installed Dekton Trilium countertops with their deep charcoal base and dramatic white veining. Camera at human eye level (1.6m height) with smooth handheld-gimbal motion. Begin by slowly panning left to reveal the dark walnut cabinetry and stainless ovens, then smoothly sweep right across the stunning island with its bold waterfall panel and marble-look surface, continuing right to take in the perimeter counters, white cabinetry and the open space extending toward the windows in the background. Then walk forward 2-3 steps approaching the island while gently tilting the camera down to showcase the stone's rich charcoal grain, crisp white veining detail and subtle reflections from the industrial pendant lights above. Movement is steady and natural with realistic parallax. Natural daylight and interior lighting remain consistent. The room geometry, cabinet finishes, white subway-tile backsplash, appliances and stone veining pattern stay physically consistent and stable throughout. No people, text overlays or new objects appear in the scene."
+ },
+ "edit": {
+  "provider": "gemini-image",
+  "model": "gemini-3.1-flash-image",
+  "secs": 113.299,
+  "alignment": {
+   "scale": 1,
+   "tx": 0,
+   "ty": 0,
+   "score": 0.9812676321620837
+  },
+  "editedFraction": 0.16887849328197263
+ }
+}
