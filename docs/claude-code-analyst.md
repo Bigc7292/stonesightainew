@@ -15,7 +15,14 @@ waterfall face, red = traced outlines. Right: the app's result.*
 
 ![3D room from the same run](images/claude-code-3d.jpg)
 
-Video from the same run: [`images/claude-code-walkthrough.webm`](images/claude-code-walkthrough.webm).
+Second test kitchen (Blue Dunes Granite; photo → Claude Code's answer → result),
+four separate countertops including the island:
+
+![Second kitchen](images/claude-code-kitchen2.jpg)
+
+*Photo: [Kitchen with island, New Orleans 2007](https://commons.wikimedia.org/wiki/File:Kitchen_with_island,_New_Orleans_2007.jpg), MeRyan, CC BY 2.0 (edited).*
+
+Video from the first run: [`images/claude-code-walkthrough.webm`](images/claude-code-walkthrough.webm).
 
 ## How it works
 
